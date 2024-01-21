@@ -57,6 +57,7 @@ model ChatMessage {
   id              Int             @id @default(autoincrement())
   is_user_message Boolean
   type            ChatMessageType @default(TEXT)
+  content         String
   chat_user       ChatUser        @relation(fields: [chat_user_id], references: [id])
   user_plan       UserPlan        @relation(fields: [user_plan_id], references: [id])
   chat_user_id    Int             @map("chatUserId")
