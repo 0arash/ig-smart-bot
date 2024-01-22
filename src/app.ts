@@ -2,17 +2,21 @@ import express from "express";
 import swaggerUi from "swagger-ui-express";
 import fs from "fs";
 
-import { PrismaClient } from "@prisma/client";
+import { routes } from "./router";
+import bodyParser from "body-parser";
+
 const app = express();
 
-const prisma = new PrismaClient();
+app.use(bodyParser.json());
+
+app.use(routes);
 
 app.use(
-    "/docs",
-    swaggerUi.serve,
-    swaggerUi.setup(
-        JSON.parse(fs.readFileSync("./swagger_output.json").toString())
-    )
+  "/docs",
+  swaggerUi.serve,
+  swaggerUi.setup(
+      JSON.parse(fs.readFileSync("./swagger_output.json").toString())
+  )
 );
 
 app.listen(3000, () => {
