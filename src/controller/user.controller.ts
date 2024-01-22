@@ -6,7 +6,11 @@ const prisma = new PrismaClient();
 export const userController = {
   getUsers: async (req: Request, res: Response) => {
     try {
-      const users = await prisma.user.findMany();
+      const users = await prisma.user.findMany({
+        select: {
+          password: false,
+        },
+      });
       res.status(200).json({
         data: users,
         code: 200,
@@ -33,6 +37,7 @@ export const userController = {
           code: 404,
         });
       }
+      delete users[0].password
       res.status(200).json({
         data: users,
         code: 200,
@@ -71,7 +76,8 @@ export const userController = {
   },
   updateUserById: async (req: Request, res: Response) => {
     try {
-      const { id, name, address, email, password, code_meli } = req.body;
+      const { name, address, email, password, code_meli } = req.body;
+      const { id } = req.params;
       const user = await prisma.user.update({
         data: {
           name,
@@ -96,7 +102,24 @@ export const userController = {
       });
     }
   },
-  deleteUser: async (req: Request, res: Response) => {
-
+  deleteUserById: async (req: Request, res: Response) => {
+    try {
+      const { id } = req.params;
+      const user = await prisma.user.delete({
+        where: {
+          id: Number.parseInt(id),
+        },
+      });
+      res.status(200).json({
+        data: user,
+        code: 200,
+      });
+    } catch (error: any) {
+      console.log(error);
+      res.status(500).json({
+        data: error.message,
+        code: 500,
+      });
+    }
   },
 };
