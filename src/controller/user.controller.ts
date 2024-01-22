@@ -97,6 +97,6 @@ export const userController = {
     }
   },
   deleteUser: async (req: Request, res: Response) => {
-    
+
   },
 };
