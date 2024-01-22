@@ -19,7 +19,7 @@ export const userController = {
         } catch (error: any) {
             console.log(error);
             res.status(500).json({
-                data: error.message,
+                data: "Internal error",
                 code: 500,
             });
         }
@@ -46,7 +46,7 @@ export const userController = {
         } catch (error: any) {
             console.log(error);
             res.status(500).json({
-                data: error.message,
+                data: "Internal error",
                 code: 500,
             });
         }
@@ -70,7 +70,7 @@ export const userController = {
         } catch (error: any) {
             console.log(error);
             res.status(500).json({
-                data: error.message,
+                data: "Internal error",
                 code: 500,
             });
         }
@@ -98,7 +98,7 @@ export const userController = {
         } catch (error: any) {
             console.log(error);
             res.status(500).json({
-                data: error.message,
+                data: "Internal error",
                 code: 500,
             });
         }
@@ -118,7 +118,7 @@ export const userController = {
         } catch (error: any) {
             console.log(error);
             res.status(500).json({
-                data: error.message,
+                data: "Internal error",
                 code: 500,
             });
         }
