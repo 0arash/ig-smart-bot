@@ -1,6 +1,6 @@
-import { PrismaClient } from "@prisma/client";
 import { Request, Response } from "express";
 import { prismaExclude } from "../utils/prisma-exclude";
+import { PrismaClient } from "../model";
 
 const prisma = new PrismaClient();
 
@@ -8,9 +8,7 @@ export const userController = {
     getUsers: async (req: Request, res: Response) => {
         try {
             const users = await prisma.user.findMany({
-                select: {
-                    password: false,
-                },
+                select: prismaExclude("User", ["password"]),
             });
             res.status(200).json({
                 data: users,
