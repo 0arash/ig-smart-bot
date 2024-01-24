@@ -9,7 +9,7 @@ import bodyParser from "body-parser";
 import { generateSwagger } from "./swagger";
 
 async function main() {
-    // await generateSwagger();
+    await generateSwagger();
     const app = express();
     const PORT = process.env.PORT || 3000;
 
