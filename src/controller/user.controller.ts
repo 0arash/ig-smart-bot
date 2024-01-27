@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { prismaExclude } from "../utils/prisma-exclude";
-import { PrismaClient } from "../model";
+import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
@@ -25,45 +25,21 @@ export const userController = {
     getUserById: async (req: Request, res: Response) => {
         try {
             const { id } = req.params;
-            const users = await prisma.user.findMany({
+            const user = await prisma.user.findUnique({
                 where: {
                     id: Number.parseInt(id),
                 },
                 select: prismaExclude("User", ["password"]),
             });
-            if (users.length === 0) {
+            if (!user) {
                 return res.status(404).json({
-                    data: "user not found",
+                    data: "User not found",
                     code: 404,
                 });
             }
             res.status(200).json({
-                data: users,
+                data: { user },
                 code: 200,
-            });
-        } catch (error: any) {
-            console.log(error);
-            res.status(500).json({
-                data: "Internal error",
-                code: 500,
-            });
-        }
-    },
-    newUser: async (req: Request, res: Response) => {
-        try {
-            const { name, email, password, address, code_meli } = req.body;
-            const user = await prisma.user.create({
-                data: {
-                    name,
-                    email,
-                    password,
-                    address,
-                    code_meli,
-                },
-            });
-            res.status(201).json({
-                data: user,
-                code: 201,
             });
         } catch (error: any) {
             console.log(error);
@@ -88,6 +64,7 @@ export const userController = {
                 where: {
                     id: Number.parseInt(id),
                 },
+                select: prismaExclude("User", ["password"]),
             });
             res.status(200).json({
                 data: user,
@@ -108,6 +85,7 @@ export const userController = {
                 where: {
                     id: Number.parseInt(id),
                 },
+                select: prismaExclude("User", ["password"]),
             });
             res.status(200).json({
                 data: user,
