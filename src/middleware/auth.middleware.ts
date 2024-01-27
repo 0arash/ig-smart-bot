@@ -50,7 +50,7 @@ export const requireRole = (role: Role) => {
                 req.user = user;
                 next();
             } else {
-                return res.status(401).json({ error: "Insufficient permissions" });
+                return res.status(403).json({ error: "Insufficient permissions" });
             }
         } else {
             return res.status(401).json({ error: "Invalid token" });

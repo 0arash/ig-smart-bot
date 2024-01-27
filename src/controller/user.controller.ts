@@ -1,13 +1,12 @@
 import { Request, Response } from "express";
 import { prismaExclude } from "../utils/prisma-exclude";
-import { PrismaClient } from "@prisma/client";
+import { prismaClient } from "../utils/prisma.client";
 
-const prisma = new PrismaClient();
 
 export const userController = {
     getUsers: async (req: Request, res: Response) => {
         try {
-            const users = await prisma.user.findMany({
+            const users = await prismaClient().user.findMany({
                 select: prismaExclude("User" as never, ["password"]),
             });
             res.status(200).json({
@@ -25,7 +24,7 @@ export const userController = {
     getUserById: async (req: Request, res: Response) => {
         try {
             const { id } = req.params;
-            const user = await prisma.user.findUnique({
+            const user = await prismaClient().user.findUnique({
                 where: {
                     id: Number.parseInt(id),
                 },
@@ -53,7 +52,7 @@ export const userController = {
         try {
             const { name, address, email, password, code_meli } = req.body;
             const { id } = req.params;
-            const user = await prisma.user.update({
+            const user = await prismaClient().user.update({
                 data: {
                     name,
                     email,
@@ -81,7 +80,7 @@ export const userController = {
     deleteUserById: async (req: Request, res: Response) => {
         try {
             const { id } = req.params;
-            const user = await prisma.user.delete({
+            const user = await prismaClient().user.delete({
                 where: {
                     id: Number.parseInt(id),
                 },
