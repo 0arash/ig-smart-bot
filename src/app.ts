@@ -30,7 +30,7 @@ async function main() {
     );
 
     app.listen(PORT, () => {
-        console.log("server running....");
+        console.log(`server running on port ${PORT}`);
     });
 }
 
