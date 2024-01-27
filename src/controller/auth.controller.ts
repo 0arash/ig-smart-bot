@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import { prismaExclude } from "../utils/prisma-exclude";
-import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcrypt";
 import { generateToken } from "../utils/token-generator";
 import { prismaClient } from "../utils/prisma.client";
