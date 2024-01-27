@@ -7,7 +7,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = "postgresql://root:gcdGydTGdEs0PCxj4O4ULySl@kilimanjaro.liara.cloud:32135/postgres"
+  url      = env("DATABASE_URL")
 }
 
 enum ChatMessageType {
@@ -29,6 +29,7 @@ model User {
   code_meli  String?
   role       Role       @default(USER)
   user_plans UserPlan[]
+  Invoice    Invoice[]
 }
 
 model Plan {
@@ -37,6 +38,7 @@ model Plan {
   price      Int
   days       Int
   user_plans UserPlan[]
+  invoices   Invoice[]
 }
 
 model UserPlan {
@@ -80,8 +82,18 @@ model Product {
   description  String
   image        String
   price        Int
+  status       Boolean  @default(true)
   attributes   Json
   user_plan    UserPlan @relation(fields: [user_plan_id], references: [id])
   user_plan_id Int      @map("userPlanId")
   weight       Float    @default(0)
+}
+
+model Invoice {
+  id     Int     @id @default(autoincrement())
+  user   User    @relation(fields: [userId], references: [id])
+  userId Int
+  plan   Plan    @relation(fields: [planId], references: [id])
+  planId Int
+  status Boolean @default(false)
 }
