@@ -9,10 +9,26 @@ import { routes } from "./router";
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import { generateSwagger } from "./swagger";
+import { Server } from "socket.io";
+import { createServer } from "http";
+import { chatServer } from "./chat/chat-server";
 
 async function main() {
     await generateSwagger();
     const app = express();
+    const httpServer = createServer(app);
+
+    const io = new Server(httpServer, {
+        cookie: {
+            name: "io",
+            path: "/",
+            httpOnly: true,
+            sameSite: "lax",
+        },
+    });
+
+    chatServer(io);
+
     const PORT = process.env.PORT || 3000;
 
     app.use(morgan("dev"));
@@ -29,8 +45,8 @@ async function main() {
         )
     );
 
-    app.listen(PORT, () => {
-        console.log("server running....");
+    httpServer.listen(PORT, () => {
+        console.log(`server running on port : ${PORT}....`);
     });
 }
 
