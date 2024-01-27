@@ -61,7 +61,7 @@ export const authController = {
                 //@ts-ignore
                 email: req.user.email,
             },
-            select: prismaExclude("User", ["password"]),
+            select: prismaExclude("User" as never, ['password']),
         });
         res.status(200).json({ user });
     },

@@ -8,7 +8,7 @@ export const userController = {
     getUsers: async (req: Request, res: Response) => {
         try {
             const users = await prisma.user.findMany({
-                select: prismaExclude("User", ["password"]),
+                select: prismaExclude("User" as never, ["password"]),
             });
             res.status(200).json({
                 data: users,
@@ -29,7 +29,7 @@ export const userController = {
                 where: {
                     id: Number.parseInt(id),
                 },
-                select: prismaExclude("User", ["password"]),
+                select: prismaExclude("User" as never, ["password"]),
             });
             if (!user) {
                 return res.status(404).json({
@@ -64,7 +64,7 @@ export const userController = {
                 where: {
                     id: Number.parseInt(id),
                 },
-                select: prismaExclude("User", ["password"]),
+                select: prismaExclude("User" as never, ["password"]),
             });
             res.status(200).json({
                 data: user,
@@ -85,7 +85,7 @@ export const userController = {
                 where: {
                     id: Number.parseInt(id),
                 },
-                select: prismaExclude("User", ["password"]),
+                select: prismaExclude("User" as never, ["password"]),
             });
             res.status(200).json({
                 data: user,

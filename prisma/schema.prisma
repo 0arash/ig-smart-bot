@@ -6,8 +6,8 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
+  provider = "postgresql"
+  url      = "postgresql://root:gcdGydTGdEs0PCxj4O4ULySl@kilimanjaro.liara.cloud:32135/postgres"
 }
 
 enum ChatMessageType {

@@ -1,9 +1,9 @@
+import dotenv from "dotenv";
+dotenv.config();
 import express from "express";
 import morgan from "morgan";
 import swaggerUi from "swagger-ui-express";
 import fs from "fs";
-import dotenv from "dotenv";
-dotenv.config();
 
 import { routes } from "./router";
 import bodyParser from "body-parser";
@@ -18,11 +18,6 @@ async function main() {
     app.use(morgan("dev"));
     app.use(cookieParser(process.env.COOKIE_SECRET || "secret"));
     app.use(bodyParser.json());
-    app.get("/test", (req, res) => {
-        res.status(200).json({
-            msg: "ok",
-        });
-    });
 
     app.use(routes);
 
