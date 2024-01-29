@@ -1,7 +1,7 @@
 import { body, param } from "express-validator";
 
 export const userByIdValidator = [
-    param("id")..notEmpty().withMessage("Id is required."),
+    param("id").notEmpty().withMessage("Id is required."),
 ];
 export const userUpdateByIdValidator = [
     body("email").notEmpty().withMessage("Email is required."),
