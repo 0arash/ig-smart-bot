@@ -40,23 +40,4 @@ export const invoiceController = {
             });
         }
     },
-    newInvoice: async (req: Request, res: Response) => {
-        try {
-            // @ts-ignore
-            const { email } = req.user;
-            const userInvoices = await prismaClient().invoice.findMany({
-                where: {
-                    user: { email },
-                },
-            });
-            res.status(200).json({
-                data: userInvoices,
-            });
-        } catch (error) {
-            console.log(error);
-            res.status(500).json({
-                error: error,
-            });
-        }
-    },
 };
