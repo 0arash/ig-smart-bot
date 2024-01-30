@@ -1,7 +1,8 @@
 import dotenv from "dotenv";
 dotenv.config();
-import express from "express";
+import express, { NextFunction, Request, Response } from "express";
 import morgan from "morgan";
+import expressSession from "express-session";
 import swaggerUi from "swagger-ui-express";
 import fs from "fs";
 
@@ -9,25 +10,41 @@ import { routes } from "./router";
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import { generateSwagger } from "./swagger";
-import { Server } from "socket.io";
 import { createServer } from "http";
-import { chatServer } from "./chat/chat-server";
+import { ChatServer } from "./chat/chat-server";
+import { prismaClient } from "./utils/prisma.client";
+import connectPgStore from "connect-pg-simple";
+
+declare module "express-session" {
+    interface SessionData {
+        uid: number;
+    }
+}
 
 async function main() {
     await generateSwagger();
     const app = express();
     const httpServer = createServer(app);
 
-    const io = new Server(httpServer, {
+    const pgSession = connectPgStore(expressSession);
+    const sessionMiddleware = expressSession({
+        secret: "secret",
+        resave: true,
+        saveUninitialized: true,
+        rolling: true,
         cookie: {
-            name: "io",
-            path: "/",
-            httpOnly: true,
-            sameSite: "lax",
+            httpOnly: false,
+            secure: true
         },
+        store: new pgSession({
+            createTableIfMissing: true,
+            tableName: "chatuser_sessions",
+            conString: process.env.DATABASE_URL,
+        }),
     });
+    app.use(sessionMiddleware);
 
-    chatServer(io);
+    const chatServer = new ChatServer(httpServer, sessionMiddleware);
 
     const PORT = process.env.PORT || 3000;
 
