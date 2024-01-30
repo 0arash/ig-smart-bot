@@ -1,15 +1,12 @@
 import { Request, Response } from "express";
-import { prismaExclude } from "../utils/prisma-exclude";
 import bcrypt from "bcrypt";
-import { generateToken } from "../utils/token-generator";
-import { prismaClient } from "../utils/prisma.client";
+import { generateToken } from "../utils/token.generator";
+import { userService } from "../services/user.service";
 
 export const authController = {
     login: async (req: Request, res: Response) => {
         const { email, password } = req.body;
-        const user = await prismaClient().user.findUnique({
-            where: { email },
-        });
+        const user = await userService.getUserByEmail(email, []);
         if (!user || bcrypt.compareSync(password, user.password) === false) {
             return res.status(401).json({ error: "Invalid email or password" });
         }
@@ -28,43 +25,33 @@ export const authController = {
     register: async (req: Request, res: Response) => {
         const { email, password } = req.body;
 
-        const user = await prismaClient().user.findUnique({
-            where: { email },
-        });
+        const user = await userService.getUserByEmail(email, ["password"]);
         if (user) {
             return res.status(400).json({ error: "User already exists" });
         }
 
         const hashedPassword = bcrypt.hashSync(password, 10);
-        const newUser = await prismaClient().user.create({
-            data: {
-                email,
-                password: hashedPassword,
-            },
-        });
-        newUser.token = generateToken({ email: newUser.email });
-
-        await prismaClient().user.update({
-            data: newUser,
-            where: {
-                email: newUser.email,
-            },
-        });
-
-        res.status(201).json({ token: newUser.token });
+        const newUser = await userService.createUser(email, hashedPassword, [
+            "password",
+        ]);
+        if (newUser) {
+            newUser.token = generateToken({ email: newUser.email });
+            return res.status(201).json({ token: newUser.token });
+        } else {
+            return res.status(500).json({
+                error: "Internal error",
+            });
+        }
     },
     logout: async (req: Request, res: Response) => {
         res.clearCookie("token");
         res.status(200).json({ message: "Logged out successfully" });
     },
-    getUser: async (req: Request, res: Response) => {
-        const user = await prismaClient().user.findUnique({
-            where: {
-                //@ts-ignore
-                email: req.user.email,
-            },
-            select: prismaExclude("User" as never, ["password"]),
-        });
+    getCurrentUser: async (req: Request, res: Response) => {
+        // @ts-ignore
+        const user = await userService.getUserByEmail(req.user.email, [
+            "password",
+        ]);
         res.status(200).json({ user });
     },
 };

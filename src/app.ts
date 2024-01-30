@@ -6,12 +6,12 @@ import expressSession from "express-session";
 import swaggerUi from "swagger-ui-express";
 import fs from "fs";
 
-import { routes } from "./router";
+import { routes } from "./routers";
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import { generateSwagger } from "./swagger";
 import { createServer } from "http";
-import { ChatServer } from "./chat/chat-server";
+import { ChatServer } from "./chat/chat.server";
 import { prismaClient } from "./utils/prisma.client";
 import connectPgStore from "connect-pg-simple";
 

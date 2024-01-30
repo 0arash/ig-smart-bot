@@ -21,7 +21,7 @@ export const invoiceController = {
             });
         }
     },
-    getInvoicesByUser: async (req: Request, res: Response) => {
+    getInvoicesById: async (req: Request, res: Response) => {
         try {
             // @ts-ignore
             const { email } = req.user;

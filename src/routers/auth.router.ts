@@ -1,11 +1,11 @@
 import express from "express";
 const router = express.Router();
-import { authController } from "../controller/auth.controller";
+import { authController } from "../controllers/auth.controller";
 import {
     authLoginValidator,
     authRegisterValidator,
-} from "../validator/auth.validator";
-import { handleErrorValidation } from "../validator/handleErrorValidation";
+} from "../validators/auth.validator";
+import { handleErrorValidation } from "../validators/handleErrorValidation";
 
 router.post(
     "/login",

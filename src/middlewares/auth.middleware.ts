@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
-import { UserPayload } from "../utils/token-generator";
+import { UserPayload } from "../utils/token.generator";
 import { PrismaClient, Role } from "@prisma/client";
 
 const prisma = new PrismaClient();
@@ -50,7 +50,9 @@ export const requireRole = (role: Role) => {
                 req.user = user;
                 next();
             } else {
-                return res.status(403).json({ error: "Insufficient permissions" });
+                return res
+                    .status(403)
+                    .json({ error: "Insufficient permissions" });
             }
         } else {
             return res.status(401).json({ error: "Invalid token" });

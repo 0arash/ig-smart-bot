@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { prismaExclude } from "../utils/prisma-exclude";
+import { prismaExclude } from "../utils/prisma.exclude";
 import { prismaClient } from "../utils/prisma.client";
 
 

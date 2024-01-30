@@ -2,7 +2,7 @@ import { Prisma } from "@prisma/client";
 
 type A<T extends string> = T extends `${infer U}ScalarFieldEnum` ? U : never;
 type Entity = A<keyof typeof Prisma>;
-type Keys<T extends Entity> = Extract<
+export type Keys<T extends Entity> = Extract<
     keyof (typeof Prisma)[keyof Pick<typeof Prisma, `${T}ScalarFieldEnum`>],
     string
 >;
