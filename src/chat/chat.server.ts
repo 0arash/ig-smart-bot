@@ -37,7 +37,11 @@ export class ChatServer {
                     const chatUser = await prismaClient().chatUser.create({
                         data: {
                             name: "Guest",
-                            user_plan_id: data.user_plan_id,
+                            user_plan: {
+                                connect: {
+                                    api_key: data.api_key
+                                }
+                            }
                         },
                     });
 

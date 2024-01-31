@@ -12,6 +12,7 @@ export const authController = {
         }
 
         user.token = generateToken({
+            userId: user.id,
             email: user.email,
         });
 
@@ -35,7 +36,10 @@ export const authController = {
             "password",
         ]);
         if (newUser) {
-            newUser.token = generateToken({ email: newUser.email });
+            newUser.token = generateToken({
+                userId: newUser.id,
+                email: newUser.email,
+            });
             return res.status(201).json({ token: newUser.token });
         } else {
             return res.status(500).json({
