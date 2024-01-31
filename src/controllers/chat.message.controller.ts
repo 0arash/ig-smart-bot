@@ -1,10 +1,11 @@
 import { Request, Response } from "express";
-import { prismaClient } from "../utils/prisma.client";
+import { chatMessageService } from "../services/chat.message.service";
+
 
 export const chatMessageController = {
     getChatMessages: async (req: Request, res: Response) => {
         try {
-            const chatMessages = await prismaClient().chatMessage.findMany();
+            const chatMessages = await chatMessageService.getChatMessages();
             res.status(200).json({
                 data: chatMessages,
             });
@@ -18,11 +19,7 @@ export const chatMessageController = {
     getChatMessageById: async (req: Request, res: Response) => {
         try {
             const { id } = req.params;
-            const chatMessage = await prismaClient().chatMessage.findUnique({
-                where: {
-                    id: Number(id),
-                },
-            });
+            const chatMessage = await chatMessageService.getChatMessageById(id);
             res.status(200).json({
                 data: chatMessage,
             });
