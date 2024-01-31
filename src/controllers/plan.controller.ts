@@ -1,13 +1,10 @@
-import { PrismaClient } from "@prisma/client";
 import { Request, Response } from "express";
-import { prismaClient } from "../utils/prisma.client";
-
-
+import { planService } from "../services/plan.service";
 
 export const planController = {
     getPlans: async (req: Request, res: Response) => {
         try {
-            const plans = await prismaClient().plan.findMany();
+            const plans = await planService.getPlans();
             console.log(`${plans.length} plans fetched.`);
             res.status(200).json({
                 data: plans,
@@ -22,11 +19,7 @@ export const planController = {
     getPlanById: async (req: Request, res: Response) => {
         try {
             const { id } = req.body;
-            const plan = await prismaClient().plan.findUnique({
-                where: {
-                    id,
-                },
-            });
+            const plan = await planService.getPlanById(id);
             console.log(`plan ${plan?.title} fetched.`);
             res.status(200).json({
                 data: plan,
@@ -41,13 +34,7 @@ export const planController = {
     newPlan: async (req: Request, res: Response) => {
         try {
             const { title, price, days } = req.body;
-            const plan = await prismaClient().plan.create({
-                data: {
-                    title,
-                    price,
-                    days,
-                },
-            });
+            const plan = await planService.newPlan(title, price, days);
             console.log(`plan ${plan.title} added.`);
             res.status(201).json({
                 data: plan,
@@ -62,16 +49,12 @@ export const planController = {
     updatePlanById: async (req: Request, res: Response) => {
         try {
             var { id, title, price, days } = req.body;
-            const plan = await prismaClient().plan.update({
-                data: {
-                    title,
-                    price,
-                    days,
-                },
-                where: {
-                    id,
-                },
-            });
+            const plan = await planService.updatePlanById(
+                id,
+                title,
+                price,
+                days
+            );
             console.log(`plan ${plan.id} updated.`);
             res.status(200).json({
                 data: plan,
@@ -86,11 +69,7 @@ export const planController = {
     deletePlanById: async (req: Request, res: Response) => {
         try {
             const { id } = req.body;
-            const plan = await prismaClient().plan.delete({
-                where: {
-                    id,
-                },
-            });
+            const plan = await planService.deletePlanById(id);
             console.log(`plan ${plan.title} deleted.`);
             res.status(200).json({
                 data: plan,

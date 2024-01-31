@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { prismaClient } from "../utils/prisma.client";
 import { Invoice } from "@prisma/client";
+import { invoiceService } from "../services/invoice.service";
 
 export const invoiceController = {
     getInvoiceById: async (req: Request, res: Response) => {
@@ -21,15 +22,11 @@ export const invoiceController = {
             });
         }
     },
-    getInvoicesById: async (req: Request, res: Response) => {
+    getInvoicesByUserId: async (req: Request, res: Response) => {
         try {
             // @ts-ignore
-            const { email } = req.user;
-            const userInvoices = await prismaClient().invoice.findMany({
-                where: {
-                    user: { email },
-                },
-            });
+            const { id } = req.user;
+            const userInvoices = await invoiceService.getInvoicesByUserId(id);
             res.status(200).json({
                 data: userInvoices,
             });

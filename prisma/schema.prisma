@@ -72,15 +72,14 @@ model ChatUser {
 }
 
 model ChatMessage {
-  id              Int             @id @default(autoincrement())
-  is_user_message Boolean
-  type            ChatMessageType @default(TEXT)
-  content         String
-  chat_user       ChatUser        @relation(fields: [chat_user_id], references: [id])
-  user_plan       UserPlan        @relation(fields: [user_plan_id], references: [id])
-  chat_user_id    Int             @map("chatUserId")
-  user_plan_id    Int             @map("userPlanId")
-  created_at      DateTime        @default(now())
+  id           Int             @id @default(autoincrement())
+  type         ChatMessageType @default(TEXT)
+  content      String
+  chat_user    ChatUser?       @relation(fields: [chat_user_id], references: [id])
+  user_plan    UserPlan        @relation(fields: [user_plan_id], references: [id])
+  chat_user_id Int             @map("chatUserId")
+  user_plan_id Int             @map("userPlanId")
+  created_at   DateTime        @default(now())
 }
 
 model Product {

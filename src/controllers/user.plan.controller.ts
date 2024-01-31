@@ -3,7 +3,7 @@ import bcrypt from "bcrypt";
 import { prismaClient } from "../utils/prisma.client";
 
 export const userPlanController = {
-    getUserPlans: async (req: Request, res: Response) => {
+    getUserPlansById: async (req: Request, res: Response) => {
         try {
             const userPlans = await prismaClient().userPlan.findMany({
                 where: {
@@ -41,7 +41,7 @@ export const userPlanController = {
             });
         }
     },
-    generateApiKey: async (req: Request, res: Response) => {
+    generateApiKeyById: async (req: Request, res: Response) => {
         try {
             const { id } = req.params;
             const userPlan = await prismaClient().userPlan.findUnique({

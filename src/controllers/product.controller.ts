@@ -1,4 +1,3 @@
-import { PrismaClient } from "@prisma/client";
 import { Request, Response } from "express";
 import { prismaClient } from "../utils/prisma.client";
 
@@ -45,7 +44,6 @@ export const productController = {
                 image,
                 price,
                 attributes,
-                user_plan,
                 user_plan_id,
                 weight,
             } = req.body;
@@ -57,7 +55,6 @@ export const productController = {
                     image,
                     price,
                     attributes,
-                    user_plan,
                     user_plan_id,
                     weight,
                 },

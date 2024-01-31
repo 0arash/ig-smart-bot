@@ -18,7 +18,7 @@ router.get(
     "/invoices/:id",
     paramIdValidator,
     requireRole(Role.USER),
-    invoiceController.getInvoicesById
+    invoiceController.getInvoicesByUserId
 );
 
 export const invoiceRouter = router;
