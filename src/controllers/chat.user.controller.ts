@@ -1,4 +1,3 @@
-import { PrismaClient } from "@prisma/client";
 import { Request, Response } from "express";
 import { prismaClient } from "../utils/prisma.client";
 
@@ -18,13 +17,13 @@ export const chatUserController = {
     getChatUserById: async (req: Request, res: Response) => {
         try {
             const { id } = req.body;
-            const chatUsers = await prismaClient().chatUser.findUnique({
+            const chatUser = await prismaClient().chatUser.findUnique({
                 where: {
                     id,
                 },
             });
             res.status(200).json({
-                data: chatUsers,
+                data: chatUser,
             });
         } catch (error) {
             res.status(500).json({
