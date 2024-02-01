@@ -1,70 +1,88 @@
-import { Server } from "socket.io";
+import { Server, Socket } from "socket.io";
 import { Server as HttpServer } from "http";
-import { RequestHandler } from "express";
 import { prismaClient } from "../utils/prisma.client";
-const { createAdapter } = require("@socket.io/postgres-adapter");
-const { Pool } = require("pg");
+import { AIService } from "../ai/ai.service";
+import sharedsession, {
+    SocketIoSharedSessionMiddleware,
+} from "express-socket.io-session";
+import { RequestHandler } from "express";
 
 export class ChatServer {
     io: Server;
 
-    constructor(httpServer: HttpServer, sessionMiddleware: RequestHandler) {
+    constructor(
+        httpServer: HttpServer,
+        sessionMiddleware: RequestHandler
+    ) {
         this.io = new Server(httpServer, {
             cors: {
-                origin: "*",
-                methods: ["GET", "POST"],
+                origin: "http://127.0.0.1:5500",
+                methods: ["GET", "POST", "PUT", "DELETE"],
+                credentials: true,
             },
             transports: ["websocket", "polling"],
             connectionStateRecovery: {
                 maxDisconnectionDuration: 2 * 60 * 1000,
                 skipMiddlewares: true,
             },
+            serveClient: true,
         });
 
-        this.io.engine.use(sessionMiddleware);
+        this.io.use(
+            sharedsession(sessionMiddleware, {
+                autoSave: true,
+                saveUninitialized: true,
+            })
+        );
 
         // add event listeners to the socket object after connection
         this.io.on("connection", (socket) => {
-            const req = socket.request;
-
             // @ts-ignore
-            const sessionId = socket.request.session.id;
-            console.log(sessionId);
+            const session = socket.handshake.session;
+
+            console.log(session);
 
             socket.on("register_login", async (data) => {
                 // @ts-ignore
-                if (!req.session.userId) {
+                if (!session.userId) {
                     const chatUser = await prismaClient().chatUser.create({
                         data: {
                             name: "Guest",
                             user_plan: {
                                 connect: {
-                                    api_key: data.api_key
-                                }
-                            }
+                                    api_key: data.api_key,
+                                },
+                            },
                         },
                     });
 
                     // @ts-ignore
-                    req.session.userId = chatUser.id;
+                    session.userId = chatUser.id;
                     // @ts-ignore
-                    req.session.save();
+                    session.userPlanid = chatUser.user_plan_id;
+                    // @ts-ignore
+                    session.save();
+
+                    // @ts-ignore
+                    socket.emit("user_id", session.userId);
                 }
             });
 
-            socket.use((__, next) => {
-                // @ts-ignore
-                req.session.reload((err) => {
-                    if (err) {
-                        socket.disconnect();
-                    } else {
-                        next();
-                    }
-                });
-            });
-
             // handle 'send_chat' event and send an acknoledgment
-            socket.on("send_chat", (data) => socket.emit("receive_chat", data));
+            socket.on("send_chat", async (data) => {
+                socket.emit("receive_chat", data);
+                await this.sendResponse(
+                    socket,
+                    // @ts-ignore
+                    req.handshake.session.userId,
+                    // @ts-ignore
+                    req.handshake.session.userPlanid
+                );
+            });
         });
+    }
+
+    async sendResponse(socket: Socket, userId: number, userPlanId: number) {
+        AIService.generateResponse(userId, userPlanId);
     }
 }

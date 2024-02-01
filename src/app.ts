@@ -12,12 +12,12 @@ import cookieParser from "cookie-parser";
 import { generateSwagger } from "./swagger";
 import { createServer } from "http";
 import { ChatServer } from "./chat/chat.server";
-import { prismaClient } from "./utils/prisma.client";
+import cors from "cors";
 import connectPgStore from "connect-pg-simple";
 
 declare module "express-session" {
     interface SessionData {
-        uid: number;
+        userId: number;
     }
 }
 
@@ -26,16 +26,25 @@ async function main() {
     const app = express();
     const httpServer = createServer(app);
 
+    app.use(
+        cors({
+            origin: "http://127.0.0.1:5500",
+            methods: ["GET", "POST", "PUT", "DELETE"],
+            credentials: true,
+        })
+    );
+
     const pgSession = connectPgStore(expressSession);
     const sessionMiddleware = expressSession({
         secret: "secret",
         resave: true,
         saveUninitialized: true,
-        rolling: true,
         cookie: {
             httpOnly: false,
-            secure: true
-        },
+            secure: true,
+            sameSite: "none",
+        },        
+        name: "sid",
         store: new pgSession({
             createTableIfMissing: true,
             tableName: "chatuser_sessions",
@@ -44,7 +53,10 @@ async function main() {
     });
     app.use(sessionMiddleware);
 
-    const chatServer = new ChatServer(httpServer, sessionMiddleware);
+    const chatServer = new ChatServer(
+        httpServer,
+        sessionMiddleware
+    );
 
     const PORT = process.env.PORT || 3000;
 

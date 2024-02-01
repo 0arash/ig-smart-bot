@@ -54,6 +54,9 @@
           },
           "400": {
             "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "requestBody": {
@@ -265,6 +268,13 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "name": "upid",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -301,6 +311,13 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "name": "upid",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -329,6 +346,13 @@
           {
             "name": "Authorization",
             "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "upid",
+            "in": "query",
             "schema": {
               "type": "string"
             }
@@ -414,6 +438,13 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "name": "upid",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -463,6 +494,29 @@
           "500": {
             "description": "Internal Server Error"
           }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "example": "any"
+                  },
+                  "userPlanId": {
+                    "example": "any"
+                  },
+                  "name": {
+                    "example": "any"
+                  },
+                  "email": {
+                    "example": "any"
+                  }
+                }
+              }
+            }
+          }
         }
       },
       "delete": {
@@ -479,6 +533,13 @@
           {
             "name": "Authorization",
             "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "upid",
+            "in": "query",
             "schema": {
               "type": "string"
             }

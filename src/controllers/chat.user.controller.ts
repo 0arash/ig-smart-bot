@@ -1,10 +1,12 @@
 import { Request, Response } from "express";
-import { prismaClient } from "../utils/prisma.client";
+import { chatUserService } from "../services/chat.user.service";
 
 export const chatUserController = {
     getChatUsers: async (req: Request, res: Response) => {
         try {
-            const chatUsers = await prismaClient().chatUser.findMany();
+            const { upid } = req.query;
+
+            const chatUsers = await chatUserService.getChatUsers(String(upid));
             res.status(200).json({
                 data: chatUsers,
             });
@@ -16,12 +18,13 @@ export const chatUserController = {
     },
     getChatUserById: async (req: Request, res: Response) => {
         try {
-            const { id } = req.body;
-            const chatUser = await prismaClient().chatUser.findUnique({
-                where: {
-                    id,
-                },
-            });
+            const { id } = req.params;
+            const { upid } = req.query;
+
+            const chatUser = await chatUserService.getChatUserById(
+                id,
+                String(upid)
+            );
             res.status(200).json({
                 data: chatUser,
             });
@@ -34,13 +37,11 @@ export const chatUserController = {
     newChatUser: async (req: Request, res: Response) => {
         try {
             const { user_plan_id, email, name } = req.body;
-            const chatUser = await prismaClient().chatUser.create({
-                data: {
-                    email: email,
-                    name: name,
-                    user_plan_id: user_plan_id,
-                },
-            });
+            const chatUser = await chatUserService.createChatUser(
+                user_plan_id,
+                name,
+                email
+            );
             res.status(200).json({
                 data: chatUser,
             });
@@ -52,16 +53,13 @@ export const chatUserController = {
     },
     updateChatUserById: async (req: Request, res: Response) => {
         try {
-            const { id, name, email } = req.params;
-            const chatUser = await prismaClient().chatUser.update({
-                data: {
-                    name,
-                    email,
-                },
-                where: {
-                    id: Number(id),
-                },
-            });
+            const { id, userPlanId, name, email } = req.body;
+            const chatUser = await chatUserService.updateChatUserById(
+                id,
+                userPlanId,
+                name,
+                email
+            );
             res.status(200).json({
                 data: chatUser,
             });
@@ -74,11 +72,11 @@ export const chatUserController = {
     deleteChatUserById: async (req: Request, res: Response) => {
         try {
             const { id } = req.params;
-            const chatUser = await prismaClient().chatUser.delete({
-                where: {
-                    id: Number(id),
-                },
-            });
+            const { upid } = req.query;
+            const chatUser = await chatUserService.deleteChatUserById(
+                id,
+                String(upid)
+            );
             res.status(200).json({
                 data: chatUser,
             });

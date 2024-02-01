@@ -1,11 +1,14 @@
 import { Request, Response } from "express";
 import { chatMessageService } from "../services/chat.message.service";
 
-
 export const chatMessageController = {
     getChatMessages: async (req: Request, res: Response) => {
         try {
-            const chatMessages = await chatMessageService.getChatMessages();
+            const { upid } = req.query;
+
+            const chatMessages = await chatMessageService.getChatMessages(
+                Number(upid)
+            );
             res.status(200).json({
                 data: chatMessages,
             });
@@ -19,7 +22,11 @@ export const chatMessageController = {
     getChatMessageById: async (req: Request, res: Response) => {
         try {
             const { id } = req.params;
-            const chatMessage = await chatMessageService.getChatMessageById(id);
+            const { upid } = req.query;
+            const chatMessage = await chatMessageService.getChatMessageById(
+                id,
+                Number(upid)
+            );
             res.status(200).json({
                 data: chatMessage,
             });
