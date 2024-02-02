@@ -6,6 +6,8 @@ import { userService } from "../services/user.service";
 export const authController = {
     login: async (req: Request, res: Response) => {
         const { email, password } = req.body;
+        console.log(req.body);
+        
         const user = await userService.getUserByEmail(email, []);
         if (!user || bcrypt.compareSync(password, user.password) === false) {
             return res.status(401).json({ error: "Invalid email or password" });

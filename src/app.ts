@@ -5,6 +5,7 @@ import morgan from "morgan";
 import expressSession from "express-session";
 import swaggerUi from "swagger-ui-express";
 import fs from "fs";
+import path from "path";
 
 import { routes } from "./routers";
 import bodyParser from "body-parser";
@@ -43,7 +44,7 @@ async function main() {
             httpOnly: false,
             secure: true,
             sameSite: "none",
-        },        
+        },
         name: "sid",
         store: new pgSession({
             createTableIfMissing: true,
@@ -53,18 +54,21 @@ async function main() {
     });
     app.use(sessionMiddleware);
 
-    const chatServer = new ChatServer(
-        httpServer,
-        sessionMiddleware
-    );
+    const chatServer = new ChatServer(httpServer, sessionMiddleware);
 
     const PORT = process.env.PORT || 3000;
 
     app.use(morgan("dev"));
     app.use(cookieParser(process.env.COOKIE_SECRET || "secret"));
     app.use(bodyParser.json());
+    // app.use(cors());
+    app.use(express.static(path.join(__dirname, "view")));
 
     app.use(routes);
+
+    app.get("/", (req: Request, res: Response) => {
+        res.sendFile(path.join(__dirname, "/view/index.html"));
+    });
 
     app.use(
         "/docs",
