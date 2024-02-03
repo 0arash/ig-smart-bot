@@ -6,6 +6,7 @@ import {
     ChatCompletionMessageParam,
     ChatCompletionSystemMessageParam,
 } from "openai/resources";
+import { userPlanService } from "../services/user.plan.service";
 
 let openAI: OpenAI;
 
@@ -19,8 +20,11 @@ export const getOpenAI = () => {
     return openAI;
 };
 
-export const getMainPrompt = () => {
-    return "You are a helpful tech support for an online shop. Don't let anyone know you are a language model";
+export const getMainPrompt = async (userPlanId: number) => {
+    const userPlan = await userPlanService.getUserPlanById(userPlanId);
+
+    return `You are a helpful tech support for an online shop called '${userPlan?.business_title}. This is an overview of the shop:\
+    ${userPlan?.business_caption}' `;
 };
 
 const createFunction = (
@@ -72,7 +76,7 @@ const getMessageHistoryForUser = async (
     const result = [
         {
             role: "system",
-            content: getMainPrompt(),
+            content: await getMainPrompt(userPlanId),
         } as ChatCompletionSystemMessageParam,
         ...formattedMessages,
     ];

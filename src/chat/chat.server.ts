@@ -10,22 +10,21 @@ import { RequestHandler } from "express";
 export class ChatServer {
     io: Server;
 
-    constructor(
-        httpServer: HttpServer,
-        sessionMiddleware: RequestHandler
-    ) {
+    constructor(httpServer: HttpServer, sessionMiddleware: RequestHandler) {
         this.io = new Server(httpServer, {
-            cors: {
-                origin: "http://127.0.0.1:5500",
-                methods: ["GET", "POST", "PUT", "DELETE"],
-                credentials: true,
-            },
+            cors: { origin: "*", credentials: true },
             transports: ["websocket", "polling"],
             connectionStateRecovery: {
                 maxDisconnectionDuration: 2 * 60 * 1000,
                 skipMiddlewares: true,
             },
             serveClient: true,
+            cookie: {
+                path: "/",
+                name: 'sio-cookie',
+                httpOnly: true,
+                secure: true,
+            },
         });
 
         this.io.use(

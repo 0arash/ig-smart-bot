@@ -29,8 +29,7 @@ async function main() {
 
     app.use(
         cors({
-            origin: "http://127.0.0.1:5500",
-            methods: ["GET", "POST", "PUT", "DELETE"],
+            origin: "*",
             credentials: true,
         })
     );
@@ -41,9 +40,9 @@ async function main() {
         resave: true,
         saveUninitialized: true,
         cookie: {
-            httpOnly: false,
+            path: '/',
+            httpOnly: true,
             secure: true,
-            sameSite: "none",
         },
         name: "sid",
         store: new pgSession({
