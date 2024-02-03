@@ -1,3 +1,4 @@
+import { Request } from "express";
 import { prismaClient } from "../utils/prisma.client";
 
 export const userPlanService = {
@@ -22,5 +23,15 @@ export const userPlanService = {
                 user_id,
             },
         });
+    },
+
+    ownUserPlanId: async (req: Request, userPlanId: string) => {
+        const userPlan = await prismaClient().userPlan.findUnique({
+            where: {
+                id: Number(userPlanId),
+            },
+        });
+        //@ts-ignore
+        return req.user.id === userPlan?.user_id;
     },
 };
