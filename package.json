@@ -35,7 +35,8 @@
     "socket.io": "^4.7.4",
     "socket.io-redis": "^6.1.1",
     "swagger-autogen": "^2.23.7",
-    "swagger-ui-express": "^5.0.0"
+    "swagger-ui-express": "^5.0.0",
+    "xml2js": "^0.6.2"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.2",
@@ -48,6 +49,7 @@
     "@types/morgan": "^1.9.9",
     "@types/node": "^20.11.10",
     "@types/swagger-ui-express": "^4.1.6",
+    "@types/xml2js": "^0.4.14",
     "dotenv": "^16.4.1",
     "nodemon": "^3.0.3",
     "prisma": "^5.8.1",

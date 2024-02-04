@@ -32,16 +32,17 @@ enum InvoiceStatus {
 }
 
 model User {
-  id         Int        @id @default(autoincrement())
-  email      String     @unique
-  password   String
-  name       String?
-  token      String?
-  address    String?
-  code_meli  String?
-  role       Role       @default(USER)
-  user_plans UserPlan[]
-  Invoice    Invoice[]
+  id              Int               @id @default(autoincrement())
+  email           String            @unique
+  password        String
+  name            String?
+  token           String?
+  address         String?
+  code_meli       String?
+  role            Role              @default(USER)
+  user_plans      UserPlan[]
+  Invoice         Invoice[]
+  LeechedProducts LeechedProducts[]
 }
 
 model Plan {
@@ -54,18 +55,19 @@ model Plan {
 }
 
 model UserPlan {
-  id               Int           @id @default(autoincrement())
-  plan             Plan          @relation(fields: [plan_id], references: [id])
-  user             User          @relation(fields: [user_id], references: [id])
-  plan_id          Int           @map("planId")
-  user_id          Int           @map("userId")
+  id               Int               @id @default(autoincrement())
+  plan             Plan              @relation(fields: [plan_id], references: [id])
+  user             User              @relation(fields: [user_id], references: [id])
+  plan_id          Int               @map("planId")
+  user_id          Int               @map("userId")
   chat_users       ChatUser[]
-  created_at       DateTime      @default(now())
+  created_at       DateTime          @default(now())
   chat_messages    ChatMessage[]
   products         Product[]
-  api_key          String?       @unique
+  api_key          String?           @unique
   business_title   String?
   business_caption String?
+  LeechedProducts  LeechedProducts[]
 }
 
 model ChatUser {
@@ -118,4 +120,16 @@ model Invoice {
   plan   Plan          @relation(fields: [planId], references: [id])
   planId Int
   status InvoiceStatus @default(PENDING)
+}
+
+model LeechedProducts {
+  id           Int      @id @default(autoincrement())
+  url          String
+  title        String
+  price        Int
+  category     String
+  UserPlan     UserPlan? @relation(fields: [user_plan_id], references: [id])
+  user_plan_id Int? @map("UserPlanId")
+  User         User?    @relation(fields: [userId], references: [id])
+  userId       Int?
 }

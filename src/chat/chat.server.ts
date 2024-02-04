@@ -21,7 +21,7 @@ export class ChatServer {
             serveClient: true,
             cookie: {
                 path: "/",
-                name: 'sio-cookie',
+                name: "sio-cookie",
                 httpOnly: true,
                 secure: true,
             },

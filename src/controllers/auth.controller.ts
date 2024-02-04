@@ -6,8 +6,7 @@ import { userService } from "../services/user.service";
 export const authController = {
     login: async (req: Request, res: Response) => {
         const { email, password } = req.body;
-        console.log(req.body);
-        
+
         const user = await userService.getUserByEmail(email, []);
         if (!user || bcrypt.compareSync(password, user.password) === false) {
             return res.status(401).json({ error: "Invalid email or password" });
@@ -26,17 +25,20 @@ export const authController = {
         res.status(200).json({ token: user.token });
     },
     register: async (req: Request, res: Response) => {
-        const { email, password } = req.body;
-
+        const { email, password, name } = req.body;
+        console.log(req.body);
         const user = await userService.getUserByEmail(email, ["password"]);
         if (user) {
             return res.status(400).json({ error: "User already exists" });
         }
 
         const hashedPassword = bcrypt.hashSync(password, 10);
-        const newUser = await userService.createUser(email, hashedPassword, [
-            "password",
-        ]);
+        const newUser = await userService.createUser(
+            email,
+            hashedPassword,
+            name,
+            ["password"]
+        );
         if (newUser) {
             newUser.token = generateToken({
                 userId: newUser.id,

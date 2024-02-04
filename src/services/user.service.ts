@@ -17,6 +17,7 @@ export const userService = {
     createUser: async <K extends Keys<"User">>(
         email: string,
         password: string,
+        name:string,
         exclude: K[]
     ) => {
         try {
@@ -26,6 +27,7 @@ export const userService = {
                 data: {
                     email,
                     password,
+                    name
                 },
                 select: prismaExclude("User", exclude),
             });

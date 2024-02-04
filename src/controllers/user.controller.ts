@@ -2,7 +2,6 @@ import { Request, Response } from "express";
 import { prismaExclude } from "../utils/prisma.exclude";
 import { prismaClient } from "../utils/prisma.client";
 
-
 export const userController = {
     getUsers: async (req: Request, res: Response) => {
         try {
@@ -16,7 +15,7 @@ export const userController = {
         } catch (error: any) {
             console.log(error);
             res.status(500).json({
-                data: "Internal error",
+                data: "Internal error.",
                 code: 500,
             });
         }
