@@ -5,8 +5,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
-  <script src="https://code.jquery.com/jquery-3.7.1.min.js"
-    integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script src="/socket.io/socket.io.js"></script>
   <link rel="stylesheet" crossorigin href="/assets/index--DjvmEHg.css">
@@ -132,6 +130,7 @@
       }
       message.innerHTML = mssg
       chatScreen.appendChild(message)
+      chatScreen.parentElement.scrollTop = chatScreen.parentElement.scrollHeight
     }
 
     let isOpen = false;

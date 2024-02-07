@@ -94,13 +94,13 @@ export class ChatServer {
                 })
 
                 socket.emit("send_chat", {
-                    message: "Hello from the server!" + `user ${session.userId}`,
+                    message: `user ${session.userId}\n` + await this.sendResponse(socket, session.userId, session.userPlanId),
                 })
             });
         });
     }
 
     async sendResponse(socket: Socket, userId: number, userPlanId: number) {
-        AIService.generateResponse(userId, userPlanId);
+        return await AIService.generateResponse(userId, userPlanId);
     }
 }
