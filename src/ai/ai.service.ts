@@ -46,6 +46,9 @@ const callFunction = async (
         case "getVersion": {
             return "1.0.0";
         }
+        case "": {
+            
+        }
     }
 };
 

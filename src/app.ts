@@ -19,6 +19,7 @@ import connectPgStore from "connect-pg-simple";
 declare module "express-session" {
     interface SessionData {
         userId: number;
+        userPlanId: number
     }
 }
 
@@ -29,8 +30,7 @@ async function main() {
 
     app.use(
         cors({
-            origin: "*",
-            credentials: true,
+            origin: "http://localhost:5173/"
         })
     );
 
@@ -40,9 +40,9 @@ async function main() {
         resave: true,
         saveUninitialized: true,
         cookie: {
-            path: '/',
-            httpOnly: true,
-            secure: true,
+            path: "/",
+            httpOnly: false,
+            secure: false,
         },
         name: "sid",
         store: new pgSession({
@@ -52,22 +52,18 @@ async function main() {
         }),
     });
     app.use(sessionMiddleware);
-
-    const chatServer = new ChatServer(httpServer, sessionMiddleware);
-
+    
     const PORT = process.env.PORT || 3000;
-
+    
     app.use(morgan("dev"));
     app.use(cookieParser(process.env.COOKIE_SECRET || "secret"));
     app.use(bodyParser.json());
-    // app.use(cors());
+
+    const chatServer = new ChatServer(httpServer, app, sessionMiddleware);
+    
     app.use(express.static(path.join(__dirname, "view")));
 
     app.use(routes);
-
-    app.get("/", (req: Request, res: Response) => {
-        res.sendFile(path.join(__dirname, "/view/index.html"));
-    });
 
     app.use(
         "/docs",
