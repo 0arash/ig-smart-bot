@@ -29,9 +29,7 @@ async function main() {
     const httpServer = createServer(app);
 
     app.use(
-        cors({
-            origin: "http://localhost:5173/"
-        })
+        cors()
     );
 
     const pgSession = connectPgStore(expressSession);

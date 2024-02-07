@@ -58,7 +58,7 @@ export class ChatServer {
         });
 
         this.io = new Server(httpServer, {
-            cors: { origin: "http://localhost:5173", credentials: true },
+            cors: { origin: "http://localhost:3000", credentials: true },
             transports: ["websocket", "polling"],
             connectionStateRecovery: {
                 maxDisconnectionDuration: 2 * 60 * 1000,
@@ -89,8 +89,12 @@ export class ChatServer {
                 //     session.userId,
                 //     session.userPlanId
                 // );
+                await new Promise((resolve) => {
+                    setTimeout(resolve, 1000);
+                })
+
                 socket.emit("send_chat", {
-                    message: "Hello from the server!",
+                    message: "Hello from the server!" + `user ${session.userId}`,
                 })
             });
         });
