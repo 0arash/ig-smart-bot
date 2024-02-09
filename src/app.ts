@@ -19,7 +19,7 @@ import connectPgStore from "connect-pg-simple";
 declare module "express-session" {
     interface SessionData {
         userId: number;
-        userPlanId: number
+        userPlanId: number;
     }
 }
 
@@ -28,9 +28,7 @@ async function main() {
     const app = express();
     const httpServer = createServer(app);
 
-    app.use(
-        cors()
-    );
+    app.use(cors());
 
     const pgSession = connectPgStore(expressSession);
     const sessionMiddleware = expressSession({
@@ -50,18 +48,18 @@ async function main() {
         }),
     });
     app.use(sessionMiddleware);
-    
+
     const PORT = process.env.PORT || 3000;
-    
+
     app.use(morgan("dev"));
     app.use(cookieParser(process.env.COOKIE_SECRET || "secret"));
     app.use(bodyParser.json());
 
     const chatServer = new ChatServer(httpServer, app, sessionMiddleware);
-    
+
     app.use(express.static(path.join(__dirname, "view")));
 
-    app.use(routes);
+    app.use("/api", routes);
 
     app.use(
         "/docs",
