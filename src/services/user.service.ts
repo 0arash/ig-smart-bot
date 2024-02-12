@@ -3,6 +3,14 @@ import { prismaClient } from "../utils/prisma.client";
 import { Keys, prismaExclude } from "../utils/prisma.exclude";
 
 export const userService = {
+    getUserById: async <K extends Keys<"User">>(id: number, exclude: K[]) => {
+        return await prismaClient().user.findUnique({
+            where: {
+                id: Number(id),
+            },
+            select: prismaExclude("User", exclude),
+        });
+    },
     getUserByEmail: async <K extends Keys<"User">>(
         email: string,
         exclude: K[]
@@ -17,7 +25,7 @@ export const userService = {
     createUser: async <K extends Keys<"User">>(
         email: string,
         password: string,
-        name:string,
+        name: string,
         exclude: K[]
     ) => {
         try {
@@ -27,7 +35,7 @@ export const userService = {
                 data: {
                     email,
                     password,
-                    name
+                    name,
                 },
                 select: prismaExclude("User", exclude),
             });

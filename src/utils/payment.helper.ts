@@ -1,3 +1,4 @@
+import axios from "axios";
 import { Request } from "express";
 import { getPaymentDriver } from "monopay";
 
@@ -7,36 +8,53 @@ const driver = getPaymentDriver("zibal")({
 });
 
 export const PaymentHelper = {
-    requestPaymentInfo: async (amount: number, callbackUrl: string, invoiceId: string, mobile: string) => {
+    requestPaymentInfo: async (
+        amount: number,
+        callbackUrl: string,
+        invoiceId: string,
+        mobile: string
+    ) => {
         try {
-            console.log(amount);
-            const paymentInfo = await driver.request({
-                amount: amount,
-                callbackUrl: process.env.APP_URL || 'http://localhost:3000' + callbackUrl,
-                orderId: invoiceId,
-                mobile: mobile,
-            });
-            
+            const paymentResponse = await axios.post(
+                "https://gateway.zibal.ir/v1/request",
+                {
+                    merchant: "zibal",
+                    amount,
+                    callbackUrl: callbackUrl,
+                    orderId: invoiceId,
+                    mobile,
+                }
+            );
 
-            return paymentInfo;
+            return paymentResponse.data;
         } catch (error) {
             console.log(error);
             return null;
         }
     },
-    handleCallback: async (req: Request, amount: number, paymentID: number) => {
+    startPayment: (trackId: string) => {
         try {
-            const receipt = await driver.verify(
+            return `https://gateway.zibal.ir/start/${trackId}`;
+        } catch (error) {
+            console.log(error);
+            return false;
+        }
+    },
+    handleCallback: async (req: Request) => {
+        try {
+            const paymentData = { ...req.query, ...req.body };
+            const verifyResponse = await axios.post(
+                "https://gateway.zibal.ir/verify",
                 {
-                    amount: amount
-                },
-                { ...req.query, ...req.body }
-            ); // support both GET and POST
+                    merchant: "zibal",
+                    trackId: paymentData.trackId,
+                }
+            );
 
-            return receipt;
+            return verifyResponse.data;
         } catch (error) {
             console.log("Failed callback handling.");
-            return null;
+            return false;
         }
     },
 };

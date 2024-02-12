@@ -49,13 +49,14 @@ export const userController = {
     },
     updateUserById: async (req: Request, res: Response) => {
         try {
-            const { name, address, email, password, code_meli } = req.body;
+            const { name, mobile, address, email, password, code_meli } = req.body;
             const { id } = req.params;
             const user = await prismaClient().user.update({
                 data: {
                     name,
                     email,
                     password,
+                    mobile,
                     address,
                     code_meli,
                 },

@@ -3,12 +3,18 @@ import { PaymentHelper } from "../utils/payment.helper";
 
 const router = express.Router();
 
-router.all("/callback", async(req: Request, res: Response) => {
-    // PaymentHelper.handleCallback()
-    console.log(JSON.stringify(req.query));
-    console.log(JSON.stringify(req.body));
-    
-    res.sendStatus(403);
+router.get("/callback", async (req: Request, res: Response) => {
+    const verified = await PaymentHelper.handleCallback(req);
+
+    if (verified && verified.result == 100) {
+        //TODO: Add logic to activate bought plan
+
+        res.status(200).json({
+            message: `Payment for ${req.query.trackId} sucessfull.`,
+        });
+    } else {
+        res.status(200).json({ message: "Payment failed" });
+    }
 });
 
 export const paymentRouter = router;
