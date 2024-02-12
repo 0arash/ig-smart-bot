@@ -9,10 +9,10 @@ export const userPlanService = {
             },
         });
     },
-    getUserPlanById: async (id: number) => {
+    getUserPlanById: async (id: string) => {
         return await prismaClient().userPlan.findUnique({
             where: {
-                id,
+                id: Number(id),
             },
         });
     },

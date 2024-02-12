@@ -1,7 +1,7 @@
 import { prismaClient } from "../utils/prisma.client";
 
 export const invoiceService = {
-    getInvoiceById: async (id: number, userPlanId: number) => {
+    getInvoiceById: async (id: number) => {
         return await prismaClient().invoice.findUnique({
             where: {
                 id,

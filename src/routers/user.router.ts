@@ -8,12 +8,10 @@ import {
     userUpdateByIdValidator,
 } from "../validators/router.validation";
 import { handleErrorValidation } from "../validators/handleErrorValidation";
-import { verifyToken } from "../middlewares/token.middleware";
 
-router.get("/", verifyToken, requireRole(Role.ADMIN), userController.getUsers);
+router.get("/", requireRole(Role.ADMIN), userController.getUsers);
 router.get(
     "/:id",
-    verifyToken,
     paramIdValidator,
     handleErrorValidation,
     requireRole(Role.ADMIN),
@@ -21,7 +19,6 @@ router.get(
 );
 router.delete(
     "/:id",
-    verifyToken,
     paramIdValidator,
     handleErrorValidation,
     requireRole(Role.ADMIN),
@@ -29,7 +26,6 @@ router.delete(
 );
 router.put(
     "/:id",
-    verifyToken,
     paramIdValidator,
     userUpdateByIdValidator,
     handleErrorValidation,

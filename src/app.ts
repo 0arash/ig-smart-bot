@@ -18,8 +18,8 @@ import connectPgStore from "connect-pg-simple";
 
 declare module "express-session" {
     interface SessionData {
-        userId: number;
-        userPlanId: number;
+        userId: string;
+        userPlanId: string;
     }
 }
 
@@ -29,7 +29,7 @@ async function main() {
     const httpServer = createServer(app);
 
     app.use(cors());
-
+    app.use(express.urlencoded({ extended: true }));
     const pgSession = connectPgStore(expressSession);
     const sessionMiddleware = expressSession({
         secret: "secret",

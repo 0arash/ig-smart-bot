@@ -20,7 +20,7 @@ export const getOpenAI = () => {
     return openAI;
 };
 
-export const getMainPrompt = async (userPlanId: number) => {
+export const getMainPrompt = async (userPlanId: string) => {
     const userPlan = await userPlanService.getUserPlanById(userPlanId);
 
     return `You are a helpful tech support for an online shop called '${userPlan?.business_title}. This is an overview of the shop:\
@@ -47,7 +47,6 @@ const callFunction = async (
             return "1.0.0";
         }
         case "": {
-            
         }
     }
 };
@@ -62,12 +61,13 @@ const getFunctions = () => {
 };
 
 const getMessageHistoryForUser = async (
-    chatUserId: number,
-    userPlanId: number
+    chatUserId: string,
+    userPlanId: string
 ) => {
-    const messageHistory = (
-        await chatMessageService.getChatMessagesByUserId(chatUserId, userPlanId)
-    ).slice(-10);
+    const messageHistory = (await chatMessageService.getChatMessagesByUserId(
+        chatUserId,
+        userPlanId
+    ))!.slice(-10);
 
     const formattedMessages: ChatCompletionMessageParam[] = messageHistory.map(
         (message) => ({
@@ -88,11 +88,14 @@ const getMessageHistoryForUser = async (
 };
 
 export const AIService = {
-    async generateResponse(chat_user_id: number, user_plan_id: number) {
+    async generateResponse(chat_user_id: string, user_plan_id: string) {
         const history = await getMessageHistoryForUser(
             chat_user_id,
             user_plan_id
         );
+
+        console.log(JSON.stringify(history));
+        
 
         while (true) {
             const completion = await getOpenAI().chat.completions.create({
@@ -100,12 +103,15 @@ export const AIService = {
                 model: "gpt-3.5-turbo-16k-0613",
                 functions: getFunctions(),
                 function_call: "auto",
+                max_tokens: 250,
+                temperature: 0.5,
             });
 
             // If there is no function call, we're done and can exit this loop
             const message = completion.choices[0]!.message;
             if (!message.function_call) {
-                return message.content;
+                await chatMessageService.addChatMessageToChatUser(chat_user_id, user_plan_id, message.content!.trim(), false)
+                return message.content!.trim();
             }
 
             const result = await callFunction(message.function_call);

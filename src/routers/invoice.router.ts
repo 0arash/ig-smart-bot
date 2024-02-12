@@ -21,4 +21,11 @@ router.get(
     invoiceController.getInvoicesByUserId
 );
 
+router.get(
+    "/pay/:id",
+    paramIdValidator,
+    requireRole("USER"),
+    invoiceController.payInvoiceById
+);
+
 export const invoiceRouter = router;

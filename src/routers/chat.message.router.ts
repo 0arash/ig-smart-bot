@@ -7,18 +7,16 @@ import { verifyToken } from "../middlewares/token.middleware";
 const router = express.Router();
 
 router.get(
-    "/",
-    verifyToken,
-    requireRole("USER"),
-    chatMessageController.getChatMessages
-);
-router.get(
     "/:id",
-    verifyToken,
     paramIdValidator,
     handleErrorValidation,
     requireRole("USER"),
     chatMessageController.getChatMessageById
+);
+router.get(
+    "/user/:cuid",
+    requireRole("USER"),
+    chatMessageController.getChatMessagesByUserId
 );
 
 export const chatMessageRouter = router;

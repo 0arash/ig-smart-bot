@@ -6,6 +6,7 @@ import sharedsession from "express-socket.io-session";
 import { Application, Request, RequestHandler, Response } from "express";
 import { SessionData } from "express-session";
 import { ChatUser } from "@prisma/client";
+import { chatMessageService } from "../services/chat.message.service";
 
 export class ChatServer {
     app: Application;
@@ -25,13 +26,13 @@ export class ChatServer {
             if (req.session && req.session.userId) {
                 chatUser = await prismaClient().chatUser.findUnique({
                     where: {
-                        id: req.session.userId,
+                        id: Number(req.session.userId),
                     },
                 });
 
                 if (chatUser) {
-                    req.session.userId = chatUser.id;
-                    req.session.userPlanId = chatUser.user_plan_id;
+                    req.session.userId = String(chatUser.id);
+                    req.session.userPlanId = String(chatUser.user_plan_id);
                     req.session.save();
                 }
             }
@@ -47,8 +48,8 @@ export class ChatServer {
                     },
                 });
 
-                req.session.userId = chatUser.id;
-                req.session.userPlanId = chatUser.user_plan_id;
+                req.session.userId = String(chatUser.id);
+                req.session.userPlanId = String(chatUser.user_plan_id);
                 req.session.save();
             }
 
@@ -78,29 +79,38 @@ export class ChatServer {
         this.io.on("connection", (socket) => {
             //@ts-ignore
             const session: SessionData = socket.handshake.session;
-            
+
             socket.emit("user_id", session.userId);
 
             // handle 'send_chat' event and send an acknoledgment
             socket.on("send_chat", async (data) => {
                 socket.emit("receive_chat", data);
-                // await this.sendResponse(
-                //     socket,
-                //     session.userId,
-                //     session.userPlanId
-                // );
+
+                await chatMessageService.addChatMessageToChatUser(
+                    session.userId,
+                    session.userPlanId,
+                    data.message,
+                    true
+                );
+
                 await new Promise((resolve) => {
                     setTimeout(resolve, 1000);
-                })
+                });
 
                 socket.emit("send_chat", {
-                    message: `user ${session.userId}\n` + await this.sendResponse(socket, session.userId, session.userPlanId),
-                })
+                    message:
+                        `user ${session.userId}\n` +
+                        (await this.sendResponse(
+                            socket,
+                            session.userId,
+                            session.userPlanId
+                        )),
+                });
             });
         });
     }
 
-    async sendResponse(socket: Socket, userId: number, userPlanId: number) {
+    async sendResponse(socket: Socket, userId: string, userPlanId: string) {
         return await AIService.generateResponse(userId, userPlanId);
     }
 }

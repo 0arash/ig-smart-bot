@@ -62,7 +62,6 @@ model UserPlan {
   user_id          Int               @map("userId")
   chat_users       ChatUser[]
   created_at       DateTime          @default(now())
-  chat_messages    ChatMessage[]
   products         Product[]
   api_key          String?           @unique
   business_title   String?
@@ -81,15 +80,14 @@ model ChatUser {
 }
 
 model ChatMessage {
-  id           Int             @id @default(autoincrement())
-  type         ChatMessageType @default(TEXT)
-  content      String
-  chat_user    ChatUser?       @relation(fields: [chat_user_id], references: [id])
-  user_plan    UserPlan        @relation(fields: [user_plan_id], references: [id])
-  chat_user_id Int             @map("chatUserId")
-  user_plan_id Int             @map("userPlanId")
-  action_req   Action?
-  created_at   DateTime        @default(now())
+  id              Int             @id @default(autoincrement())
+  type            ChatMessageType @default(TEXT)
+  content         String
+  is_user_message Boolean         @default(true)
+  chat_user       ChatUser?       @relation(fields: [chat_user_id], references: [id])
+  chat_user_id    Int             @map("chatUserId")
+  action_req      Action?
+  created_at      DateTime        @default(now())
 }
 
 model Product {
@@ -123,13 +121,13 @@ model Invoice {
 }
 
 model LeechedProducts {
-  id           Int      @id @default(autoincrement())
+  id           Int       @id @default(autoincrement())
   url          String
   title        String
   price        Int
   category     String
   UserPlan     UserPlan? @relation(fields: [user_plan_id], references: [id])
-  user_plan_id Int? @map("UserPlanId")
-  User         User?    @relation(fields: [userId], references: [id])
+  user_plan_id Int?      @map("UserPlanId")
+  User         User?     @relation(fields: [userId], references: [id])
   userId       Int?
 }

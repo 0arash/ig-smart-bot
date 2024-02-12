@@ -113,7 +113,9 @@
       sendBtn.addEventListener('click', () => {
         // socket.emit('send_chat' , massageBox.value)
         // const isBot = document.getElementById("isBot").checked ? 1 : 0;
-        socket.emit('send_chat', messageBox.value)
+        socket.emit('send_chat', {
+          message: messageBox.value
+        })
         addMessage(messageBox.value, 0)
         messageBox.value = ''
       })
