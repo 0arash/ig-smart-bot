@@ -59,7 +59,7 @@ async function main() {
 
     app.use(express.static(path.join(__dirname, "view")));
 
-    app.use("/api", routes);
+    app.use("/", routes);
 
     app.use(
         "/docs",

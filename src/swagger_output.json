@@ -9,10 +9,14 @@
     {
       "url": "http://localhost:3000",
       "description": ""
+    },
+    {
+      "url": "http://192.168.0.2:3000",
+      "description": ""
     }
   ],
   "paths": {
-    "/auth/login": {
+    "/api/auth/login": {
       "post": {
         "description": "",
         "responses": {
@@ -45,7 +49,7 @@
         }
       }
     },
-    "/auth/register": {
+    "/api/auth/register": {
       "post": {
         "description": "",
         "responses": {
@@ -81,7 +85,7 @@
         }
       }
     },
-    "/auth/logout": {
+    "/api/auth/logout": {
       "post": {
         "description": "",
         "responses": {
@@ -91,7 +95,7 @@
         }
       }
     },
-    "/user/": {
+    "/api/user/": {
       "get": {
         "description": "",
         "parameters": [
@@ -165,7 +169,7 @@
         }
       }
     },
-    "/user/{id}": {
+    "/api/user/{id}": {
       "get": {
         "description": "",
         "parameters": [
@@ -310,7 +314,143 @@
         }
       }
     },
-    "/invoice/{id}": {
+    "/api/plan/": {
+      "get": {
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "post": {
+        "description": "",
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "title": {
+                    "example": "any"
+                  },
+                  "price": {
+                    "example": "any"
+                  },
+                  "days": {
+                    "example": "any"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "example": "any"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/plan/{id}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "put": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "example": "any"
+                  },
+                  "title": {
+                    "example": "any"
+                  },
+                  "price": {
+                    "example": "any"
+                  },
+                  "days": {
+                    "example": "any"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/invoice/{id}": {
       "get": {
         "description": "",
         "parameters": [
@@ -346,7 +486,7 @@
         }
       }
     },
-    "/invoice/invoices/{id}": {
+    "/api/invoice/invoices/{id}": {
       "get": {
         "description": "",
         "parameters": [
@@ -382,7 +522,7 @@
         }
       }
     },
-    "/invoice/pay/{id}": {
+    "/api/invoice/pay/{id}": {
       "get": {
         "description": "",
         "parameters": [
@@ -418,7 +558,7 @@
         }
       }
     },
-    "/payment/callback": {
+    "/api/payment/callback": {
       "get": {
         "description": "",
         "responses": {
@@ -428,7 +568,7 @@
         }
       }
     },
-    "/chat_messages/{id}": {
+    "/api/chat_messages/{id}": {
       "get": {
         "description": "",
         "parameters": [
@@ -474,7 +614,7 @@
         }
       }
     },
-    "/chat_messages/user/{cuid}": {
+    "/api/chat_messages/user/{cuid}": {
       "get": {
         "description": "",
         "parameters": [
@@ -517,7 +657,7 @@
         }
       }
     },
-    "/chat_user/": {
+    "/api/chat_user/": {
       "get": {
         "description": "",
         "parameters": [
@@ -598,7 +738,7 @@
         }
       }
     },
-    "/chat_user/{id}": {
+    "/api/chat_user/{id}": {
       "get": {
         "description": "",
         "parameters": [
@@ -739,7 +879,7 @@
         }
       }
     },
-    "/product/": {
+    "/api/product/": {
       "get": {
         "description": "",
         "parameters": [
@@ -813,7 +953,7 @@
         }
       }
     },
-    "/product/{id}": {
+    "/api/product/{id}": {
       "get": {
         "description": "",
         "parameters": [
@@ -946,7 +1086,7 @@
         }
       }
     },
-    "/user_plan/{id}": {
+    "/api/user_plan/{id}": {
       "get": {
         "description": "",
         "parameters": [

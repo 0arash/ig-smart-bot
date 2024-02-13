@@ -1,6 +1,6 @@
 import axios from "axios";
 import parseString from "xml2js";
-import fs from "node:fs/promises";
+import fs from "node:fs";
 
 async function getFafaItProducts(baseUrl: string) {
     try {
@@ -11,12 +11,12 @@ async function getFafaItProducts(baseUrl: string) {
 
         var urlList: { loc: string[] }[] = parser["urlset"]["url"];
         console.log("products count:", urlList.length);
-        const path = `./src/products/${
+        const _path = `./src/products/${
             baseUrl.replace("https://", "").split("/")[0]
         }`;
         let results: object[] = [];
         // for (var i = 0; i < urlList.length; i++) {
-            for (var i = 0; i < 50; i++) {
+        for (var i = 0; i < 10; i++) {
             const url = urlList[i].loc;
             const product = await axios.get(url[0]);
             const strHtml: string = product.data;
@@ -34,13 +34,25 @@ async function getFafaItProducts(baseUrl: string) {
             const price: string | null = matchPrice ? matchPrice[1] : null;
             const spec: string | null = matchSpec ? matchSpec[1] : null;
 
+            console.log(title);
+            console.log(price);
+            console.log(spec);
+            console.log(url[0]);
+
+            if(await fs.existsSync("fafait.lst")){
+                console.log("file exists");
+                const items = await fs.readFileSync("fafait.lst")
+            }
+            
+
             results.push({
                 title,
                 price,
                 spec,
             });
         }
-        await fs.writeFile("fafait.json", JSON.stringify(results));
+        await fs.writeFileSync("fafait.json", JSON.stringify(results));
+        // await fs.writeFile("fafait.lst", JSON.stringify(items));
         // const urlsJson = {
         //   urls: urls,
         // };

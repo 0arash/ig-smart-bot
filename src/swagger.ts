@@ -12,6 +12,10 @@ export const generateSwagger = async () => {
         url: "http://localhost:3000",
         description: "",
       },
+      {
+        url: "http://192.168.0.2:3000",
+        description: "",
+      },
     ],
     components: {
       securitySchemes: {
