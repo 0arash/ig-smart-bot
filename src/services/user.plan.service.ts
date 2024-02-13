@@ -16,11 +16,28 @@ export const userPlanService = {
             },
         });
     },
-    generateApiKeyId: async (id: number, user_id: number) => {
-        return await prismaClient().userPlan.findUnique({
+    updateUserPlanById: async (
+        id: number,
+        business_title: string,
+        business_caption: string
+    ) => {
+        return await prismaClient().userPlan.update({
+            data: {
+                business_caption,
+                business_title,
+            },
             where: {
                 id,
-                user_id,
+            },
+        });
+    },
+    updateApiKeyById: async (id: number, api_key: string) => {
+        return await prismaClient().userPlan.update({
+            data: {
+                api_key,
+            },
+            where: {
+                id,
             },
         });
     },

@@ -1,11 +1,6 @@
 import axios from "axios";
 import { Request } from "express";
-import { getPaymentDriver } from "monopay";
 
-const driver = getPaymentDriver("zibal")({
-    merchantId: "your-merchant-id",
-    sandbox: true,
-});
 
 export const PaymentHelper = {
     requestPaymentInfo: async (

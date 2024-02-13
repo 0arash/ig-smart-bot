@@ -17,6 +17,13 @@ router.get(
     requireRole(Role.ADMIN),
     userController.getUserById
 );
+router.post(
+    "/",
+    paramIdValidator,
+    handleErrorValidation,
+    requireRole(Role.ADMIN),
+    userController.getUserByEmail
+);
 router.delete(
     "/:id",
     paramIdValidator,

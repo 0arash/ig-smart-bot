@@ -3,7 +3,6 @@ import { chatMessageController } from "../controllers/chat.message.controller";
 import { requireRole } from "../middlewares/auth.middleware";
 import { paramIdValidator } from "../validators/router.validation";
 import { handleErrorValidation } from "../validators/handleErrorValidation";
-import { verifyToken } from "../middlewares/token.middleware";
 const router = express.Router();
 
 router.get(

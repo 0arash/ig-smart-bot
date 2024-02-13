@@ -1,6 +1,7 @@
 import { User } from "@prisma/client";
 import { prismaClient } from "../utils/prisma.client";
 import { Keys, prismaExclude } from "../utils/prisma.exclude";
+import bcrypt from "bcrypt";
 
 export const userService = {
     getUserById: async <K extends Keys<"User">>(id: number, exclude: K[]) => {
@@ -11,6 +12,11 @@ export const userService = {
             select: prismaExclude("User", exclude),
         });
     },
+    getUsers: async <K extends Keys<"User">>(exclude: K[]) => {
+        return await prismaClient().user.findMany({
+            select: prismaExclude("User", exclude),
+        });
+    },
     getUserByEmail: async <K extends Keys<"User">>(
         email: string,
         exclude: K[]
@@ -18,6 +24,17 @@ export const userService = {
         return await prismaClient().user.findUnique({
             where: {
                 email,
+            },
+            select: prismaExclude("User", exclude),
+        });
+    },
+    deleteUserById: async <K extends Keys<"User">>(
+        id: number,
+        exclude: K[]
+    ) => {
+        return await prismaClient().user.delete({
+            where: {
+                id,
             },
             select: prismaExclude("User", exclude),
         });
@@ -46,15 +63,24 @@ export const userService = {
         }
     },
     updateUser: async <K extends Keys<"User">>(
-        newUser: User,
+        id: number,
+        newUser: {
+            email: string;
+            address: string;
+            code_meli: string;
+            mobile: string;
+            name: string;
+            password: string;
+        },
         exclude: K[]
     ): Promise<User | null> => {
         try {
             console.log("user updated.");
+            const hashedPwd = await bcrypt.hash(newUser.password, 10);
             return await prismaClient().user.update({
-                data: newUser,
+                data: { ...newUser, password: hashedPwd },
                 where: {
-                    email: newUser.email,
+                    id,
                 },
             });
         } catch (error) {

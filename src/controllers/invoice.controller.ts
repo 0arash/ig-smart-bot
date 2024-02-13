@@ -1,7 +1,5 @@
 import { Request, Response } from "express";
 import { invoiceService } from "../services/invoice.service";
-import { prismaClient } from "../utils/prisma.client";
-import { Invoice } from "@prisma/client";
 import { PaymentHelper } from "../utils/payment.helper";
 import { userService } from "../services/user.service";
 

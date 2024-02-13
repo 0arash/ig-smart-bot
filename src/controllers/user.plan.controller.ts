@@ -1,17 +1,14 @@
 import { Request, Response } from "express";
 import bcrypt from "bcrypt";
-import { prismaClient } from "../utils/prisma.client";
-import { UserPlan } from "@prisma/client";
+import { userPlanService } from "../services/user.plan.service";
 
 export const userPlanController = {
     getUserPlansById: async (req: Request, res: Response) => {
         try {
-            const userPlans = await prismaClient().userPlan.findMany({
-                where: {
-                    // @ts-ignore
-                    user_id: req.user.id,
-                },
-            });
+            const { uid } = req.query;
+            const userPlans = await userPlanService.getUsrPlansByUserId(
+                Number(uid)
+            );
             res.status(200).json({
                 data: userPlans,
             });
@@ -25,13 +22,7 @@ export const userPlanController = {
     getUserPlanById: async (req: Request, res: Response) => {
         try {
             const { id } = req.params;
-            const userPlan = await prismaClient().userPlan.findUnique({
-                where: {
-                    id: Number(id),
-                    // @ts-ignore
-                    user_id: req.user.id,
-                },
-            });
+            const userPlan = await userPlanService.getUserPlanById(id);
             res.status(200).json({
                 data: userPlan,
             });
@@ -47,15 +38,11 @@ export const userPlanController = {
             const { id } = req.params;
             const { business_caption, business_title } = req.body;
 
-            const userPlan = await prismaClient().userPlan.update({
-                where: {
-                    id: Number(id),
-                },
-                data: {
-                    business_title,
-                    business_caption,
-                },
-            });
+            const userPlan = await userPlanService.updateUserPlanById(
+                Number(id),
+                business_title,
+                business_caption
+            );
 
             res.status(200).json({
                 data: userPlan,
@@ -70,29 +57,20 @@ export const userPlanController = {
     generateApiKeyById: async (req: Request, res: Response) => {
         try {
             const { id } = req.params;
-            const userPlan = await prismaClient().userPlan.findUnique({
-                where: {
-                    id: Number(id),
-                    // @ts-ignore
-                    user_id: req.user.id,
-                },
-            });
+            const { user_id } = req.body;
+            const userPlan = await userPlanService.getUserPlanById(id);
 
-            if (userPlan) {
+            if (
+                userPlan &&
+                (await userPlanService.ownUserPlanId(req, String(userPlan.id)))
+            ) {
                 const api_key = await bcrypt.hash(
                     // @ts-ignore
                     userPlan.id + "," + req.user.id,
                     10
                 );
 
-                await prismaClient().userPlan.update({
-                    data: {
-                        api_key: api_key,
-                    },
-                    where: {
-                        id: userPlan.id,
-                    },
-                });
+                await userPlanService.updateApiKeyById(userPlan.id, api_key);
 
                 res.status(200).json({
                     data: {
