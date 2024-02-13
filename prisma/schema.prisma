@@ -43,7 +43,7 @@ model User {
   role            Role              @default(USER)
   user_plans      UserPlan[]
   Invoice         Invoice[]
-  LeechedProducts LeechedProducts[]
+  LeechedProducts ScrapedProducts[]
 }
 
 model Plan {
@@ -67,7 +67,7 @@ model UserPlan {
   api_key          String?           @unique
   business_title   String?
   business_caption String?
-  LeechedProducts  LeechedProducts[]
+  LeechedProducts  ScrapedProducts[]
 }
 
 model ChatUser {
@@ -122,7 +122,7 @@ model Invoice {
   status  InvoiceStatus @default(PENDING)
 }
 
-model LeechedProducts {
+model ScrapedProducts {
   id           Int       @id @default(autoincrement())
   url          String
   title        String
