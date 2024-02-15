@@ -30,6 +30,7 @@ export const getMainPrompt = async (userPlanId: string) => {
     You should always speak fluent persian and you must never let anyone know that you are a language model or a chat bot.
     Be respectful and use the functions and tools that are provided.
     Use ${userPlanId} as the user_plan_id for all your queries that need it.
+    Your queries to the database using the tools that are available should be exact and search with the exact criteria that the user asks for.
     You are not allowed to use these words or their translations in any language: ['artificial intelligence', 'language model']`;
 };
 
@@ -40,18 +41,25 @@ async function databaseQuery({
     modelName: string;
     query: string;
 }) {
+    let response;
     var correctQuery = eval("(" + query + ")");
-    console.log(modelName + ' : ' + JSON.stringify(correctQuery));
-    
+    console.log(JSON.stringify(correctQuery));
+
     switch (modelName) {
         case "product":
-            return await prismaClient().product.findMany(correctQuery);
+            response = await prismaClient().product.findMany({
+                where: {},
+            });
+            break;
         case "category":
-            return await prismaClient().category.findMany(correctQuery);
+            response = await prismaClient().category.findMany(correctQuery);
+            break;
     }
+
+    return response;
 }
 
-const tools = (user_plan_id: number) : ChatCompletionTool[] => [
+const tools = (user_plan_id: number): ChatCompletionTool[] => [
     {
         type: "function",
         function: {
@@ -64,34 +72,42 @@ const tools = (user_plan_id: number) : ChatCompletionTool[] => [
                     modelName: {
                         type: "string",
                         description:
-                            'The name of the model to query from. possible values : "product" and "category", \
-                                model Product {\
-                                    id           Int        @id @default(autoincrement())\
-                                    url          String\
-                                    title        String\
-                                    description  String\
-                                    image        String\
-                                    price        Int\
-                                    status       Boolean    @default(true)\
-                                    attributes   Json\
-                                    user_plan    UserPlan   @relation(fields: [user_plan_id], references: [id])\
-                                    user_plan_id Int        @map("userPlanId")\
-                                    weight       Float      @default(0)\
-                                    categories   Category[]\
-                                }\
-                                model Category {\
-                                    id       Int       @id @default(autoincrement())\
-                                    title    String\
-                                    products Product[]\
-                                    user_plan   UserPlan @relation(fields: [user_plan_id], references: [id])\
-                                    user_plan_id Int @map("userPlanId")\
-                                }',
+                            'The name of the model to query from possible values : "product" and "category"',
                         enum: ["product", "category"],
                     },
                     query: {
                         type: "string",
-                        description:
-                            `The query json object to be passed to the prisma client to be executed. The query object should be a valid Prisma query object with all the conditions needed based on the models including all related models. You must ${user_plan_id} as the user_plan_id in your queries.`,
+                        description: `The query json object to be passed to the prisma client to be executed. this object should be constructed in such a way that fulfills all the filters the user asks for. The query object should be a valid Prisma query object with all the conditions needed based on the models including all related models. You must ${user_plan_id} as the user_plan_id in your queries.\
+                        model Product {\
+                            id           Int        @id @default(autoincrement())\
+                            url          String\
+                            title        String\
+                            description  String\
+                            image        String\
+                            price        Int\
+                            status       Boolean    @default(true)\
+                            attributes   Json\
+                            user_plan    UserPlan   @relation(fields: [user_plan_id], references: [id])\
+                            user_plan_id Int        @map("userPlanId")\
+                            weight       Float      @default(0)\
+                            categories   Category[]\
+                        }\
+                        model Category {\
+                            id       Int       @id @default(autoincrement())\
+                            title    String\
+                            products Product[]\
+                            user_plan   UserPlan @relation(fields: [user_plan_id], references: [id])\
+                            user_plan_id Int @map("userPlanId")\
+                        }\
+                        Use english language for attribute names and values and translate the input query if needed and use this syntax when filtering on the attributes field of the products:\
+                        {\
+                            where: {\
+                                attributes: {\
+                                path: ["%ATTRIBUTE_NAME%"],\
+                                equals: "%ATTRIBUTE_VALUE%",\
+                                },\
+                            },\
+                        }`,
                     },
                 },
             },
@@ -99,11 +115,17 @@ const tools = (user_plan_id: number) : ChatCompletionTool[] => [
     },
 ];
 
-const callTools = async (toolCalls: ChatCompletionMessageToolCall[], user_plan_id: number) => {
+const callTools = async (
+    toolCalls: ChatCompletionMessageToolCall[],
+    user_plan_id: number
+) => {
     const messagesToAdd: ChatCompletionToolMessageParam[] = [];
-    toolCalls.forEach(async (tool_call) => {
+    for (let i = 0; i < toolCalls.length; i++) {
+        const tool_call = toolCalls[i];
         const function_name = tool_call.function.name;
-        const func = tools(user_plan_id).find((f) => f.function.name === function_name);
+        const func = tools(user_plan_id).find(
+            (f) => f.function.name === function_name
+        );
         if (func) {
             const function_args = JSON.parse(tool_call.function.arguments);
 
@@ -125,7 +147,7 @@ const callTools = async (toolCalls: ChatCompletionMessageToolCall[], user_plan_i
                 console.log(error);
             }
         }
-    });
+    }
 
     return messagesToAdd;
 };
@@ -187,16 +209,20 @@ export const AIService = {
                 message.content!.trim(),
                 false
             );
+
             return message.content!.trim();
         }
 
-        const resultingMessages = await callTools(message.tool_calls, Number(user_plan_id));
+        const resultingMessages = await callTools(
+            message.tool_calls,
+            Number(user_plan_id)
+        );
+
+        console.log("resulting messages: " + JSON.stringify(resultingMessages));
 
         await Promise.all(
             resultingMessages.map(async (msg) => {
-                console.log(JSON.stringify(msg));
-
-                await chatMessageService.addChatMessageToChatUser(
+                return await chatMessageService.addChatMessageToChatUser(
                     chat_user_id,
                     user_plan_id,
                     JSON.stringify(msg),
@@ -208,7 +234,7 @@ export const AIService = {
         return await AIService.generateResponse(
             chat_user_id,
             user_plan_id,
-            false
+            true
         );
     },
 };
