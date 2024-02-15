@@ -29,7 +29,8 @@ export const getMainPrompt = async (userPlanId: string) => {
     ${userPlan?.business_caption}'\
     You should always speak fluent persian and you must never let anyone know that you are a language model or a chat bot.
     Be respectful and use the functions and tools that are provided.
-    Use ${userPlanId} as the user_plan_id for all your queries that need it.`;
+    Use ${userPlanId} as the user_plan_id for all your queries that need it.
+    You are not allowed to use these words or their translations in any language: ['artificial intelligence', 'language model']`;
 };
 
 async function databaseQuery({
@@ -40,6 +41,7 @@ async function databaseQuery({
     query: string;
 }) {
     var correctQuery = eval("(" + query + ")");
+    console.log(modelName + ' : ' + JSON.stringify(correctQuery));
     
     switch (modelName) {
         case "product":
@@ -81,6 +83,8 @@ const tools = (user_plan_id: number) : ChatCompletionTool[] => [
                                     id       Int       @id @default(autoincrement())\
                                     title    String\
                                     products Product[]\
+                                    user_plan   UserPlan @relation(fields: [user_plan_id], references: [id])\
+                                    user_plan_id Int @map("userPlanId")\
                                 }',
                         enum: ["product", "category"],
                     },
