@@ -192,7 +192,7 @@ export const AIService = {
 
         const completion = await getOpenAI().chat.completions.create({
             messages: history,
-            model: "gpt-4-0613",
+            model: "gpt-3.5-turbo-16k-0613", //"gpt-4-0613",
             tools: use_tools ? tools(Number(user_plan_id)) : undefined,
             max_tokens: 350,
             temperature: 0.5,
