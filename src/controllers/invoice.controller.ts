@@ -4,6 +4,21 @@ import { PaymentHelper } from "../utils/payment.helper";
 import { userService } from "../services/user.service";
 
 export const invoiceController = {
+    newInvoice: async (req: Request, res: Response) => {
+        try {
+            const {userId,planId} = req.body
+            const invoice = await invoiceService.newInvoiceId(userId, planId)
+
+            res.status(201).json({
+                data: invoice
+            })
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({
+                error: error,
+            });
+        }
+    },
     getInvoiceById: async (req: Request, res: Response) => {
         try {
             const { id } = req.params;
@@ -46,16 +61,17 @@ export const invoiceController = {
                 });
             }
 
-            const user = await userService.getUserById(invoice.userId, []);
+            const user = await userService.getUserById(invoice.userId, [
+                "password",
+            ]);
 
             if (user?.mobile) {
                 const paymentInfo = await PaymentHelper.requestPaymentInfo(
-                    100000,
+                    invoice.plan.price,
                     "http://localhost:3000/api/payment/callback",
                     `inv-${invoice?.planId}.${invoice?.userId}.${invoice?.id}`,
                     user.mobile
                 );
-                console.log(paymentInfo);
 
                 const startPaymentUrl = PaymentHelper.startPayment(
                     paymentInfo.trackId

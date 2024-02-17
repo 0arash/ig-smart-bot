@@ -3,7 +3,6 @@ import { invoiceController } from "../controllers/invoice.controller";
 import { requireRole } from "../middlewares/auth.middleware";
 import { Role } from "@prisma/client";
 import {
-    emailValidator,
     paramIdValidator,
 } from "../validators/router.validation";
 const router = express.Router();
@@ -24,8 +23,13 @@ router.get(
 router.get(
     "/pay/:id",
     paramIdValidator,
-    requireRole("USER"),
+    requireRole(Role.USER),
     invoiceController.payInvoiceById
+);
+router.post(
+    "/",
+    requireRole(Role.USER),
+    invoiceController.newInvoice
 );
 
 export const invoiceRouter = router;

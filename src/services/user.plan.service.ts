@@ -51,4 +51,12 @@ export const userPlanService = {
         //@ts-ignore
         return req.user.id === userPlan?.user_id;
     },
+    newUserPlan: async (planId: number, userId: number) => {
+        return await prismaClient().userPlan.create({
+            data: {
+                plan_id: planId,
+                user_id: userId,
+            },
+        });
+    },
 };
