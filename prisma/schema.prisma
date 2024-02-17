@@ -32,15 +32,15 @@ enum InvoiceStatus {
 }
 
 model User {
-  id              Int               @id @default(autoincrement())
-  email           String            @unique
+  id              Int              @id @default(autoincrement())
+  email           String           @unique
   password        String
   name            String?
   token           String?
   mobile          String?
   address         String?
   code_meli       String?
-  role            Role              @default(USER)
+  role            Role             @default(USER)
   user_plans      UserPlan[]
   Invoice         Invoice[]
   LeechedProducts ScrapedProduct[]
@@ -56,15 +56,16 @@ model Plan {
 }
 
 model UserPlan {
-  id               Int               @id @default(autoincrement())
-  plan             Plan              @relation(fields: [plan_id], references: [id])
-  user             User              @relation(fields: [user_id], references: [id])
-  plan_id          Int               @map("planId")
-  user_id          Int               @map("userId")
+  id               Int              @id @default(autoincrement())
+  plan             Plan             @relation(fields: [plan_id], references: [id])
+  user             User             @relation(fields: [user_id], references: [id])
+  plan_id          Int              @map("planId")
+  user_id          Int              @map("userId")
   chat_users       ChatUser[]
-  created_at       DateTime          @default(now())
+  created_at       DateTime         @default(now())
   products         Product[]
-  api_key          String?           @unique
+  categories       Category[]
+  api_key          String?          @unique
   business_title   String?
   business_caption String?
   LeechedProducts  ScrapedProduct[]
@@ -107,9 +108,11 @@ model Product {
 }
 
 model Category {
-  id       Int       @id @default(autoincrement())
-  title    String
-  products Product[]
+  id         Int       @id @default(autoincrement())
+  title      String
+  products   Product[]
+  user_plan   UserPlan @relation(fields: [user_plan_id], references: [id])
+  user_plan_id Int @map("userPlanId")
 }
 
 model Invoice {

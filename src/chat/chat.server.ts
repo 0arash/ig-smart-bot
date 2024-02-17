@@ -101,7 +101,6 @@ export class ChatServer {
                     message:
                         `user ${session.userId}\n` +
                         (await this.sendResponse(
-                            socket,
                             session.userId,
                             session.userPlanId
                         )),
@@ -110,7 +109,7 @@ export class ChatServer {
         });
     }
 
-    async sendResponse(socket: Socket, userId: string, userPlanId: string) {
+    async sendResponse(userId: string, userPlanId: string) {
         return await AIService.generateResponse(userId, userPlanId);
     }
 }
