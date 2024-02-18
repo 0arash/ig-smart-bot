@@ -6,7 +6,7 @@ export const userPlanController = {
     getUserPlansById: async (req: Request, res: Response) => {
         try {
             const { uid } = req.query;
-            const userPlans = await userPlanService.getUsrPlansByUserId(
+            const userPlans = await userPlanService.getUserPlansByUserId(
                 Number(uid)
             );
             res.status(200).json({

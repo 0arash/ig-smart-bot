@@ -2,16 +2,23 @@ import { Request, Response } from "express";
 import { invoiceService } from "../services/invoice.service";
 import { PaymentHelper } from "../utils/payment.helper";
 import { userService } from "../services/user.service";
+import { planDiscountService } from "../services/plandiscount.service";
 
 export const invoiceController = {
     newInvoice: async (req: Request, res: Response) => {
         try {
-            const {userId,planId} = req.body
-            const invoice = await invoiceService.newInvoiceId(userId, planId)
+            let { userId, planId } = req.body;
+
+            if (!userId) {
+                // @ts-ignore
+                userId = req.user.id;
+            }
+
+            const invoice = await invoiceService.newInvoiceId(userId, planId);
 
             res.status(201).json({
-                data: invoice
-            })
+                data: invoice,
+            });
         } catch (error) {
             console.log(error);
             res.status(500).json({
@@ -52,7 +59,7 @@ export const invoiceController = {
     },
     payInvoiceById: async (req: Request, res: Response) => {
         try {
-            const { id } = req.params;
+            const { id, discountCode } = req.body;
 
             const invoice = await invoiceService.getInvoiceById(Number(id));
             if (invoice?.status !== "PENDING") {
@@ -66,25 +73,43 @@ export const invoiceController = {
             ]);
 
             if (user?.mobile) {
-                const paymentInfo = await PaymentHelper.requestPaymentInfo(
-                    invoice.plan.price,
-                    "http://localhost:3000/api/payment/callback",
-                    `inv-${invoice?.planId}.${invoice?.userId}.${invoice?.id}`,
-                    user.mobile
-                );
+                if (
+                    await planDiscountService.checkValidDiscountForUser(
+                        discountCode,
+                        // @ts-ignore
+                        req.user.id
+                    )
+                ) {
+                    const discount =
+                        await planDiscountService.getDiscountByCode(
+                            discountCode
+                        );
 
-                const startPaymentUrl = PaymentHelper.startPayment(
-                    paymentInfo.trackId
-                );
+                    let price = invoice.plan.price;
+                    if (discount) {
+                        price = price - price * (discount.discount / 100);
+                    }
 
-                if (startPaymentUrl) {
-                    res.status(200).json({
-                        paymentUrl: startPaymentUrl,
-                    });
-                } else {
-                    res.status(500).json({
-                        error: "Failed to start payment",
-                    });
+                    const paymentInfo = await PaymentHelper.requestPaymentInfo(
+                        price,
+                        "http://localhost:3000/api/payment/callback",
+                        `inv-${invoice?.planId}.${invoice?.userId}.${invoice?.id}`,
+                        user.mobile
+                    );
+
+                    const startPaymentUrl = PaymentHelper.startPayment(
+                        paymentInfo.trackId
+                    );
+
+                    if (startPaymentUrl) {
+                        res.status(200).json({
+                            paymentUrl: startPaymentUrl,
+                        });
+                    } else {
+                        res.status(500).json({
+                            error: "Failed to start payment",
+                        });
+                    }
                 }
             } else {
                 res.status(500).json({

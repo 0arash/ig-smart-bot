@@ -20,8 +20,8 @@ router.get(
     invoiceController.getInvoicesByUserId
 );
 
-router.get(
-    "/pay/:id",
+router.post(
+    "/pay",
     paramIdValidator,
     requireRole(Role.USER),
     invoiceController.payInvoiceById

@@ -2,7 +2,7 @@ import { Request } from "express";
 import { prismaClient } from "../utils/prisma.client";
 
 export const userPlanService = {
-    getUsrPlansByUserId: async (id: number) => {
+    getUserPlansByUserId: async (id: number) => {
         return await prismaClient().userPlan.findMany({
             where: {
                 user_id: id,
@@ -51,11 +51,23 @@ export const userPlanService = {
         //@ts-ignore
         return req.user.id === userPlan?.user_id;
     },
-    newUserPlan: async (planId: number, userId: number) => {
+    newUserPlan: async (
+        planId: number,
+        userId: number,
+        planDiscountId?: number
+    ) => {
         return await prismaClient().userPlan.create({
             data: {
                 plan_id: planId,
                 user_id: userId,
+                planDiscountId,
+            },
+        });
+    },
+    getUserPlansByDiscountId: async (discountId: number) => {
+        return await prismaClient().userPlan.findMany({
+            where: {
+                planDiscountId: discountId,
             },
         });
     },

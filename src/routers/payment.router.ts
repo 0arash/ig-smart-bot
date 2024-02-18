@@ -8,26 +8,36 @@ const router = express.Router();
 router.get("/callback", async (req: Request, res: Response) => {
     const verified = await PaymentHelper.handleCallback(req);
 
-    if (verified && verified.result == 100) {
-        //TODO: Add logic to activate bought plan
-        const { orderId } = req.query;
-        console.log(orderId);
-        if (orderId) {
-            var invoiceId: string[] = orderId
-                ?.toString()
-                .replace("inv-", "")
-                .split(".");
-            var invId = invoiceId[2];
-            var planId = invoiceId[0];
-            var userId = invoiceId[1];
+    const { orderId } = req.query;
 
-            await invoiceService.updateInvoiceById(Number(invId), "VERIFIED");
+    var invoiceId: string[] = orderId!
+        .toString()
+        .replace("inv-", "")
+        .split(".");
+    var planId = invoiceId[0];
+    var userId = invoiceId[1];
+    var invId = invoiceId[2];
+    
+    if (verified && verified.result == 100) {
+        await invoiceService.updateInvoiceById(Number(invId), "VERIFIED");
+
+        if (invoiceId.length == 4) {
+            var discountId = invoiceId[3];
+            await userPlanService.newUserPlan(
+                Number(planId),
+                Number(userId),
+                Number(discountId)
+            );
+        } else {
             await userPlanService.newUserPlan(Number(planId), Number(userId));
-            return res.status(200).json({
-                message: `Payment for ${req.query.trackId} sucessfull.`,
-            });
         }
+
+        return res.status(200).json({
+            message: `Payment for ${req.query.trackId} sucessfull.`,
+        });
     } else {
+        await invoiceService.updateInvoiceById(Number(invId), "CANCELLED");
+
         res.status(200).json({ message: "Payment failed" });
     }
 });

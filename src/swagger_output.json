@@ -522,18 +522,10 @@
         }
       }
     },
-    "/api/invoice/pay/{id}": {
-      "get": {
+    "/api/invoice/pay": {
+      "post": {
         "description": "",
         "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
           {
             "name": "Authorization",
             "in": "header",
@@ -554,6 +546,23 @@
           },
           "500": {
             "description": "Internal Server Error"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "example": "any"
+                  },
+                  "discountCode": {
+                    "example": "any"
+                  }
+                }
+              }
+            }
           }
         }
       }
