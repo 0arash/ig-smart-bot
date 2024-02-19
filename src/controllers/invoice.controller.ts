@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { invoiceService } from "../services/invoice.service";
 import { PaymentHelper } from "../utils/payment.helper";
 import { userService } from "../services/user.service";
-import { planDiscountService } from "../services/plandiscount.service";
+import { planDiscountService } from "../services/plan.discount.service";
 
 export const invoiceController = {
     newInvoice: async (req: Request, res: Response) => {
