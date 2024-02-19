@@ -11,4 +11,11 @@ export const crawlerService = {
             },
         });
     },
+    checkCrawlerStatus: async (user_plan_id: number) => {
+        return await prismaClient().userPlan.findUnique({
+            where: {
+                id: user_plan_id,
+            },
+        });
+    },
 };

@@ -1,7 +1,7 @@
 import express from "express";
 import { chatUserController } from "../controllers/chat.user.controller";
 import { requireRole } from "../middlewares/auth.middleware";
-import { verifyToken } from "../middlewares/token.middleware";
+
 const router = express.Router();
 
 router.get("/", requireRole("USER"), chatUserController.getChatUsers);
