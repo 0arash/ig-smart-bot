@@ -82,6 +82,7 @@ model UserPlan {
   LeechedProducts  ScrapedProduct[]
   PlanDiscount     PlanDiscount?      @relation(fields: [planDiscountId], references: [id])
   planDiscountId   Int?
+  require_crawler  Boolean            @default(false)
 }
 
 model ChatUser {
