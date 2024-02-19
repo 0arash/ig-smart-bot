@@ -28,4 +28,12 @@ export const crawlerController = {
             });
         }
     },
+    newProductFromJson:async(req:Request,res:Response)=>{
+        try {
+            const {products} = req.body
+            
+        } catch (error) {
+            
+        }
+    }
 };

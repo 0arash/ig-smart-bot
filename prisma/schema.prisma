@@ -150,15 +150,3 @@ model UserPlanOperator {
   role         Role          @default(CHAT_OPERATOR)
   chatMessages ChatMessage[]
 }
-
-model ScrapedProduct {
-  id           Int       @id @default(autoincrement())
-  url          String
-  title        String
-  price        Int
-  category     String
-  UserPlan     UserPlan? @relation(fields: [user_plan_id], references: [id])
-  user_plan_id Int?      @map("UserPlanId")
-  User         User?     @relation(fields: [userId], references: [id])
-  userId       Int?
-}
