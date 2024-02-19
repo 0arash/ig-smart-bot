@@ -96,16 +96,16 @@ model ChatUser {
 }
 
 model ChatMessage {
-  id                 Int               @id @default(autoincrement())
-  type               ChatMessageType   @default(TEXT)
-  content            String
-  is_user_message    Boolean           @default(true)
-  operator           UserPlanOperator? @relation(fields: [userPlanOperatorId], references: [id])
-  userPlanOperatorId Int?
-  chat_user          ChatUser?         @relation(fields: [chat_user_id], references: [id])
-  chat_user_id       Int               @map("chatUserId")
-  action_req         Action?
-  created_at         DateTime          @default(now())
+  id              Int               @id @default(autoincrement())
+  type            ChatMessageType   @default(TEXT)
+  content         String
+  is_user_message Boolean           @default(true)
+  operator        UserPlanOperator? @relation(fields: [operator_id], references: [id])
+  operator_id     Int?
+  chat_user       ChatUser?         @relation(fields: [chat_user_id], references: [id])
+  chat_user_id    Int               @map("chatUserId")
+  action_req      Action?
+  created_at      DateTime          @default(now())
 }
 
 model Product {
