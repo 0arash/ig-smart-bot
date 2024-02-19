@@ -7,10 +7,13 @@ const prisma = new PrismaClient();
 
 export const requireRole = (role: Role) => {
     const roles: Role[] = [];
-    if (role === Role.ADMIN) {
-        roles.push(Role.ADMIN);
-    } else {
-        roles.push(Role.ADMIN, role);
+    switch(role) {
+        case Role.CHAT_OPERATOR:
+            roles.push(Role.CHAT_OPERATOR);
+        case Role.USER:
+            roles.push(Role.USER);
+        case Role.ADMIN:
+            roles.push(Role.ADMIN);
     }
 
     return async (req: Request, res: Response, next: NextFunction) => {
