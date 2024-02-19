@@ -43,7 +43,6 @@ model User {
   role            Role             @default(USER)
   user_plans      UserPlan[]
   Invoice         Invoice[]
-  LeechedProducts ScrapedProduct[]
   PlanDiscount    PlanDiscount[]
   // Operator fields
 
@@ -83,7 +82,6 @@ model UserPlan {
   api_key          String?          @unique
   business_title   String?
   business_caption String?
-  LeechedProducts  ScrapedProduct[]
   PlanDiscount     PlanDiscount?    @relation(fields: [planDiscountId], references: [id])
   planDiscountId   Int?
   require_crawler  Boolean          @default(false)
