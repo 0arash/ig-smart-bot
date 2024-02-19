@@ -45,6 +45,11 @@ model User {
   Invoice         Invoice[]
   LeechedProducts ScrapedProduct[]
   PlanDiscount    PlanDiscount[]
+  // Operator fields
+
+  operator_user_plan    UserPlan?     @relation(name: "OperatorUserPlan", fields: [operator_user_plan_id], references: [id])
+  operator_user_plan_id Int?
+  chatMessages          ChatMessage[]
 }
 
 model Plan {
@@ -66,23 +71,25 @@ model PlanDiscount {
 }
 
 model UserPlan {
-  id               Int                @id @default(autoincrement())
-  plan             Plan               @relation(fields: [plan_id], references: [id])
-  user             User               @relation(fields: [user_id], references: [id])
-  plan_id          Int                @map("planId")
-  user_id          Int                @map("userId")
+  id               Int              @id @default(autoincrement())
+  plan             Plan             @relation(fields: [plan_id], references: [id])
+  user             User             @relation(fields: [user_id], references: [id])
+  plan_id          Int              @map("planId")
+  user_id          Int              @map("userId")
   chat_users       ChatUser[]
-  created_at       DateTime           @default(now())
+  created_at       DateTime         @default(now())
   products         Product[]
   categories       Category[]
-  api_key          String?            @unique
+  api_key          String?          @unique
   business_title   String?
   business_caption String?
-  UserPlanOperator UserPlanOperator[]
   LeechedProducts  ScrapedProduct[]
-  PlanDiscount     PlanDiscount?      @relation(fields: [planDiscountId], references: [id])
+  PlanDiscount     PlanDiscount?    @relation(fields: [planDiscountId], references: [id])
   planDiscountId   Int?
-  require_crawler  Boolean            @default(false)
+  require_crawler  Boolean          @default(false)
+
+  // Operator fields
+  operators User[] @relation(name: "OperatorUserPlan")
 }
 
 model ChatUser {
@@ -96,16 +103,16 @@ model ChatUser {
 }
 
 model ChatMessage {
-  id              Int               @id @default(autoincrement())
-  type            ChatMessageType   @default(TEXT)
+  id              Int             @id @default(autoincrement())
+  type            ChatMessageType @default(TEXT)
   content         String
-  is_user_message Boolean           @default(true)
-  operator        UserPlanOperator? @relation(fields: [operator_id], references: [id])
+  is_user_message Boolean         @default(true)
+  operator        User?           @relation(fields: [operator_id], references: [id])
   operator_id     Int?
-  chat_user       ChatUser?         @relation(fields: [chat_user_id], references: [id])
-  chat_user_id    Int               @map("chatUserId")
+  chat_user       ChatUser?       @relation(fields: [chat_user_id], references: [id])
+  chat_user_id    Int             @map("chatUserId")
   action_req      Action?
-  created_at      DateTime          @default(now())
+  created_at      DateTime        @default(now())
 }
 
 model Product {
@@ -139,14 +146,4 @@ model Invoice {
   planId  Int
   trackId String?
   status  InvoiceStatus @default(PENDING)
-}
-
-model UserPlanOperator {
-  id           Int           @id @default(autoincrement())
-  userPlan     UserPlan      @relation(fields: [userPlanId], references: [id])
-  userPlanId   Int
-  email        String
-  password     String
-  role         Role          @default(CHAT_OPERATOR)
-  chatMessages ChatMessage[]
 }
