@@ -1,0 +1,31 @@
+import { Request, Response } from "express";
+import { crawlerService } from "../services/crawler.service";
+
+export const crawlerController = {
+    updateRequestCrawler: async (req: Request, res: Response) => {
+        try {
+            const { status, user_plan_id } = req.body;
+            const crawlerStatus = await crawlerService.checkCrawlerStatus(
+                user_plan_id
+            );
+            if (crawlerStatus?.require_crawler == true) {
+                return await res.status(403).json({
+                    data: "sorry you can't cancell your request.",
+                });
+            } else {
+                const crawler = await crawlerService.updateCrawler(
+                    status,
+                    user_plan_id
+                );
+                return await res.status(200).json({
+                    data: crawler,
+                });
+            }
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({
+                error: "Internal error.",
+            });
+        }
+    },
+};
