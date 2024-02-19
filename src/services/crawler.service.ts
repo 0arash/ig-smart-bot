@@ -20,15 +20,25 @@ export const crawlerService = {
     },
     newProductFromJson: async (
         title: string,
-        price: string,
+        price: number,
         specs: object,
+        brand: string,
         full_specs: object,
-        url:string
+        url: string,
+        image: string,
+        user_plan_id: number
     ) => {
         return await prismaClient().product.create({
-            data:{
-                title,price,specs
-            }
-        })
+            data: {
+                title,
+                price,
+                attributes: specs,
+                description: full_specs,
+                brand,
+                url,
+                image,
+                user_plan_id,
+            },
+        });
     },
 };
