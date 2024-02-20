@@ -19,6 +19,23 @@ export class ChatServer {
     ) {
         this.app = app;
 
+        this.io = new Server(httpServer, {
+            cors: { origin: "http://localhost:3000", credentials: true },
+            transports: ["websocket", "polling"],
+            connectionStateRecovery: {
+                maxDisconnectionDuration: 2 * 60 * 1000,
+                skipMiddlewares: true,
+            },
+            serveClient: true,
+        });
+
+        this.io.use(
+            sharedsession(sessionMiddleware, {
+                autoSave: true,
+                saveUninitialized: true,
+            })
+        );
+
         this.app.post("/chat", async (req: Request, res: Response) => {
             const { api_key } = req.body;
 
@@ -55,25 +72,9 @@ export class ChatServer {
 
             res.json({
                 success: true,
+                sid: req.sessionID
             });
         });
-
-        this.io = new Server(httpServer, {
-            cors: { origin: "http://localhost:3000", credentials: true },
-            transports: ["websocket", "polling"],
-            connectionStateRecovery: {
-                maxDisconnectionDuration: 2 * 60 * 1000,
-                skipMiddlewares: true,
-            },
-            serveClient: true,
-        });
-
-        this.io.use(
-            sharedsession(sessionMiddleware, {
-                autoSave: true,
-                saveUninitialized: true,
-            })
-        );
 
         // add event listeners to the socket object after connection
         this.io.on("connection", (socket) => {
@@ -82,7 +83,7 @@ export class ChatServer {
 
             socket.emit("user_id", session.userId);
 
-            // handle 'send_chat' event and send an acknoledgment
+            // handle 'send_chat' event and send an acknowledgment
             socket.on("send_chat", async (data) => {
                 socket.emit("receive_chat", data);
 

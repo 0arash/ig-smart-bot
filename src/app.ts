@@ -37,8 +37,9 @@ async function main() {
         saveUninitialized: true,
         cookie: {
             path: "/",
-            httpOnly: false,
+            httpOnly: true,
             secure: false,
+            sameSite: "none"
         },
         name: "sid",
         store: new pgSession({
