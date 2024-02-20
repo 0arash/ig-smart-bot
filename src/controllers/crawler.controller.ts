@@ -28,4 +28,33 @@ export const crawlerController = {
             });
         }
     },
+    newProductFromJson: async (req: Request, res: Response) => {
+        try {
+            const { products, user_plan_id } = req.body;
+            let newProduct = [];
+            for (let i = 0; i < products.length; i++) {
+                const { title, price, specs, full_specs, brand, url, image } =
+                    products[i];
+                const product = await crawlerService.newProductFromJson(
+                    title,
+                    price,
+                    specs,
+                    full_specs,
+                    url,
+                    brand,
+                    image,
+                    user_plan_id
+                );
+                newProduct.push(product);
+            }
+            res.status(200).json({
+                data: newProduct,
+            });
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({
+                error: "Internal error.",
+            });
+        }
+    },
 };

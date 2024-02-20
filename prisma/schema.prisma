@@ -32,19 +32,18 @@ enum InvoiceStatus {
 }
 
 model User {
-  id              Int              @id @default(autoincrement())
-  email           String           @unique
-  password        String
-  name            String?
-  token           String?
-  mobile          String?
-  address         String?
-  code_meli       String?
-  role            Role             @default(USER)
-  user_plans      UserPlan[]
-  Invoice         Invoice[]
-  LeechedProducts ScrapedProduct[]
-  PlanDiscount    PlanDiscount[]
+  id           Int            @id @default(autoincrement())
+  email        String         @unique
+  password     String
+  name         String?
+  token        String?
+  mobile       String?
+  address      String?
+  code_meli    String?
+  role         Role           @default(USER)
+  user_plans   UserPlan[]
+  Invoice      Invoice[]
+  PlanDiscount PlanDiscount[]
   // Operator fields
 
   operator_user_plan    UserPlan?     @relation(name: "OperatorUserPlan", fields: [operator_user_plan_id], references: [id])
@@ -71,22 +70,21 @@ model PlanDiscount {
 }
 
 model UserPlan {
-  id               Int              @id @default(autoincrement())
-  plan             Plan             @relation(fields: [plan_id], references: [id])
-  user             User             @relation(fields: [user_id], references: [id])
-  plan_id          Int              @map("planId")
-  user_id          Int              @map("userId")
+  id               Int           @id @default(autoincrement())
+  plan             Plan          @relation(fields: [plan_id], references: [id])
+  user             User          @relation(fields: [user_id], references: [id])
+  plan_id          Int           @map("planId")
+  user_id          Int           @map("userId")
   chat_users       ChatUser[]
-  created_at       DateTime         @default(now())
+  created_at       DateTime      @default(now())
   products         Product[]
   categories       Category[]
-  api_key          String?          @unique
+  api_key          String?       @unique
   business_title   String?
   business_caption String?
-  LeechedProducts  ScrapedProduct[]
-  PlanDiscount     PlanDiscount?    @relation(fields: [planDiscountId], references: [id])
+  PlanDiscount     PlanDiscount? @relation(fields: [planDiscountId], references: [id])
   planDiscountId   Int?
-  require_crawler  Boolean          @default(false)
+  require_crawler  Boolean       @default(false)
 
   // Operator fields
   operators User[] @relation(name: "OperatorUserPlan")
@@ -119,11 +117,12 @@ model Product {
   id           Int        @id @default(autoincrement())
   url          String
   title        String
-  description  String
+  description  Json
   image        String
   price        Int
   status       Boolean    @default(true)
   attributes   Json
+  brand        String
   user_plan    UserPlan   @relation(fields: [user_plan_id], references: [id])
   user_plan_id Int        @map("userPlanId")
   weight       Float      @default(0)
@@ -146,16 +145,4 @@ model Invoice {
   planId  Int
   trackId String?
   status  InvoiceStatus @default(PENDING)
-}
-
-model ScrapedProduct {
-  id           Int       @id @default(autoincrement())
-  url          String
-  title        String
-  price        Int
-  category     String
-  UserPlan     UserPlan? @relation(fields: [user_plan_id], references: [id])
-  user_plan_id Int?      @map("UserPlanId")
-  User         User?     @relation(fields: [userId], references: [id])
-  userId       Int?
 }
