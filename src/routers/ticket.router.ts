@@ -18,3 +18,4 @@ router.post(
     ticketController.newTicketMessage
 );
 router.post("/", requireRole(Role.USER), ticketController.newTicket);
+router.put("/:ticket_id", requireRole(Role.ADMIN), ticketController.updateTicket);
