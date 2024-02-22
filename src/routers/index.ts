@@ -8,6 +8,7 @@ import { paymentRouter } from "./payment.router";
 import { productRouter } from "./product.router";
 import { userPlanRouter } from "./user.plan.router";
 import { planRouter } from "./plan.router";
+import { crawlerRouter } from "./crawler.router";
 
 export const routes = express.Router();
 
@@ -20,3 +21,4 @@ routes.use("/api/chat_messages", chatMessageRouter);
 routes.use("/api/chat_user", chatUserRouter);
 routes.use("/api/product", productRouter);
 routes.use("/api/user_plan", userPlanRouter);
+routes.use("/api/crawler", crawlerRouter);

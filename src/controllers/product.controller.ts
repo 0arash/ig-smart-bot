@@ -60,6 +60,7 @@ export const productController = {
                 attributes,
                 user_plan_id,
                 weight,
+                brand,
             } = req.body;
             if (
                 await userPlanService.ownUserPlanId(req, String(user_plan_id))
@@ -72,7 +73,8 @@ export const productController = {
                     price,
                     attributes,
                     user_plan_id,
-                    weight
+                    weight,
+                    brand
                 );
                 res.status(201).json({
                     data: product,

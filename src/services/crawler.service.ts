@@ -41,4 +41,7 @@ export const crawlerService = {
             },
         });
     },
+    getUserPlanDetails:async()=>{
+        return await prismaClient().userPlan.findMany()
+    }
 };

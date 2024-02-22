@@ -23,7 +23,8 @@ export const productService = {
         price: number,
         attributes: object,
         weight: number,
-        user_plan_id: number
+        user_plan_id: number,
+        brand:string
     ) => {
         return await prismaClient().product.create({
             data: {
@@ -32,6 +33,7 @@ export const productService = {
                 description,
                 image,
                 price,
+                brand,
                 attributes,
                 weight,
                 user_plan_id,

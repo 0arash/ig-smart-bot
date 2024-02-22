@@ -57,4 +57,16 @@ export const crawlerController = {
             });
         }
     },
+    getUserPlans: async (req: Request, res: Response) => {
+        try {
+            const userPlans = await crawlerService.getUserPlanDetails();
+            const header  = req.headers[""]
+            res.status(200).json({
+                data: userPlans,
+            });
+        } catch (error) {
+            console.log(error);
+            res.status(500);
+        }
+    },
 };

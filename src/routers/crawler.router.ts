@@ -7,3 +7,4 @@ const router = express();
 export const crawlerRouter = router;
 
 router.put("/", requireRole(Role.USER), crawlerController.updateRequestCrawler);
+router.get("/get_user_plans", crawlerController.getUserPlans);
