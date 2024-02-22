@@ -60,10 +60,16 @@ export const crawlerController = {
     getUserPlans: async (req: Request, res: Response) => {
         try {
             const userPlans = await crawlerService.getUserPlanDetails();
-            const header  = req.headers[""]
-            res.status(200).json({
-                data: userPlans,
-            });
+            const header = req.headers["access-key"];
+            if (header == process.env.ACCESS_KEY) {
+                return res.status(200).json({
+                    data: userPlans,
+                });
+            } else {
+                return res.status(403).json({
+                    data: "permission denied.",
+                });
+            }
         } catch (error) {
             console.log(error);
             res.status(500);
