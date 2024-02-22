@@ -46,9 +46,11 @@ model User {
   PlanDiscount PlanDiscount[]
   // Operator fields
 
-  operator_user_plan    UserPlan?     @relation(name: "OperatorUserPlan", fields: [operator_user_plan_id], references: [id])
+  operator_user_plan    UserPlan?       @relation(name: "OperatorUserPlan", fields: [operator_user_plan_id], references: [id])
   operator_user_plan_id Int?
   chatMessages          ChatMessage[]
+  Ticket                Ticket[]
+  TicketMessage         TicketMessage[]
 }
 
 model Plan {
@@ -87,7 +89,8 @@ model UserPlan {
   require_crawler  Boolean       @default(false)
 
   // Operator fields
-  operators User[] @relation(name: "OperatorUserPlan")
+  operators User[]   @relation(name: "OperatorUserPlan")
+  Ticket    Ticket[]
 }
 
 model ChatUser {
@@ -145,4 +148,24 @@ model Invoice {
   planId  Int
   trackId String?
   status  InvoiceStatus @default(PENDING)
+}
+
+model Ticket {
+  id              Int             @id @default(autoincrement())
+  user            User            @relation(fields: [user_id], references: [id])
+  user_id         Int             @map("userId")
+  user_plan       UserPlan        @relation(fields: [user_plan_id], references: [id])
+  user_plan_id    Int             @map("userPlanId")
+  ticket_messages TicketMessage[]
+  is_open         Boolean
+}
+
+model TicketMessage {
+  id        Int     @id @default(autoincrement())
+  subject   String
+  content   String
+  owner     User    @relation(fields: [owner_id], references: [id])
+  owner_id Int     @map("userId")
+  Ticket    Ticket? @relation(fields: [ticket_id], references: [id])
+  ticket_id Int?    @map("ticketId")
 }
