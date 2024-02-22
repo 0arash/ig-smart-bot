@@ -7,6 +7,9 @@ import { Application, Request, RequestHandler, Response } from "express";
 import { SessionData } from "express-session";
 import { ChatUser } from "@prisma/client";
 import { chatMessageService } from "../services/chat.message.service";
+import { chatLimit } from "../utils/chat.limit.util";
+import { planService } from "../services/plan.service";
+import { userPlanService } from "../services/user.plan.service";
 
 export class ChatServer {
     app: Application;
@@ -65,6 +68,17 @@ export class ChatServer {
                     },
                 });
 
+                await prismaClient().userPlan.update({
+                    where: {
+                        api_key,
+                    },
+                    data: {
+                        chats_used: {
+                            increment: 1,
+                        },
+                    },
+                });
+
                 req.session.userId = String(chatUser.id);
                 req.session.userPlanId = String(chatUser.user_plan_id);
                 req.session.save();
@@ -72,7 +86,7 @@ export class ChatServer {
 
             res.json({
                 success: true,
-                sid: req.sessionID
+                sid: req.sessionID,
             });
         });
 
@@ -111,6 +125,11 @@ export class ChatServer {
     }
 
     async sendResponse(userId: string, userPlanId: string) {
+        ///TODO: add limit for creating chats, sending response by ai and operator creation.
+        // const limits = await planser
+        const planId = await userPlanService.getUserPlanById(userPlanId)
+        const planInfo = await planService.getPlanById(Number(planId?.plan_id))
+
         return await AIService.generateResponse(userId, userPlanId);
     }
 }
