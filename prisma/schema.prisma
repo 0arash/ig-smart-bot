@@ -54,12 +54,15 @@ model User {
 }
 
 model Plan {
-  id         Int        @id @default(autoincrement())
-  title      String
-  price      Int
-  days       Int
-  user_plans UserPlan[]
-  invoices   Invoice[]
+  id              Int        @id @default(autoincrement())
+  title           String
+  price           Int
+  days            Int
+  chat_count      Int        @default(100)
+  file_size_limit Int        @default(5)
+  operator_count  Int        @default(2)
+  user_plans      UserPlan[]
+  invoices        Invoice[]
 }
 
 model PlanDiscount {
@@ -87,6 +90,7 @@ model UserPlan {
   PlanDiscount     PlanDiscount? @relation(fields: [planDiscountId], references: [id])
   planDiscountId   Int?
   require_crawler  Boolean       @default(false)
+  chats_used       Int           @default(0)
 
   // Operator fields
   operators User[]   @relation(name: "OperatorUserPlan")
