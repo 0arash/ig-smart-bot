@@ -115,7 +115,7 @@ model ChatMessage {
   operator        User?           @relation(fields: [operator_id], references: [id])
   operator_id     Int?
   chat_user       ChatUser?       @relation(fields: [chat_user_id], references: [id])
-  chat_user_id    Int             @map("chatUserId")
+  chat_user_id    Int?            @map("chatUserId")
   action_req      Action?
   created_at      DateTime        @default(now())
 }
@@ -169,7 +169,7 @@ model TicketMessage {
   subject   String
   content   String
   owner     User    @relation(fields: [owner_id], references: [id])
-  owner_id Int     @map("userId")
+  owner_id  Int     @map("userId")
   Ticket    Ticket? @relation(fields: [ticket_id], references: [id])
   ticket_id Int?    @map("ticketId")
 }

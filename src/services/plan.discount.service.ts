@@ -4,30 +4,39 @@ import { userPlanService } from "./user.plan.service";
 
 export const planDiscountService = {
     checkValidDiscountForUser: async (code: string, user_id: string) => {
-        const discountCode = await prismaClient().planDiscount.findUnique({
-            where: {
-                code,
-            },
-        });
+        if (code === undefined) return true;
 
-        if (!discountCode) return false;
+        try {
+            const discountCode = await prismaClient().planDiscount.findUnique({
+                where: {
+                    code,
+                },
+            });
+            if (!discountCode) return false;
 
-        const userPlansUsingDiscount =
-            await userPlanService.getUserPlansByDiscountId(discountCode?.id);
+            const userPlansUsingDiscount =
+                await userPlanService.getUserPlansByDiscountId(
+                    discountCode?.id
+                );
 
-        let result = true;
-        const userId = Number(user_id);
-        userPlansUsingDiscount.forEach((userPlan) => {
-            if (userPlan.user_id === userId) result = false;
-        });
+            let result = true;
+            const userId = Number(user_id);
+            userPlansUsingDiscount.forEach((userPlan) => {
+                if (userPlan.user_id === userId) result = false;
+            });
 
-        return result;
+            return result;
+        } catch {
+            return false;
+        }
     },
     getDiscountByCode: async (code: string) => {
-        return await prismaClient().planDiscount.findUnique({
-            where: {
-                code,
-            },
-        });
+        return code === undefined
+            ? null
+            : await prismaClient().planDiscount.findUnique({
+                  where: {
+                      code,
+                  },
+              });
     },
 };
