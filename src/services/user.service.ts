@@ -43,6 +43,7 @@ export const userService = {
         email: string,
         password: string,
         name: string,
+        mobile:string,
         exclude: K[]
     ) => {
         try {
@@ -53,6 +54,7 @@ export const userService = {
                     email,
                     password,
                     name,
+                    mobile
                 },
                 select: prismaExclude("User", exclude),
             });
