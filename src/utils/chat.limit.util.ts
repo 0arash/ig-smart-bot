@@ -3,9 +3,7 @@ import { prismaClient } from "./prisma.client";
 import { PrismaClient } from "@prisma/client";
 
 export const chatLimit = {
-    getUserPlanLimit: async (
-        user_plan_id: number
-    ) => {
+    getUserPlanLimit: async (user_plan_id: number) => {
         try {
             const userPlan = await prismaClient().userPlan.findUnique({
                 where: {
@@ -16,11 +14,15 @@ export const chatLimit = {
                 },
             });
             if (userPlan) {
-                const { file_size_limit, operator_count, chat_count } =
-                    userPlan.plan;
-                return userPlan.plan
+                const limits = {
+                    file_size_limit: userPlan.plan.file_size_limit,
+                    operator_count: userPlan.plan.operator_count,
+                    chat_count: userPlan.plan.chat_count,
+                };
+
+                return limits;
             } else {
-                return "user plan not found.";
+                return null;
             }
         } catch (error) {
             console.log(error);
