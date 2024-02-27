@@ -20,6 +20,9 @@ declare module "express-session" {
     interface SessionData {
         userId: string;
         userPlanId: string;
+        targetUserId: number;
+        socketId: string;
+        isOperator: boolean;
     }
 }
 
@@ -39,7 +42,7 @@ async function main() {
             path: "/",
             httpOnly: true,
             secure: false,
-            sameSite: "none"
+            sameSite: "none",
         },
         name: "sid",
         store: new pgSession({
