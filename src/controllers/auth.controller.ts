@@ -25,7 +25,7 @@ export const authController = {
         res.status(200).json({ token: user.token });
     },
     register: async (req: Request, res: Response) => {
-        const { email, password, name } = req.body;
+        const { email, password, name,mobile } = req.body;
         console.log(req.body);
         const user = await userService.getUserByEmail(email, ["password"]);
         if (user) {
@@ -37,6 +37,7 @@ export const authController = {
             email,
             hashedPassword,
             name,
+            mobile,
             ["password"]
         );
         if (newUser) {

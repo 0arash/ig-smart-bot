@@ -21,6 +21,9 @@ export const scraperService = {
                     category,
                 },
             });
-        } catch (error) {}
+        } catch (error) {
+            console.log(error);
+            return error;
+        }
     },
 };
