@@ -105,6 +105,7 @@ export class ChatServer {
                     // @ts-ignore
                     const user_plan_id = req.user.operator_user_plan_id;
 
+                    req.session.userPlanId = user_plan_id;
                     req.session.isOperator = user_plan_id > 0;
                     req.session.targetUserId = -1;
                     req.session.save();
@@ -144,7 +145,11 @@ export class ChatServer {
 
                 await chatMessageService.addChatMessageToChatUser(
                     // @ts-ignore
-                    socket.handshake.session.userId,
+                    socket.handshake.session.isOperator
+                        ? // @ts-ignore
+                          socket.handshake.session.targetUserId
+                        : // @ts-ignore
+                          socket.handshake.session.userId,
                     // @ts-ignore
                     socket.handshake.session.userPlanId,
                     data.message,

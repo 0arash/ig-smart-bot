@@ -16,7 +16,7 @@ export const operatorController = {
                 },
             });
 
-            const formattedChats = latestChats.map((chat) => {
+            const formattedChats = latestChats.filter(chat => chat.chat_messages.length > 0).map((chat) => {
                 return {
                     user_id: chat.id,
                     time: chat.chat_messages.at(-1)?.created_at,
@@ -25,7 +25,7 @@ export const operatorController = {
                     unread: !chat.chat_messages.at(-1)?.read,
                 };
             });
-
+            
             res.status(200).json({ data: { chats: formattedChats } });
         } catch (error) {
             console.log(error);
@@ -52,10 +52,9 @@ export const operatorController = {
                 return {
                     content: m.content,
                     is_user_message: m.is_user_message,
+                    time: m.created_at
                 };
             });
-
-            console.log(formattedMessages);
 
             res.status(200).json({ data: { messages: formattedMessages } });
         } catch (error) {

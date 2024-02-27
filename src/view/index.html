@@ -85,10 +85,11 @@
     axios.post("http://localhost:3000/chat", {
       api_key: '12345',
     }).then((data) => {
+      console.log(data)
       const socket = io("http://localhost:3000", { withCredentials: true })
       socket.on('connect', () => {
         socket.on('user_id', (data) => {
-          alert(data)
+          console.log(`user_id: ${data}`)
         })
 
         socket.on('send_chat', (data) => {
