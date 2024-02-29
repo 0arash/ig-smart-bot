@@ -11,7 +11,7 @@
       "description": ""
     },
     {
-      "url": "http://192.168.1.19:3000",
+      "url": "http://192.168.1.15:3000",
       "description": ""
     }
   ],
@@ -20,9 +20,6 @@
       "post": {
         "description": "",
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "400": {
             "description": "Bad Request"
           },
@@ -178,12 +175,12 @@
         }
       }
     },
-    "/api/dashboard/{pid}": {
+    "/api/dashboard/{upid}": {
       "get": {
         "description": "",
         "parameters": [
           {
-            "name": "pid",
+            "name": "upid",
             "in": "path",
             "required": true,
             "schema": {

@@ -16,16 +16,18 @@ export const authController = {
             userId: user.id,
             email: user.email,
         });
+        
 
-        res.cookie("token", user.token, {
+        res.cookie("hix_login_token", user.token, {
             maxAge: 1000 * 60 * 60 * 24 * 7,
             httpOnly: true,
             secure: true,
-        });
-        res.status(200).json({ token: user.token });
+        })
+            .status(200)
+            .json({ token: user.token });
     },
     register: async (req: Request, res: Response) => {
-        const { email, password, name,mobile } = req.body;
+        const { email, password, name, mobile } = req.body;
         console.log(req.body);
         const user = await userService.getUserByEmail(email, ["password"]);
         if (user) {
@@ -45,7 +47,14 @@ export const authController = {
                 userId: newUser.id,
                 email: newUser.email,
             });
-            return res.status(201).json({ token: newUser.token });
+            return res
+                .status(201)
+                .cookie("hix_login_token", newUser.token, {
+                    maxAge: 1000 * 60 * 60 * 24 * 7,
+                    httpOnly: true,
+                    secure: true,
+                })
+                .json({ token: newUser.token });
         } else {
             return res.status(500).json({
                 error: "Internal error",

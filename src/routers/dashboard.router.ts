@@ -4,6 +4,6 @@ import { dashboardController } from "../controllers/dashboard.controller";
 
 const router = express.Router();
 
-router.get("/:pid", requireRole("USER"), dashboardController.getDashboardHome);
+router.get("/:upid", requireRole("USER"), dashboardController.getDashboardHome);
 
 export const dashboardRouter = router;
