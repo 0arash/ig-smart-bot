@@ -24,7 +24,7 @@ export const authController = {
             secure: true,
         })
             .status(200)
-            .json({ token: user.token });
+            .json({ token: user.token, user_id: user.id });
     },
     register: async (req: Request, res: Response) => {
         const { email, password, name, mobile } = req.body;

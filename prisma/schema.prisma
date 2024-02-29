@@ -44,6 +44,7 @@ model User {
   user_plans   UserPlan[]
   Invoice      Invoice[]
   PlanDiscount PlanDiscount[]
+  birth        String?
   // Operator fields
 
   operator_user_plan    UserPlan?       @relation(name: "OperatorUserPlan", fields: [operator_user_plan_id], references: [id])

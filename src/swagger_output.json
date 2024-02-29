@@ -425,6 +425,9 @@
                   },
                   "code_meli": {
                     "example": "any"
+                  },
+                  "birth": {
+                    "example": "any"
                   }
                 }
               }
