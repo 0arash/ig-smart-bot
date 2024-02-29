@@ -1,24 +1,39 @@
-import { ScrapedProduct } from "@prisma/client";
 import { prismaClient } from "../utils/prisma.client";
 
 export const scraperService = {
-    getProducts: async () => {
+    getProducts: async (user_plan_id: number) => {
         try {
-        } catch (error) {}
+            return await prismaClient().product.findMany({
+                where: {
+                    user_plan_id: user_plan_id,
+                },
+            });
+        } catch (error) {
+            console.log(error);
+            return error;
+        }
     },
     newProduct: async (
         title: string,
         price: number,
         url: string,
-        category: string
+        brand: string,
+        image: string,
+        description: string,
+        attributes: string,
+        user_plan_id: number
     ) => {
         try {
-            return await prismaClient().scrapedProduct.create({
+            return await prismaClient().product.create({
                 data: {
                     title,
                     price,
                     url,
-                    category,
+                    brand,
+                    image,
+                    description,
+                    attributes,
+                    user_plan_id,
                 },
             });
         } catch (error) {

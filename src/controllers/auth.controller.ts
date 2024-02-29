@@ -22,10 +22,10 @@ export const authController = {
             httpOnly: true,
             secure: true,
         });
-        res.status(200).json({ token: user.token });
+        res.status(200).json({ token: user.token, user_id: user.id });
     },
     register: async (req: Request, res: Response) => {
-        const { email, password, name,mobile } = req.body;
+        const { email, password, name, mobile } = req.body;
         console.log(req.body);
         const user = await userService.getUserByEmail(email, ["password"]);
         if (user) {

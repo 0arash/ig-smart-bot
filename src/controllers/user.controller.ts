@@ -67,12 +67,12 @@ export const userController = {
     },
     updateUserById: async (req: Request, res: Response) => {
         try {
-            const { name, mobile, address, email, password, code_meli } =
+            const { name, mobile, address, email, password, code_meli, birth } =
                 req.body;
             const { id } = req.params;
             const user = await userService.updateUser(
                 Number(id),
-                { email, address, code_meli, mobile, name, password },
+                { email, address, code_meli, mobile, name, password, birth },
                 ["password"]
             );
             res.status(200).json({
