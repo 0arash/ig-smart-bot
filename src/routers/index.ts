@@ -10,10 +10,12 @@ import { userPlanRouter } from "./user.plan.router";
 import { planRouter } from "./plan.router";
 import { crawlerRouter } from "./crawler.router";
 import { dashboardRouter } from "./dashboard.router";
+import { operatorRouter } from "./operator.router";
 
 export const routes = express.Router();
 
 routes.use("/api/auth", authRouter);
+routes.use("/api/operator", operatorRouter);
 routes.use("/api/dashboard", dashboardRouter);
 routes.use("/api/user", userRouter);
 routes.use("/api/plan", planRouter);

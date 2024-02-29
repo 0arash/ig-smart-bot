@@ -3,6 +3,7 @@ import { userPlanService } from "../services/user.plan.service";
 import { chatLimit } from "../utils/chat.limit.util";
 import { prismaClient } from "../utils/prisma.client";
 import { planService } from "../services/plan.service";
+import { productService } from "../services/product.service";
 
 export const dashboardController = {
     getDashboardHome: async (req: Request, res: Response) => {
@@ -12,6 +13,12 @@ export const dashboardController = {
             if(await userPlanService.ownUserPlanId(req, pid)) {
                 const userPlan = await userPlanService.getUserPlanById(pid);
                 const plan = await planService.getPlanById(userPlan!.plan_id);
+
+                const productCount = await prismaClient().product.count({
+                    where: {
+                        user_plan_id: userPlan!.id
+                    }
+                })
 
                 const limits = await chatLimit.getUserPlanLimit(Number(pid));
 
@@ -26,7 +33,8 @@ export const dashboardController = {
                         }),
                         maxChats: limits!.chat_count,
                         maxOperators: limits!.operator_count,
-                        maxDays: plan!.days
+                        maxDays: plan!.days,
+                        productCount
                     }
                 });
             } else {

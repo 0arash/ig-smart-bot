@@ -3,6 +3,21 @@ import bcrypt from "bcrypt";
 import { userPlanService } from "../services/user.plan.service";
 
 export const userPlanController = {
+    getUserPlans: async (req: Request, res: Response) => {
+        try {
+            // @ts-ignore
+            const uid = req.user.id;
+            const userPlans = await userPlanService.getUserPlansByUserId(uid);
+            res.status(200).json({
+                data: userPlans,
+            });
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({
+                error: error || "Internal error.",
+            });
+        }
+    },
     getUserPlansById: async (req: Request, res: Response) => {
         try {
             const { uid } = req.query;
