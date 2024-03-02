@@ -69,7 +69,9 @@ export const userController = {
         try {
             const { name, mobile, address, email, password, code_meli, birth } =
                 req.body;
-            const { id } = req.params;
+
+            //@ts-ignore
+            const { id } = req.user;
             const user = await userService.updateUser(
                 Number(id),
                 { email, address, code_meli, mobile, name, password, birth },

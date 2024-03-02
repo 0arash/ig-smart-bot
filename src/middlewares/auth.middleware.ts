@@ -14,7 +14,7 @@ export const requireRole = (role: Role) => {
             roles.push(Role.USER);
         case Role.ADMIN:
             roles.push(Role.ADMIN);
-    }
+    }    
 
     return async (req: Request, res: Response, next: NextFunction) => {
         let payload: UserPayload;

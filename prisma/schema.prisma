@@ -106,6 +106,7 @@ model ChatUser {
   user_plan_id  Int           @map("userPlanId")
   created_at    DateTime      @default(now())
   chat_messages ChatMessage[]
+  sid           String?
 }
 
 model ChatMessage {

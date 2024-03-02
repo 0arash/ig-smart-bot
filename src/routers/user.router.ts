@@ -32,11 +32,11 @@ router.delete(
     userController.deleteUserById
 );
 router.put(
-    "/:id",
+    "/",
     paramIdValidator,
     userUpdateByIdValidator,
     handleErrorValidation,
-    requireRole(Role.ADMIN),
+    requireRole(Role.USER),
     userController.updateUserById
 );
 

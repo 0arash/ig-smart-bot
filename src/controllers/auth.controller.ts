@@ -17,14 +17,13 @@ export const authController = {
             email: user.email,
         });
         
-
         res.cookie("hix_login_token", user.token, {
             maxAge: 1000 * 60 * 60 * 24 * 7,
             httpOnly: true,
             secure: true,
         })
             .status(200)
-            .json({ token: user.token, user_id: user.id });
+            .json({ token: user.token });
     },
     register: async (req: Request, res: Response) => {
         const { email, password, name, mobile } = req.body;

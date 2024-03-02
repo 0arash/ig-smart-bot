@@ -72,7 +72,7 @@ export const userPlanController = {
     generateApiKeyById: async (req: Request, res: Response) => {
         try {
             const { id } = req.params;
-            const { user_id } = req.body;
+            
             const userPlan = await userPlanService.getUserPlanById(id);
 
             if (
@@ -97,6 +97,26 @@ export const userPlanController = {
                     error: "Plan not found.",
                 });
             }
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({
+                error: error || "Internal error.",
+            });
+        }
+    },
+    getCurrentUserPlan: async (req: Request, res: Response) => {
+        try {
+            const user_plan = (
+                await userPlanService.getUserPlansByUserId(
+                    // @ts-ignore
+                    req.user.id
+                )
+            )[0];
+            res.status(200).json({
+                data: {
+                    user_plan_id: user_plan.id,
+                },
+            });
         } catch (error) {
             console.log(error);
             res.status(500).json({
