@@ -24,7 +24,7 @@ export class ChatServer {
         this.app = app;
 
         this.io = new Server(httpServer, {
-            cors: { origin: "http://localhost:3000", credentials: true },
+            cors: { origin: "http://localhost:5173", credentials: true },
             transports: ["websocket", "polling"],
             connectionStateRecovery: {
                 maxDisconnectionDuration: 2 * 60 * 1000,
@@ -123,18 +123,41 @@ export class ChatServer {
         );
 
         // add event listeners to the socket object after connection
-        this.io.on("connection", (socket) => {
+        this.io.on("connection", async (socket) => {
             // @ts-ignore
             socket.handshake.session.socketId = socket.id;
             // @ts-ignore
             socket.handshake.session.save();
 
+            await prismaClient().chatUser.update({
+                where: {
+                    //@ts-ignore
+                    id: Number(socket.handshake.session.userId),
+                },
+                data: {
+                    sid: socket.id,
+                },
+            });
+
+            // @ts-ignore
+            console.log(JSON.stringify(socket.handshake.session));
+
             // @ts-ignore
             socket.emit("user_id", socket.handshake.session.userId);
 
             socket.on("set_target", async (data) => {
+                const targetUser = await prismaClient().chatUser.findUnique({
+                    where: {
+                        id: data.userId,
+                    },
+                });
+
+                const targetUserId = targetUser?.id;
+                const query = `select sess ->> 'userId' uid, sess ->> 'socketId' sid from chatuser_sessions WHERE sess->>'userId'='${targetUserId}';`
+                const targetSocketId = await prismaClient().$queryRawUnsafe(query);
+
                 // @ts-ignore
-                socket.handshake.session.targetUserId = data.userId;
+                socket.handshake.session.targetUserId = targetSocketId;
                 // @ts-ignore
                 socket.handshake.session.save();
             });
@@ -143,31 +166,49 @@ export class ChatServer {
             socket.on("send_chat", async (data) => {
                 socket.emit("receive_chat", data);
 
-                await chatMessageService.addChatMessageToChatUser(
-                    // @ts-ignore
-                    socket.handshake.session.isOperator
-                        ? // @ts-ignore
-                          socket.handshake.session.targetUserId
-                        : // @ts-ignore
-                          socket.handshake.session.userId,
-                    // @ts-ignore
-                    socket.handshake.session.userPlanId,
-                    data.message,
-                    // @ts-ignore
-                    !socket.handshake.session.isOperator
-                );
+                switch (data.message.type) {
+                    case "text":
+                        await chatMessageService.addChatMessageToChatUser(
+                            // @ts-ignore
+                            socket.handshake.session.isOperator
+                                ? // @ts-ignore
+                                  socket.handshake.session.targetUserId
+                                : // @ts-ignore
+                                  socket.handshake.session.userId,
+                            // @ts-ignore
+                            socket.handshake.session.userPlanId,
+                            data.message.content,
+                            // @ts-ignore
+                            !socket.handshake.session.isOperator
+                        );
 
-                // @ts-ignore
-                if (socket.handshake.session.isOperator) {
-                } else {
-                    socket.emit("send_chat", {
-                        message: await this.sendResponse(
-                            // @ts-ignore
-                            socket.handshake.session.userId,
-                            // @ts-ignore
-                            socket.handshake.session.userPlanId
-                        ),
-                    });
+                        // @ts-ignore
+                        if (socket.handshake.session.isOperator) {
+                            this.io
+                                // @ts-ignore
+                                .to(socket.handshake.session.targetUserId)
+                                .emit("send_message", {
+                                    message: {
+                                        type: "text",
+                                        content: "Salam Chetori?",
+                                    },
+                                });
+                        } else {
+                            // socket.emit("send_chat", {
+                            //     message: {
+                            //         content: await this.sendResponse(
+                            //             // @ts-ignore
+                            //             socket.handshake.session.userId,
+                            //             // @ts-ignore
+                            //             socket.handshake.session.userPlanId
+                            //         ),
+                            //     },
+                            // });
+                        }
+                        break;
+
+                    default:
+                        break;
                 }
             });
         });

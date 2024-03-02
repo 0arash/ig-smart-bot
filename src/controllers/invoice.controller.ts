@@ -7,12 +7,14 @@ import { planDiscountService } from "../services/plan.discount.service";
 export const invoiceController = {
     newInvoice: async (req: Request, res: Response) => {
         try {
-            let { userId, planId } = req.body;
+            let { planId } = req.body;
 
-            if (!userId) {
-                // @ts-ignore
-                userId = req.user.id;
-            }
+            console.log(`plan : ${planId}`);
+            
+            // @ts-ignore
+            const userId = req.user.id;
+            console.log(`user : ${userId}`);
+            
 
             const invoice = await invoiceService.newInvoiceId(userId, planId);
 
@@ -80,10 +82,12 @@ export const invoiceController = {
                         req.user.id
                     )
                 ) {
+                    
                     const discount =
-                        await planDiscountService.getDiscountByCode(
-                            discountCode
+                    await planDiscountService.getDiscountByCode(
+                        discountCode
                         );
+                        console.log(discount);
 
                     let price = invoice.plan.price;
                     if (discount) {
@@ -110,6 +114,10 @@ export const invoiceController = {
                             error: "Failed to start payment",
                         });
                     }
+                } else {
+                    res.status(400).json({
+                        error: "Invalid discount code",
+                    });
                 }
             } else {
                 res.status(500).json({

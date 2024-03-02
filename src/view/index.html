@@ -82,14 +82,13 @@
 
 
   <script>
-    axios.post("http://localhost:3000/chat", {
+    axios.post("http://localhost:3000/operator/chat", {
       api_key: '12345',
     }).then((data) => {
-      console.log(data)
       const socket = io("http://localhost:3000", { withCredentials: true })
       socket.on('connect', () => {
         socket.on('user_id', (data) => {
-          console.log(`user_id: ${data}`)
+          
         })
 
         socket.on('send_chat', (data) => {
@@ -98,6 +97,10 @@
 
       })
       socket.connect()
+
+      socket.emit('set_target', {
+        userId: 470
+      })
 
       const messageBox = document.getElementById('msg')
       const sendBtn = document.getElementById('send')

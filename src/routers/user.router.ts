@@ -32,7 +32,7 @@ router.delete(
     userController.deleteUserById
 );
 router.put(
-    "/:id",
+    "/",
     paramIdValidator,
     userUpdateByIdValidator,
     handleErrorValidation,

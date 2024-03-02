@@ -11,7 +11,7 @@
       "description": ""
     },
     {
-      "url": "http://192.168.1.19:3000",
+      "url": "http://192.168.1.15:3000",
       "description": ""
     }
   ],
@@ -20,9 +20,6 @@
       "post": {
         "description": "",
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "400": {
             "description": "Bad Request"
           },
@@ -178,12 +175,12 @@
         }
       }
     },
-    "/api/dashboard/{pid}": {
+    "/api/dashboard/{upid}": {
       "get": {
         "description": "",
         "parameters": [
           {
-            "name": "pid",
+            "name": "upid",
             "in": "path",
             "required": true,
             "schema": {
@@ -289,6 +286,67 @@
             }
           }
         }
+      },
+      "put": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "example": "any"
+                  },
+                  "mobile": {
+                    "example": "any"
+                  },
+                  "address": {
+                    "example": "any"
+                  },
+                  "email": {
+                    "example": "any"
+                  },
+                  "password": {
+                    "example": "any"
+                  },
+                  "code_meli": {
+                    "example": "any"
+                  },
+                  "birth": {
+                    "example": "any"
+                  }
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/api/user/{id}": {
@@ -366,75 +424,6 @@
           },
           "500": {
             "description": "Internal Server Error"
-          }
-        }
-      },
-      "put": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "Authorization",
-            "in": "header",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        },
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "name": {
-                    "example": "any"
-                  },
-                  "mobile": {
-                    "example": "any"
-                  },
-                  "address": {
-                    "example": "any"
-                  },
-                  "email": {
-                    "example": "any"
-                  },
-                  "password": {
-                    "example": "any"
-                  },
-                  "code_meli": {
-                    "example": "any"
-                  },
-                  "birth": {
-                    "example": "any"
-                  }
-                }
-              }
-            }
           }
         }
       }
@@ -734,6 +723,9 @@
           "200": {
             "description": "OK"
           },
+          "400": {
+            "description": "Bad Request"
+          },
           "401": {
             "description": "Unauthorized"
           },
@@ -795,9 +787,6 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "userId": {
-                    "example": "any"
-                  },
                   "planId": {
                     "example": "any"
                   }
@@ -1504,7 +1493,37 @@
             }
           }
         }
-      },
+      }
+    },
+    "/api/user_plan/current": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/user_plan/generate_apikey/{id}": {
       "post": {
         "description": "",
         "parameters": [
@@ -1539,20 +1558,6 @@
           },
           "500": {
             "description": "Internal Server Error"
-          }
-        },
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "user_id": {
-                    "example": "any"
-                  }
-                }
-              }
-            }
           }
         }
       }

@@ -31,7 +31,7 @@ export const getMainPrompt = async (userPlanId: string) => {
     Be respectful and use the functions and tools that are provided.
     Use ${userPlanId} as the user_plan_id for all your queries that need it.
     Your queries to the database using the tools that are available should be exact and search with the exact criteria that the user asks for.
-    You are not allowed to use these words or their translations in any language: ['artificial intelligence', 'language model']`;
+    You are not allowed to use these words or their translations in any language: ['artificial intelligence', 'language model'].`;
 };
 
 async function databaseQuery({
@@ -59,6 +59,30 @@ async function databaseQuery({
     return response;
 }
 
+const schemas = `model Product {
+    id           Int        @id @default(autoincrement())
+    url          String
+    title        String
+    description  Json
+    image        String
+    price        Int
+    status       Boolean    @default(true)
+    attributes   Json
+    brand        String
+    user_plan    UserPlan   @relation(fields: [user_plan_id], references: [id])
+    user_plan_id Int        @map("userPlanId")
+    weight       Float      @default(0)
+    categories   Category[]
+  }
+  
+  model Category {
+    id           Int       @id @default(autoincrement())
+    title        String
+    products     Product[]
+    user_plan    UserPlan  @relation(fields: [user_plan_id], references: [id])
+    user_plan_id Int       @map("userPlanId")
+  }`;
+
 const tools = (user_plan_id: number): ChatCompletionTool[] => [
     {
         type: "function",
@@ -77,36 +101,16 @@ const tools = (user_plan_id: number): ChatCompletionTool[] => [
                     },
                     query: {
                         type: "string",
-                        description: `The query json object to be passed to the prisma client to be executed. this object should be constructed in such a way that fulfills all the filters the user asks for. The query object should be a valid Prisma query object with all the conditions needed based on the models including all related models. You must ${user_plan_id} as the user_plan_id in your queries.\
-                        model Product {\
-                            id           Int        @id @default(autoincrement())\
-                            url          String\
-                            title        String\
-                            description  String\
-                            image        String\
-                            price        Int\
-                            status       Boolean    @default(true)\
-                            attributes   Json\
-                            user_plan    UserPlan   @relation(fields: [user_plan_id], references: [id])\
-                            user_plan_id Int        @map("userPlanId")\
-                            weight       Float      @default(0)\
-                            categories   Category[]\
-                        }\
-                        model Category {\
-                            id       Int       @id @default(autoincrement())\
-                            title    String\
-                            products Product[]\
-                            user_plan   UserPlan @relation(fields: [user_plan_id], references: [id])\
-                            user_plan_id Int @map("userPlanId")\
-                        }\
-                        Use english language for attribute names and values and translate the input query if needed and use this syntax when filtering on the attributes field of the products:\
-                        {\
-                            where: {\
-                                attributes: {\
-                                path: ["%ATTRIBUTE_NAME%"],\
-                                equals: "%ATTRIBUTE_VALUE%",\
-                                },\
-                            },\
+                        description: `The query json object to be passed to the prisma client to be executed. this object should be constructed in such a way that fulfills all the filters the user asks for. The query object should be a valid Prisma query object with all the conditions needed based on the models including all related models. You must ${user_plan_id} as the user_plan_id in your queries.
+                        ${schemas}
+                        Use english language for attribute names and values and translate the input query if needed and use this syntax when filtering on the attributes field of the products:
+                        {
+                            where: {
+                                attributes: {
+                                    path: ["%ATTRIBUTE_NAME%"],
+                                    equals: "%ATTRIBUTE_VALUE%",
+                                },
+                            },
                         }`,
                     },
                 },

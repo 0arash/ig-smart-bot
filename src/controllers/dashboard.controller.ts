@@ -8,39 +8,45 @@ import { productService } from "../services/product.service";
 export const dashboardController = {
     getDashboardHome: async (req: Request, res: Response) => {
         try {
-            const {pid} = req.params;
+            const { upid } = req.params;
 
-            if(await userPlanService.ownUserPlanId(req, pid)) {
-                const userPlan = await userPlanService.getUserPlanById(pid);
+            if (await userPlanService.ownUserPlanId(req, upid)) {
+                const userPlan = await userPlanService.getUserPlanById(upid);
                 const plan = await planService.getPlanById(userPlan!.plan_id);
 
                 const productCount = await prismaClient().product.count({
                     where: {
-                        user_plan_id: userPlan!.id
-                    }
-                })
+                        user_plan_id: userPlan!.id,
+                    },
+                });
 
-                const limits = await chatLimit.getUserPlanLimit(Number(pid));
+                const limits = await chatLimit.getUserPlanLimit(Number(upid));
 
                 res.status(200).json({
                     data: {
-                        remainingChats: limits!.chat_count - userPlan!.chats_used,
-                        remainingDays: plan!.days - Math.round((Date.now() - userPlan!.created_at.getTime())/(24*60*60*1000)),
+                        remainingChats:
+                            limits!.chat_count - userPlan!.chats_used,
+                        remainingDays:
+                            plan!.days -
+                            Math.round(
+                                (Date.now() - userPlan!.created_at.getTime()) /
+                                    (24 * 60 * 60 * 1000)
+                            ),
                         operatorCount: await prismaClient().user.count({
                             where: {
-                                operator_user_plan_id: Number(pid)
-                            }
+                                operator_user_plan_id: Number(upid),
+                            },
                         }),
                         maxChats: limits!.chat_count,
                         maxOperators: limits!.operator_count,
                         maxDays: plan!.days,
-                        productCount
-                    }
+                        productCount,
+                    },
                 });
             } else {
                 res.status(404).json({
                     error: "User plan not found!",
-                })
+                });
             }
         } catch (error) {
             console.log(error);
@@ -48,5 +54,5 @@ export const dashboardController = {
                 error: error || "Internal error.",
             });
         }
-    }
-}
+    },
+};
