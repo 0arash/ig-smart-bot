@@ -9,12 +9,12 @@ import {
 } from "../validators/router.validation";
 import { handleErrorValidation } from "../validators/handleErrorValidation";
 
-router.get("/", requireRole(Role.ADMIN), userController.getUsers);
+router.get("/", requireRole(Role.USER), userController.getUsers);
 router.get(
     "/:id",
     paramIdValidator,
     handleErrorValidation,
-    requireRole(Role.ADMIN),
+    requireRole(Role.USER),
     userController.getUserById
 );
 router.post(

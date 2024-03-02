@@ -15,6 +15,8 @@ import { createServer } from "http";
 import { ChatServer } from "./chat/chat.server";
 import cors from "cors";
 import connectPgStore from "connect-pg-simple";
+import helmet from "helmet";
+import umbress from "umbress";
 
 declare module "express-session" {
     interface SessionData {
@@ -31,6 +33,14 @@ async function main() {
     const app = express();
     const httpServer = createServer(app);
 
+    app.disable("x-powered-by");
+    app.use(helmet());
+    // app.use(
+    //     umbress({
+    //         rateLimiter: { enabled: true },
+
+    //     })
+    // );
     app.use(cors());
     app.use(express.urlencoded({ extended: true }));
     const pgSession = connectPgStore(expressSession);
@@ -53,7 +63,7 @@ async function main() {
     });
     app.use(sessionMiddleware);
 
-    const PORT = process.env.PORT || 3000;
+    const PORT = process.env.PORT || 2000;
 
     app.use(morgan("dev"));
     app.use(cookieParser(process.env.COOKIE_SECRET || "secret"));
