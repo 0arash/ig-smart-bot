@@ -94,8 +94,9 @@ model UserPlan {
   chats_used       Int           @default(0)
 
   // Operator fields
-  operators User[]   @relation(name: "OperatorUserPlan")
-  Ticket    Ticket[]
+  operators      User[]           @relation(name: "OperatorUserPlan")
+  Ticket         Ticket[]
+  WidgetSettings WidgetSettings[]
 }
 
 model ChatUser {
@@ -175,4 +176,16 @@ model TicketMessage {
   owner_id  Int     @map("userId")
   Ticket    Ticket? @relation(fields: [ticket_id], references: [id])
   ticket_id Int?    @map("ticketId")
+}
+
+model WidgetSettings {
+  id           Int      @id @default(autoincrement())
+  color        String
+  title        String
+  caption      String
+  pos_right    String
+  pos_left     String
+  icon         String
+  user_plan    UserPlan @relation(fields: [user_plan_id], references: [id])
+  user_plan_id Int @unique
 }

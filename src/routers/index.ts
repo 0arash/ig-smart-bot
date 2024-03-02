@@ -11,6 +11,7 @@ import { planRouter } from "./plan.router";
 import { crawlerRouter } from "./crawler.router";
 import { dashboardRouter } from "./dashboard.router";
 import { operatorRouter } from "./operator.router";
+import { settingsRouter } from "./settings.router";
 
 export const routes = express.Router();
 
@@ -26,3 +27,4 @@ routes.use("/api/chat_user", chatUserRouter);
 routes.use("/api/product", productRouter);
 routes.use("/api/user_plan", userPlanRouter);
 routes.use("/api/crawler", crawlerRouter);
+routes.use("/api/settings", settingsRouter);
