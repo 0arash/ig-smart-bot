@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { crawlerService } from "../services/crawler.service";
+import { title } from "process";
 
 export const crawlerController = {
     updateRequestCrawler: async (req: Request, res: Response) => {
@@ -30,19 +31,31 @@ export const crawlerController = {
     },
     newProductFromJson: async (req: Request, res: Response) => {
         try {
-            const { products, user_plan_id } = req.body;
+            const { user_plan_id } = req.params;
+            const products = req.body;
+            console.log(products);
+
             let newProduct = [];
             for (let i = 0; i < products.length; i++) {
-                const { title, price, specs, full_specs, brand, url, image } =
-                    products[i];
-                const product = await crawlerService.newProductFromJson(
+                const {
                     title,
                     price,
                     specs,
                     full_specs,
+                    brand,
+                    url,
+                    image,
+                    category_title,
+                } = products[i];
+                const product = await crawlerService.newProductFromJson(
+                    title,
+                    price,
+                    specs,
+                    full_specs || "",
                     url,
                     brand,
                     image,
+                    category_title,
                     user_plan_id
                 );
                 newProduct.push(product);

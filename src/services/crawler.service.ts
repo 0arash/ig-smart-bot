@@ -26,22 +26,24 @@ export const crawlerService = {
         full_specs: object,
         url: string,
         image: string,
-        user_plan_id: number
+        category_title: string,
+        user_plan_id: string
     ) => {
         return await prismaClient().product.create({
             data: {
                 title,
                 price,
-                attributes: specs,
-                description: full_specs,
-                brand,
+                attributes: full_specs,
+                description: specs,
                 url,
                 image,
-                user_plan_id,
+                category_title,
+                brand,
+                user_plan_id: Number(user_plan_id),
             },
         });
     },
-    getUserPlanDetails:async()=>{
-        return await prismaClient().userPlan.findMany()
-    }
+    getUserPlanDetails: async () => {
+        return await prismaClient().userPlan.findMany();
+    },
 };

@@ -6,7 +6,7 @@ export const productController = {
     getProducts: async (req: Request, res: Response) => {
         try {
             const { upid } = req.query;
-            if (await userPlanService.ownUserPlanId(req, String(upid))) {
+            if (await userPlanService.ownUserPlanId(req, Number(upid))) {
                 const products = await productService.getProducts(Number(upid));
                 console.log(`[+] ${products.length} products fetched.`);
                 res.status(200).json({
@@ -31,7 +31,7 @@ export const productController = {
             if (
                 await userPlanService.ownUserPlanId(
                     req,
-                    String(product?.user_plan_id)
+                    Number(product?.user_plan_id)
                 )
             ) {
                 res.status(200).json({
@@ -61,9 +61,10 @@ export const productController = {
                 user_plan_id,
                 weight,
                 brand,
+                category_title,
             } = req.body;
             if (
-                await userPlanService.ownUserPlanId(req, String(user_plan_id))
+                await userPlanService.ownUserPlanId(req, user_plan_id)
             ) {
                 const product = await productService.newProduct(
                     url,
@@ -74,7 +75,7 @@ export const productController = {
                     attributes,
                     user_plan_id,
                     weight,
-                    brand
+                    brand,category_title
                 );
                 res.status(201).json({
                     data: product,
@@ -114,7 +115,7 @@ export const productController = {
             if (
                 await userPlanService.ownUserPlanId(
                     req,
-                    String(product?.user_plan_id)
+                    Number(product?.user_plan_id)
                 )
             ) {
                 const product = await productService.updateProductById(
@@ -151,7 +152,7 @@ export const productController = {
             if (
                 await userPlanService.ownUserPlanId(
                     req,
-                    String(product.user_plan_id)
+                    product.user_plan_id
                 )
             ) {
                 res.status(200).json({

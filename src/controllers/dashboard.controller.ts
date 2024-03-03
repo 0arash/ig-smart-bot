@@ -9,8 +9,9 @@ export const dashboardController = {
     getDashboardHome: async (req: Request, res: Response) => {
         try {
             const { upid } = req.params;
-
-            if (await userPlanService.ownUserPlanId(req, upid)) {
+            console.log(upid);
+            
+            if (await userPlanService.ownUserPlanId(req, Number(upid))) {
                 const userPlan = await userPlanService.getUserPlanById(upid);
                 const plan = await planService.getPlanById(userPlan!.plan_id);
 

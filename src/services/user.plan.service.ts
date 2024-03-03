@@ -9,11 +9,24 @@ export const userPlanService = {
             },
         });
     },
+    getCurrentUserPlanByUserId: async (id: number) => {
+        return await prismaClient().userPlan.findMany({
+            where: {
+                user_id: id,
+            },
+            select:{
+                user:true,
+                plan:true,
+                id:true
+            }
+        });
+    },
     getUserPlanById: async (id: string) => {
         return await prismaClient().userPlan.findUnique({
             where: {
                 id: Number(id),
             },
+            
         });
     },
     updateUserPlanById: async (
@@ -42,10 +55,12 @@ export const userPlanService = {
         });
     },
 
-    ownUserPlanId: async (req: Request, userPlanId: string) => {
+    ownUserPlanId: async (req: Request, userPlanId: number) => {
+        console.log(userPlanId);
+        
         const userPlan = await prismaClient().userPlan.findUnique({
             where: {
-                id: Number(userPlanId),
+                id: userPlanId,
             },
         });
         //@ts-ignore

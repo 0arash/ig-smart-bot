@@ -63,11 +63,11 @@ async function main() {
     });
     app.use(sessionMiddleware);
 
-    const PORT = process.env.PORT || 2000;
+    const PORT = process.env.PORT || 3000;
 
     app.use(morgan("dev"));
     app.use(cookieParser(process.env.COOKIE_SECRET || "secret"));
-    app.use(bodyParser.json());
+    app.use(bodyParser.json({limit:'50mb'}));
 
     const chatServer = new ChatServer(httpServer, app, sessionMiddleware);
 

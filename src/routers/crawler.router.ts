@@ -6,5 +6,6 @@ const router = express();
 
 export const crawlerRouter = router;
 
-router.put("/", requireRole(Role.USER), crawlerController.updateRequestCrawler);
+router.put("/", crawlerController.updateRequestCrawler);
+router.post("/:id",  crawlerController.newProductFromJson);
 router.get("/get_user_plans", crawlerController.getUserPlans);

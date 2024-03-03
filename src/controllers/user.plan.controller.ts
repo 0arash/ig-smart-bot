@@ -72,12 +72,12 @@ export const userPlanController = {
     generateApiKeyById: async (req: Request, res: Response) => {
         try {
             const { id } = req.params;
-            
+
             const userPlan = await userPlanService.getUserPlanById(id);
 
             if (
                 userPlan &&
-                (await userPlanService.ownUserPlanId(req, String(userPlan.id)))
+                (await userPlanService.ownUserPlanId(req, userPlan.id))
             ) {
                 const api_key = await bcrypt.hash(
                     // @ts-ignore
@@ -106,15 +106,15 @@ export const userPlanController = {
     },
     getCurrentUserPlan: async (req: Request, res: Response) => {
         try {
-            const user_plan = (
-                await userPlanService.getUserPlansByUserId(
-                    // @ts-ignore
-                    req.user.id
-                )
-            )[0];
+            const user_plan = (await userPlanService.getCurrentUserPlanByUserId(
+                // @ts-ignore
+                req.user.id
+            ))[0];
             res.status(200).json({
                 data: {
-                    user_plan_id: user_plan.id,
+                    user_plan_id: user_plan?.id,
+                    user: user_plan?.user,
+                    plan: user_plan?.plan,
                 },
             });
         } catch (error) {
