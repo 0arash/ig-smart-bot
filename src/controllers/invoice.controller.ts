@@ -58,6 +58,36 @@ export const invoiceController = {
             });
         }
     },
+    checkValidDiscountForUser: async (req: Request, res: Response) => {
+        try {
+            const { discountCode } = req.body;
+            const validDiscount =
+                await planDiscountService.checkValidDiscountForUser(
+                    discountCode,
+                    // @ts-ignore
+                    req.user.id
+                );
+
+            if (validDiscount) {
+                const discount = await planDiscountService.getDiscountByCode(
+                    discountCode
+                );
+
+                res.status(200).json({
+                    percent: discount?.discount,
+                });
+            } else {
+                res.status(400).json({
+                    error: "Discount code is not valid",
+                });
+            }
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({
+                error: error || "Internal error.",
+            });
+        }
+    },
     payInvoiceById: async (req: Request, res: Response) => {
         try {
             const { id, discountCode } = req.body;
