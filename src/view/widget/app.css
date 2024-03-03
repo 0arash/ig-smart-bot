@@ -1,0 +1,50 @@
+@tailwind base;
+@tailwind utilities;
+@tailwind components;
+
+@font-face {
+    font-family: vazir;
+    src: url("/src/font/vazir.ttf");
+}
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: 0;
+}
+
+body {
+    font-family: vazir;
+    position: relative; 
+}
+
+.fade {
+    animation-name: fade;
+    animation-duration: 1.5s;
+}
+
+@keyframes fade {
+    from {
+        opacity: 0.4;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+svg:hover {
+    fill: #cbd5e1;
+}
+.chat-bubble {
+    width: max-content;
+    max-width: 100%;
+}
+
+.hix-widget-btn-container {
+    cursor: pointer;
+    box-shadow: 2px 4px 10px 0px #666;
+}
+
+.hix-widget-container {
+  box-shadow: 2px 4px 10px 0px #666;
+}
