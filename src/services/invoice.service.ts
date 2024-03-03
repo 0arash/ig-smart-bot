@@ -29,7 +29,7 @@ export const invoiceService = {
             },
         });
     },
-    newInvoiceId: async (userId: number, planId: number) => {        
+    newInvoiceId: async (userId: number, planId: number) => {
         return await prismaClient().invoice.create({
             data: {
                 planId,

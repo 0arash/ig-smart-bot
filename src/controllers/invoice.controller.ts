@@ -10,11 +10,10 @@ export const invoiceController = {
             let { planId } = req.body;
 
             console.log(`plan : ${planId}`);
-            
+
             // @ts-ignore
             const userId = req.user.id;
             console.log(`user : ${userId}`);
-            
 
             const invoice = await invoiceService.newInvoiceId(userId, planId);
 
@@ -82,12 +81,11 @@ export const invoiceController = {
                         req.user.id
                     )
                 ) {
-                    
                     const discount =
-                    await planDiscountService.getDiscountByCode(
-                        discountCode
+                        await planDiscountService.getDiscountByCode(
+                            discountCode
                         );
-                        console.log(discount);
+                    console.log(discount);
 
                     let price = invoice.plan.price;
                     if (discount) {

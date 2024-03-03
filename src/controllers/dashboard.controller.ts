@@ -10,7 +10,7 @@ export const dashboardController = {
         try {
             const { upid } = req.params;
             console.log(upid);
-            
+
             if (await userPlanService.ownUserPlanId(req, Number(upid))) {
                 const userPlan = await userPlanService.getUserPlanById(upid);
                 const plan = await planService.getPlanById(userPlan!.plan_id);
