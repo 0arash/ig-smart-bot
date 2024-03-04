@@ -23,7 +23,7 @@ export const authController = {
             secure: true,
         })
             .status(200)
-            .json({ token: user.token });
+            .json({ token: user.token,user_id:user.id });
     },
     register: async (req: Request, res: Response) => {
         const { email, password, name, mobile } = req.body;
@@ -53,7 +53,7 @@ export const authController = {
                     httpOnly: true,
                     secure: true,
                 })
-                .json({ token: newUser.token });
+                .json({ token: newUser.token,user_id:newUser.id });
         } else {
             return res.status(500).json({
                 error: "Internal error",

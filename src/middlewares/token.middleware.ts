@@ -26,5 +26,8 @@ export const verifyToken = async (
                 next();
             }
         }
-    } catch (error) {}
+    } catch (error) {
+        console.log(error);
+        
+    }
 };
