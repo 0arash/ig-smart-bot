@@ -22,7 +22,6 @@ export const requireRole = (role: Role) => {
 
         const cookies = req.cookies;
         const jwtSecret = process.env.JWT_SECRET || "secret";
-        console.log(req.header("Authorization"));
         
         if (req.header("Authorization")) {
             const authHeader = req.header("Authorization")!;

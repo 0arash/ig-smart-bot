@@ -32,9 +32,7 @@ router.get("/callback", async (req: Request, res: Response) => {
             await userPlanService.newUserPlan(Number(planId), Number(userId));
         }
 
-        return res.status(200).json({
-            message: `Payment for ${req.query.trackId} sucessfull.`,
-        });
+        return res.status(200).redirect("http://google.com");
     } else {
         await invoiceService.updateInvoiceById(Number(invId), "CANCELLED");
 
