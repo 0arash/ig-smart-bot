@@ -69,7 +69,7 @@ async function main() {
 
     app.use(morgan("dev"));
     app.use(cookieParser(process.env.COOKIE_SECRET || "secret"));
-    app.use(bodyParser.json({limit:'50mb'}));
+    app.use(bodyParser.json({ limit: "50mb" }));
 
     const chatServer = new ChatServer(httpServer, app, sessionMiddleware);
 

@@ -9,13 +9,11 @@ export const userController = {
             const users = await userService.getUsers(["password"]);
             res.status(200).json({
                 data: users,
-                code: 200,
             });
         } catch (error: any) {
             console.log(error);
             res.status(500).json({
                 data: "Internal error.",
-                code: 500,
             });
         }
     },
@@ -33,7 +31,6 @@ export const userController = {
             }
             res.status(200).json({
                 data: { user },
-                code: 200,
             });
         } catch (error: any) {
             console.log(error);
