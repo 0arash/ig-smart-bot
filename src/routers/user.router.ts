@@ -19,7 +19,6 @@ router.get(
 );
 router.post(
     "/",
-    paramIdValidator,
     handleErrorValidation,
     requireRole(Role.ADMIN),
     userController.getUserByEmail
@@ -33,7 +32,6 @@ router.delete(
 );
 router.put(
     "/",
-    paramIdValidator,
     userUpdateByIdValidator,
     handleErrorValidation,
     requireRole(Role.USER),
