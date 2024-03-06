@@ -32,14 +32,14 @@ router.get("/callback", async (req: Request, res: Response) => {
             await userPlanService.newUserPlan(Number(planId), Number(userId));
         }
 
-        return res.status(200).json({
-            message: `Payment for ${req.query.trackId} sucessfull.`,
-        });
+        return res.status(200).redirect("http://192.168.1.11/index.html");
     } else {
         await invoiceService.updateInvoiceById(Number(invId), "CANCELLED");
 
-        res.status(200).json({ message: "Payment failed" });
+        res.status(200).redirect("/priceplan.html");
     }
 });
+
+router.post("/free",)
 
 export const paymentRouter = router;
