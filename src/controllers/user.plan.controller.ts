@@ -109,7 +109,7 @@ export const userPlanController = {
             const user_plan = (await userPlanService.getCurrentUserPlanByUserId(
                 // @ts-ignore
                 req.user.id
-            ))[0];
+            ));
             res.status(200).json({
                 data: {
                     user_plan_id: user_plan?.id,

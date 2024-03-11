@@ -11,6 +11,7 @@ import { chatLimit } from "../utils/chat.limit.util";
 import { planService } from "../services/plan.service";
 import { userPlanService } from "../services/user.plan.service";
 import { requireRole } from "../middlewares/auth.middleware";
+import { settingsWidgetService } from "../services/settings.service";
 
 export class ChatServer {
     app: Application;
@@ -43,6 +44,7 @@ export class ChatServer {
         this.app.post("/chat", async (req: Request, res: Response) => {
             try {
                 const { api_key } = req.body;
+                let userPlanId = -1;
 
                 let chatUser: ChatUser | null;
                 if (req.session && req.session.userId) {
@@ -56,6 +58,8 @@ export class ChatServer {
                         req.session.userId = String(chatUser.id);
                         req.session.userPlanId = String(chatUser.user_plan_id);
                         req.session.save();
+
+                        userPlanId = chatUser.user_plan_id;
                     }
                 }
                 if (!req.session || !req.session.userId) {
@@ -84,11 +88,19 @@ export class ChatServer {
                     req.session.userId = String(chatUser.id);
                     req.session.userPlanId = String(chatUser.user_plan_id);
                     req.session.save();
+
+                    userPlanId = chatUser.user_plan_id;
                 }
+
+                const settings = await settingsWidgetService.getSettings(userPlanId);
 
                 res.status(200).json({
                     success: true,
                     sid: req.sessionID,
+                    settings: {
+                        title: settings?.title,
+                        caption: settings?.caption
+                    }
                 });
             } catch (error) {
                 console.log(error);
@@ -186,26 +198,27 @@ export class ChatServer {
 
                         // @ts-ignore
                         if (socket.handshake.session.isOperator) {
-                            this.io
-                                // @ts-ignore
-                                .to(socket.handshake.session.targetUserId)
-                                .emit("send_message", {
-                                    message: {
-                                        type: "text",
-                                        content: "Salam Chetori?",
-                                    },
-                                });
+                            // this.io
+                            //     // @ts-ignore
+                            //     .to(socket.handshake.session.targetUserId)
+                            //     .emit("send_message", {
+                            //         message: {
+                            //             type: "text",
+                            //             content: "Salam Chetori?",
+                            //         },
+                            //     });
                         } else {
-                            // socket.emit("send_chat", {
-                            //     message: {
-                            //         content: await this.sendResponse(
-                            //             // @ts-ignore
-                            //             socket.handshake.session.userId,
-                            //             // @ts-ignore
-                            //             socket.handshake.session.userPlanId
-                            //         ),
-                            //     },
-                            // });
+                            socket.emit("send_chat", {
+                                message: {
+                                    type: "text",
+                                    content: await this.sendResponse(
+                                        // @ts-ignore
+                                        socket.handshake.session.userId,
+                                        // @ts-ignore
+                                        socket.handshake.session.userPlanId
+                                    ),
+                                },
+                            });
                         }
                         break;
 
@@ -219,9 +232,11 @@ export class ChatServer {
     async sendResponse(userId: string, userPlanId: string) {
         ///TODO: add limit for creating chats, sending response by ai and operator creation.
         // const limits = await planser
-        const planId = await userPlanService.getUserPlanById(userPlanId);
-        const planInfo = await planService.getPlanById(Number(planId?.plan_id));
+        // const planId = await userPlanService.getUserPlanById(userPlanId);
+        // const planInfo = await planService.getPlanById(Number(planId?.plan_id));
 
-        return await AIService.generateResponse(userId, userPlanId);
+        const response = await AIService.generateResponse(userId, userPlanId);
+        console.log(response);
+        return response;        
     }
 }

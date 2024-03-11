@@ -182,11 +182,12 @@ model TicketMessage {
 
 model WidgetSettings {
   id           Int      @id @default(autoincrement())
-  color        String
-  title        String
-  caption      String
-  pos_right    String
-  pos_left     String
+  color        String   @default("#000")
+  title        String   @default("Business title")
+  caption      String   @default("Business caption")
+  description      String   @default("Business description")
+  welcome      String   @default("Business welcome message")
+  pos          Int      @default(0)
   icon         String
   user_plan    UserPlan @relation(fields: [user_plan_id], references: [id])
   user_plan_id Int      @unique

@@ -10,12 +10,13 @@
 <body>
 
   <script>
+    const A = 'API_KEY_PLACE';
     document.addEventListener('DOMContentLoaded', () => {
       let hixScript = document.createElement("script");
       hixScript.setAttribute("src", "widget.js");
       document.body.appendChild(hixScript);
       hixScript.addEventListener('load', () => {
-        HIX_INIT();
+        HIX_INIT(A);
       })
     })
   </script>

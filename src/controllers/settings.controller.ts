@@ -3,10 +3,10 @@ import { settingsWidgetService } from "../services/settings.service";
 
 export const settingsController = {
     getSettings: async (req: Request, res: Response) => {
-        try {
-            const { user_plan_id } = req.body;
+        try {            
+            const { upid } = req.params;
             const settings = await settingsWidgetService.getSettings(
-                user_plan_id
+                Number(upid)
             );
             res.status(200).json({
                 data: settings,
@@ -24,8 +24,7 @@ export const settingsController = {
                 color,
                 title,
                 caption,
-                pos_right,
-                pos_left,
+                pos,
                 icon,
                 user_plan_id,
             } = req.body;
@@ -35,8 +34,7 @@ export const settingsController = {
                 title,
                 icon,
                 caption,
-                pos_right,
-                pos_left,
+                pos,
                 user_plan_id
             );
             res.status(200).json({
@@ -55,8 +53,7 @@ export const settingsController = {
                 color,
                 title,
                 caption,
-                pos_right,
-                pos_left,
+                pos,
                 icon,
                 user_plan_id,
             } = req.body;
@@ -66,8 +63,7 @@ export const settingsController = {
                 title,
                 icon,
                 caption,
-                pos_right,
-                pos_left,
+                pos,
                 user_plan_id
             );
             res.status(200).json({

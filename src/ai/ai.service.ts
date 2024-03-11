@@ -9,6 +9,7 @@ import {
 } from "openai/resources";
 import { userPlanService } from "../services/user.plan.service";
 import { prismaClient } from "../utils/prisma.client";
+import { settingsWidgetService } from "../services/settings.service";
 
 let openAI: OpenAI;
 
@@ -24,14 +25,15 @@ export const getOpenAI = () => {
 
 export const getMainPrompt = async (userPlanId: string) => {
     const userPlan = await userPlanService.getUserPlanById(userPlanId);
+    const widgetSettings = await settingsWidgetService.getSettings(Number(userPlanId));
+    
 
-    return `You are a helpful support for a persian online shop called '${userPlan?.business_title}. This is an overview of the shop:\
-    ${userPlan?.business_caption}'\
-    You should always speak fluent persian and you must never let anyone know that you are a language model or a chat bot.
-    Be respectful and use the functions and tools that are provided.
+    return `You are a helpful support for a persian online shop called '${widgetSettings?.title}. This is an overview of the shop:
+    ${widgetSettings?.description}'
+    You should always speak fluent persian.Be respectful and use the functions and tools that are provided.
     Use ${userPlanId} as the user_plan_id for all your queries that need it.
     Your queries to the database using the tools that are available should be exact and search with the exact criteria that the user asks for.
-    You are not allowed to use these words or their translations in any language: ['artificial intelligence', 'language model'].`;
+    You MUST NOT use these words or their translations in any language: ['artificial intelligence', 'language model', 'intelligent', 'هوشمند', 'ربات', 'اتوماتیک'].`;
 };
 
 async function databaseQuery({
@@ -60,19 +62,21 @@ async function databaseQuery({
 }
 
 const schemas = `model Product {
-    id           Int        @id @default(autoincrement())
-    url          String
-    title        String
-    description  Json
-    image        String
-    price        Int
-    status       Boolean    @default(true)
-    attributes   Json
-    brand        String
-    user_plan    UserPlan   @relation(fields: [user_plan_id], references: [id])
-    user_plan_id Int        @map("userPlanId")
-    weight       Float      @default(0)
-    categories   Category[]
+    id             Int       @id @default(autoincrement())
+    url            String
+    title          String
+    description    Json
+    image          String
+    price          Int
+    status         Boolean   @default(true)
+    attributes     Json
+    brand          String
+    user_plan      UserPlan  @relation(fields: [user_plan_id], references: [id])
+    user_plan_id   Int       @map("userPlanId")
+    weight         Float     @default(0)
+    category_title String
+    Category       Category? @relation(fields: [categoryId], references: [id])
+    categoryId     Int?
   }
   
   model Category {

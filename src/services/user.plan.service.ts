@@ -10,15 +10,15 @@ export const userPlanService = {
         });
     },
     getCurrentUserPlanByUserId: async (id: number) => {
-        return await prismaClient().userPlan.findMany({
+        return await prismaClient().userPlan.findFirst({
             where: {
                 user_id: id,
             },
-            select:{
-                user:true,
-                plan:true,
-                id:true
-            }
+            select: {
+                user: true,
+                plan: true,
+                id: true,
+            },
         });
     },
     getUserPlanById: async (id: string) => {
@@ -26,7 +26,6 @@ export const userPlanService = {
             where: {
                 id: Number(id),
             },
-            
         });
     },
     updateUserPlanById: async (
@@ -57,7 +56,7 @@ export const userPlanService = {
 
     ownUserPlanId: async (req: Request, userPlanId: number) => {
         console.log(userPlanId);
-        
+
         const userPlan = await prismaClient().userPlan.findUnique({
             where: {
                 id: userPlanId,
@@ -71,11 +70,18 @@ export const userPlanService = {
         userId: number,
         planDiscountId?: number
     ) => {
-        return await prismaClient().userPlan.create({
+        const user_plan = await prismaClient().userPlan.create({
             data: {
                 plan_id: planId,
                 user_id: userId,
                 planDiscountId,
+            },
+        });
+
+        const settings = await prismaClient().widgetSettings.create({
+            data: {
+                user_plan_id: user_plan.id,
+                icon: "192.168.1.21:3000/widget/icon-widget.svg",
             },
         });
     },
