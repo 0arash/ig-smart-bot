@@ -32,21 +32,22 @@ enum InvoiceStatus {
 }
 
 model User {
-  id           Int            @id @default(autoincrement())
-  email        String         @unique
-  password     String
-  name         String?
-  token        String?
-  mobile       String?
-  address      String?
-  code_meli    String?
-  role         Role           @default(USER)
-  user_plans   UserPlan[]
-  Invoice      Invoice[]
-  PlanDiscount PlanDiscount[]
-  birth        String?
+  id                    Int             @id @default(autoincrement())
+  email                 String          @unique
+  password              String
+  name                  String?
+  token                 String?
+  mobile                String?
+  address               String?
+  code_meli             String?
+  role                  Role            @default(USER)
+  user_plans            UserPlan[]
+  Invoice               Invoice[]
+  PlanDiscount          PlanDiscount[]
+  birth                 String?
   // Operator fields
-
+  reset_url             String?
+  is_reseting           Boolean        @default(false)
   operator_user_plan    UserPlan?       @relation(name: "OperatorUserPlan", fields: [operator_user_plan_id], references: [id])
   operator_user_plan_id Int?
   chatMessages          ChatMessage[]
@@ -125,21 +126,21 @@ model ChatMessage {
 }
 
 model Product {
-  id           Int       @id @default(autoincrement())
-  url          String
-  title        String
-  description  Json
-  image        String
-  price        Int
-  status       Boolean   @default(true)
-  attributes   Json
-  brand        String
-  user_plan    UserPlan  @relation(fields: [user_plan_id], references: [id])
-  user_plan_id Int       @map("userPlanId")
-  weight       Float     @default(0)
-  category_title     String
-  Category     Category? @relation(fields: [categoryId], references: [id])
-  categoryId   Int?
+  id             Int       @id @default(autoincrement())
+  url            String
+  title          String
+  description    Json
+  image          String
+  price          Int
+  status         Boolean   @default(true)
+  attributes     Json
+  brand          String
+  user_plan      UserPlan  @relation(fields: [user_plan_id], references: [id])
+  user_plan_id   Int       @map("userPlanId")
+  weight         Float     @default(0)
+  category_title String
+  Category       Category? @relation(fields: [categoryId], references: [id])
+  categoryId     Int?
 }
 
 model Category {
