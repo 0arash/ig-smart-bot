@@ -91,6 +91,8 @@ export class ChatServer {
                     sid: req.sessionID,
                 });
             } catch (error) {
+                console.log(error);
+                
                 res.status(500).json({
                     error: error || "Internal error.",
                 });

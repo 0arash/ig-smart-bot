@@ -82,10 +82,10 @@
 
 
   <script>
-    axios.post("http://localhost:3000/operator/chat", {
+    axios.post("http://192.168.1.12:3000/operator/chat", {
       api_key: '12345',
     }).then((data) => {
-      const socket = io("http://localhost:3000", { withCredentials: true })
+      const socket = io("http://192.168.1.12:3000", { withCredentials: true })
       socket.on('connect', () => {
         socket.on('user_id', (data) => {
           

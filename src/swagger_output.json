@@ -843,6 +843,16 @@
         }
       }
     },
+    "/api/payment/free": {
+      "post": {
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
     "/api/chat_messages/{id}": {
       "get": {
         "description": "",
