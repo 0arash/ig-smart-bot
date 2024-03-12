@@ -24,7 +24,7 @@ export class ChatServer {
         this.app = app;
 
         this.io = new Server(httpServer, {
-            cors: { origin: "http://localhost:5173", credentials: true },
+            cors: { origin: "http://localhost:5500", credentials: true },
             transports: ["websocket", "polling"],
             connectionStateRecovery: {
                 maxDisconnectionDuration: 2 * 60 * 1000,
