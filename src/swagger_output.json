@@ -1638,12 +1638,12 @@
         }
       }
     },
-    "/api/crawler/{id}": {
+    "/api/crawler/{upid}": {
       "post": {
         "description": "",
         "parameters": [
           {
-            "name": "id",
+            "name": "upid",
             "in": "path",
             "required": true,
             "schema": {

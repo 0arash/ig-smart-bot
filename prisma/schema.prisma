@@ -127,11 +127,11 @@ model ChatMessage {
 
 model Product {
   id             Int       @id @default(autoincrement())
-  url            String
+  url            String    @unique
   title          String
   description    Json
   image          String
-  price          Int
+  price          BigInt
   status         Boolean   @default(true)
   attributes     Json
   brand          String

@@ -7,7 +7,7 @@ const router = express();
 export const crawlerRouter = router;
 
 router.put("/", crawlerController.updateRequestCrawler);
-router.post("/:id",  crawlerController.newProductFromJson);
+router.post("/:upid",  crawlerController.newProductFromJson);
 router.get("/get_user_plans", crawlerController.getUserPlans);
 
 // /api/crawler/?id=2

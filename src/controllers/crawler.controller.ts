@@ -31,9 +31,8 @@ export const crawlerController = {
     },
     newProductFromJson: async (req: Request, res: Response) => {
         try {
-            const { user_plan_id } = req.params;
+            const { upid } = req.params;
             const products = req.body;
-            console.log(products);
 
             let newProduct = [];
             for (let i = 0; i < products.length; i++) {
@@ -51,17 +50,17 @@ export const crawlerController = {
                     title,
                     price,
                     specs,
+                    brand,
                     full_specs || "",
                     url,
-                    brand,
                     image,
                     category_title,
-                    user_plan_id
+                    upid
                 );
                 newProduct.push(product);
             }
             res.status(200).json({
-                data: newProduct,
+                data: { newProductCount: newProduct.length },
             });
         } catch (error) {
             console.log(error);

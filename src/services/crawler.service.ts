@@ -28,7 +28,7 @@ export const crawlerService = {
         image: string,
         category_title: string,
         user_plan_id: string
-    ) => {
+    ) => {        
         return await prismaClient().product.create({
             data: {
                 title,
