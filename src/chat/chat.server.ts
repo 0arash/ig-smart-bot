@@ -92,19 +92,21 @@ export class ChatServer {
                     userPlanId = chatUser.user_plan_id;
                 }
 
-                const settings = await settingsWidgetService.getSettings(userPlanId);
+                const settings = await settingsWidgetService.getSettings(
+                    userPlanId
+                );
 
                 res.status(200).json({
                     success: true,
                     sid: req.sessionID,
                     settings: {
                         title: settings?.title,
-                        caption: settings?.caption
-                    }
+                        caption: settings?.caption,
+                    },
                 });
             } catch (error) {
                 console.log(error);
-                
+
                 res.status(500).json({
                     error: error || "Internal error.",
                 });
@@ -154,10 +156,12 @@ export class ChatServer {
             });
 
             // @ts-ignore
-            console.log(JSON.stringify(socket.handshake.session));
-
-            // @ts-ignore
             socket.emit("user_id", socket.handshake.session.userId);
+            socket.emit("send_buttons", {
+                buttons: [
+                    
+                ],
+            });
 
             socket.on("set_target", async (data) => {
                 const targetUser = await prismaClient().chatUser.findUnique({
@@ -167,8 +171,10 @@ export class ChatServer {
                 });
 
                 const targetUserId = targetUser?.id;
-                const query = `select sess ->> 'userId' uid, sess ->> 'socketId' sid from chatuser_sessions WHERE sess->>'userId'='${targetUserId}';`
-                const targetSocketId = await prismaClient().$queryRawUnsafe(query);
+                const query = `select sess ->> 'userId' uid, sess ->> 'socketId' sid from chatuser_sessions WHERE sess->>'userId'='${targetUserId}';`;
+                const targetSocketId = await prismaClient().$queryRawUnsafe(
+                    query
+                );
 
                 // @ts-ignore
                 socket.handshake.session.targetUserId = targetSocketId;
@@ -237,6 +243,6 @@ export class ChatServer {
 
         const response = await AIService.generateResponse(userId, userPlanId);
         console.log(response);
-        return response;        
+        return response;
     }
 }
