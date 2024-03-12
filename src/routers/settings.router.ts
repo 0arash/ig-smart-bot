@@ -2,9 +2,8 @@ import express from "express";
 import { settingsController } from "../controllers/settings.controller";
 import { requireRole } from "../middlewares/auth.middleware";
 
-const router = express.Router();
-export const settingsRouter = router;
+export const settingsRouter = express.Router();
 
-router.get("/", requireRole("USER"), settingsController.getSettings);
-router.put("/", requireRole("USER"), settingsController.updateSettings);
-router.post("/", requireRole("USER"), settingsController.newSettings);
+settingsRouter.get("/:upid", requireRole("USER"), settingsController.getSettings);
+settingsRouter.put("/", requireRole("USER"), settingsController.updateSettings);
+settingsRouter.post("/", requireRole("USER"), settingsController.newSettings);

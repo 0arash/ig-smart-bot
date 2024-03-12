@@ -18,8 +18,8 @@ export const planController = {
     },
     getPlanById: async (req: Request, res: Response) => {
         try {
-            const { id } = req.body;
-            const plan = await planService.getPlanById(id);
+            const { id } = req.params;
+            const plan = await planService.getPlanById(Number(id));
             console.log(`plan ${plan?.title} fetched.`);
             res.status(200).json({
                 data: plan,

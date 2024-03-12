@@ -7,6 +7,12 @@ import {
 } from "../validators/router.validation";
 const router = express.Router();
 
+router.post(
+    "/pay",
+    paramIdValidator,
+    requireRole(Role.USER),
+    invoiceController.payInvoiceById
+);
 router.get(
     "/:id",
     paramIdValidator,
@@ -20,12 +26,6 @@ router.get(
     invoiceController.getInvoicesByUserId
 );
 
-router.post(
-    "/pay",
-    paramIdValidator,
-    requireRole(Role.USER),
-    invoiceController.payInvoiceById
-);
 router.post(
     "/",
     requireRole(Role.USER),

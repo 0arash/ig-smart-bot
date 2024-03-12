@@ -13,8 +13,7 @@ export const settingsWidgetService = {
         title: string,
         icon: string,
         caption: string,
-        pos_right: string,
-        pos_left: string,
+        pos: string,
         user_plan_id: number
     ) => {
         return await prismaClient().widgetSettings.create({
@@ -23,8 +22,7 @@ export const settingsWidgetService = {
                 title,
                 caption,
                 icon,
-                pos_left,
-                pos_right,
+                pos: Number(pos),
                 user_plan_id,
             },
         });
@@ -34,8 +32,7 @@ export const settingsWidgetService = {
         title: string,
         icon: string,
         caption: string,
-        pos_right: string,
-        pos_left: string,
+        pos: string,
         user_plan_id: number
     ) => {
         return await prismaClient().widgetSettings.update({
@@ -44,8 +41,7 @@ export const settingsWidgetService = {
                 title,
                 caption,
                 icon,
-                pos_left,
-                pos_right,
+                pos: Number(pos),
             },
             where: {
                 user_plan_id,

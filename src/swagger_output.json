@@ -95,6 +95,33 @@
         }
       }
     },
+    "/api/auth/reset_password": {
+      "post": {
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "example": "any"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/operator/chats/{upid}": {
       "get": {
         "description": "",
@@ -635,6 +662,54 @@
         }
       }
     },
+    "/api/invoice/pay": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "example": "any"
+                  },
+                  "discountCode": {
+                    "example": "any"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/invoice/{id}": {
       "get": {
         "description": "",
@@ -703,54 +778,6 @@
           },
           "500": {
             "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/api/invoice/pay": {
-      "post": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "Authorization",
-            "in": "header",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        },
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "id": {
-                    "example": "any"
-                  },
-                  "discountCode": {
-                    "example": "any"
-                  }
-                }
-              }
-            }
           }
         }
       }
@@ -1661,10 +1688,18 @@
         }
       }
     },
-    "/api/settings/": {
+    "/api/settings/{upid}": {
       "get": {
         "description": "",
         "parameters": [
+          {
+            "name": "upid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
           {
             "name": "Authorization",
             "in": "header",
@@ -1687,7 +1722,9 @@
             "description": "Internal Server Error"
           }
         }
-      },
+      }
+    },
+    "/api/settings/": {
       "put": {
         "description": "",
         "parameters": [
@@ -1728,10 +1765,7 @@
                   "caption": {
                     "example": "any"
                   },
-                  "pos_right": {
-                    "example": "any"
-                  },
-                  "pos_left": {
+                  "pos": {
                     "example": "any"
                   },
                   "icon": {
@@ -1786,10 +1820,7 @@
                   "caption": {
                     "example": "any"
                   },
-                  "pos_right": {
-                    "example": "any"
-                  },
-                  "pos_left": {
+                  "pos": {
                     "example": "any"
                   },
                   "icon": {
@@ -1841,6 +1872,60 @@
                 "type": "object",
                 "properties": {
                   "discountCode": {
+                    "example": "any"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/reset/": {
+      "post": {
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "example": "any"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/reset/reset": {
+      "post": {
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
                     "example": "any"
                   }
                 }
