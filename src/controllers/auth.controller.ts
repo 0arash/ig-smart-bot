@@ -79,8 +79,13 @@ export const authController = {
             res.status(200).json({
                 data: "email has been sent.",
             });
-        } catch (error) {
+        } catch (error: any) {
             console.log(error);
+            if (error.code == "P2025") {
+                return res.status(404).json({
+                    error: "Email not found.",
+                });
+            }
             res.status(500).json({
                 error: error || "Internal error.",
             });
@@ -100,7 +105,7 @@ export const authController = {
         } catch (error: any) {
             console.log(error);
             if (error.code === "P2025") {
-                return res.status(501).json({
+                return res.status(404).json({
                     error: "Invalid verify code.",
                 });
             }
