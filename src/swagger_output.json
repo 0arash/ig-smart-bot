@@ -102,6 +102,9 @@
           "200": {
             "description": "OK"
           },
+          "404": {
+            "description": "Not Found"
+          },
           "500": {
             "description": "Internal Server Error"
           }
@@ -1881,12 +1884,15 @@
         }
       }
     },
-    "/api/reset/": {
+    "/api/reset/check_code": {
       "post": {
         "description": "",
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
           },
           "500": {
             "description": "Internal Server Error"
@@ -1898,7 +1904,13 @@
               "schema": {
                 "type": "object",
                 "properties": {
+                  "verify_code": {
+                    "example": "any"
+                  },
                   "email": {
+                    "example": "any"
+                  },
+                  "password": {
                     "example": "any"
                   }
                 }
@@ -1908,12 +1920,15 @@
         }
       }
     },
-    "/api/reset/reset": {
+    "/api/reset/": {
       "post": {
         "description": "",
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
           },
           "500": {
             "description": "Internal Server Error"

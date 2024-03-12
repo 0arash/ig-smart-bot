@@ -34,9 +34,11 @@ async function main() {
     const httpServer = createServer(app);
 
     app.disable("x-powered-by");
-    app.use(helmet({
-        contentSecurityPolicy: false,
-    }));
+    app.use(
+        helmet({
+            contentSecurityPolicy: false,
+        })
+    );
     // app.use(
     //     umbress({
     //         rateLimiter: { enabled: true },

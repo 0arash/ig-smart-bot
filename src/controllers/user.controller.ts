@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { userService } from "../services/user.service";
 import { prismaClient } from "../utils/prisma.client";
 import { PrismaClient } from "@prisma/client";
+import { resetPasswordService } from "../services/reset.password.service";
 
 export const userController = {
     getUsers: async (req: Request, res: Response) => {
