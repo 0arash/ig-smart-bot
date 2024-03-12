@@ -93,15 +93,14 @@ export const resetPasswordService = {
                     }
             
                     .center {
-                        padding: 70px 0;
+                        padding: 50px;
                         position: relative;
                         width: 100%;
                     }
             
                     input {
-                        width: 100%;
                         padding: 50px;
-                        width: 500px;
+                        position:absolute;
                         font-size: 40px;
                         text-align: center;
                         border: 3px solid #f05e22;
@@ -118,12 +117,10 @@ export const resetPasswordService = {
             </head>
             
             <body>
-                <div class="">
                     <div class="center">
                         <p dir="rtl">کد تایید شما:</p>
-                        <input type="text" readonly value="${verify_code}" />
+                        <input type="text" disabled value="${verify_code}" />
                     </div>
-                </div>
             </body>
             
             </html>`,
