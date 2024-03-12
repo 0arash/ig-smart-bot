@@ -21,7 +21,8 @@ export const scraperService = {
         image: string,
         description: string,
         attributes: string,
-        user_plan_id: number
+        user_plan_id: number,
+        category_title: string
     ) => {
         try {
             return await prismaClient().product.create({
@@ -34,6 +35,7 @@ export const scraperService = {
                     description,
                     attributes,
                     user_plan_id,
+                    category_title,
                 },
             });
         } catch (error) {
