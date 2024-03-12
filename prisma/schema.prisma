@@ -45,9 +45,9 @@ model User {
   Invoice               Invoice[]
   PlanDiscount          PlanDiscount[]
   birth                 String?
+  verify_code           Int?
   // Operator fields
-  reset_url             String?
-  is_reseting           Boolean        @default(false)
+  is_reseting           Boolean         @default(false)
   operator_user_plan    UserPlan?       @relation(name: "OperatorUserPlan", fields: [operator_user_plan_id], references: [id])
   operator_user_plan_id Int?
   chatMessages          ChatMessage[]
@@ -186,7 +186,7 @@ model WidgetSettings {
   color        String   @default("#000")
   title        String   @default("Business title")
   caption      String   @default("Business caption")
-  description      String   @default("Business description")
+  description  String   @default("Business description")
   welcome      String   @default("Business welcome message")
   pos          Int      @default(0)
   icon         String
