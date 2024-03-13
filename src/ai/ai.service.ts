@@ -24,59 +24,48 @@ export const getOpenAI = () => {
 };
 
 export const getMainPrompt = async (userPlanId: string) => {
-    const userPlan = await userPlanService.getUserPlanById(userPlanId);
-    const widgetSettings = await settingsWidgetService.getSettings(Number(userPlanId));
-    
+    const widgetSettings = await settingsWidgetService.getSettings(
+        Number(userPlanId)
+    );
 
-    return `You are a helpful support for a persian online shop called '${widgetSettings?.title}. This is an overview of the shop:
+    return `You are a helpful customer support for a persian online shop called '${widgetSettings?.title}. This is an overview of the shop:
     ${widgetSettings?.description}'
-    You should always speak fluent persian.Be respectful and use the functions and tools that are provided.
+    You should always speak fluent persian.همیشه فارسی جواب بده. Be respectful and use the functions and tools that are provided.
     Use ${userPlanId} as the user_plan_id for all your queries that need it.
+    When you feel the need to query from the database, first try to minimize the amount of queries and the response sizes by asking the user to clarify any ambiguities you might have and try to minimize the criteria for your search based on the schemas you have available.
     Your queries to the database using the tools that are available should be exact and search with the exact criteria that the user asks for.
     You MUST NOT use these words or their translations in any language: ['artificial intelligence', 'language model', 'intelligent', 'هوشمند', 'ربات', 'اتوماتیک'].`;
 };
 
 async function databaseQuery({
-    modelName,
     query,
 }: {
-    modelName: string;
     query: string;
 }) {
     let response;
     var correctQuery = eval("(" + query + ")");
     console.log(JSON.stringify(correctQuery));
 
-    switch (modelName) {
-        case "product":
-            response = await prismaClient().product.findMany({
-                where: {},
-            });
-            break;
-        case "category":
-            response = await prismaClient().category.findMany(correctQuery);
-            break;
-    }
+    response = await prismaClient().product.findMany(correctQuery);
 
     return response;
 }
 
 const schemas = `model Product {
     id             Int       @id @default(autoincrement())
-    url            String
+    url            String    @unique
     title          String
     description    Json
     image          String
-    price          Int
+    price          BigInt
     status         Boolean   @default(true)
     attributes     Json
     brand          String
     user_plan      UserPlan  @relation(fields: [user_plan_id], references: [id])
     user_plan_id   Int       @map("userPlanId")
     weight         Float     @default(0)
-    category_title String
-    Category       Category? @relation(fields: [categoryId], references: [id])
-    categoryId     Int?
+    Category       Category @relation(fields: [categoryId], references: [id])
+    categoryId     Int
   }
   
   model Category {
@@ -85,7 +74,7 @@ const schemas = `model Product {
     products     Product[]
     user_plan    UserPlan  @relation(fields: [user_plan_id], references: [id])
     user_plan_id Int       @map("userPlanId")
-  }`;
+  }}`;
 
 const tools = (user_plan_id: number): ChatCompletionTool[] => [
     {
@@ -97,12 +86,6 @@ const tools = (user_plan_id: number): ChatCompletionTool[] => [
             parameters: {
                 type: "object",
                 properties: {
-                    modelName: {
-                        type: "string",
-                        description:
-                            'The name of the model to query from possible values : "product" and "category"',
-                        enum: ["product", "category"],
-                    },
                     query: {
                         type: "string",
                         description: `The query json object to be passed to the prisma client to be executed. this object should be constructed in such a way that fulfills all the filters the user asks for. The query object should be a valid Prisma query object with all the conditions needed based on the models including all related models. You must ${user_plan_id} as the user_plan_id in your queries.

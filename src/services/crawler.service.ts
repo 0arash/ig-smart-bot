@@ -28,7 +28,7 @@ export const crawlerService = {
         image: string,
         category_title: string,
         user_plan_id: string
-    ) => {        
+    ) => {
         return await prismaClient().product.create({
             data: {
                 title,
@@ -37,10 +37,23 @@ export const crawlerService = {
                 description: specs,
                 url,
                 image,
-                category_title,
                 brand,
+                Category: {
+                    connectOrCreate: {
+                        where: {
+                            title: category_title,
+                        },
+                        create: {
+                            title: category_title,
+                            user_plan_id: Number(user_plan_id),
+                        },
+                    },
+                },
                 user_plan_id: Number(user_plan_id),
             },
+            include: {
+                Category: true
+            }
         });
     },
     getUserPlanDetails: async () => {

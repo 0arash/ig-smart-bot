@@ -86,7 +86,7 @@ model UserPlan {
   created_at       DateTime      @default(now())
   products         Product[]
   categories       Category[]
-  api_key          String?       @unique
+  api_key          String        @unique
   business_title   String?
   business_caption String?
   PlanDiscount     PlanDiscount? @relation(fields: [planDiscountId], references: [id])
@@ -95,9 +95,9 @@ model UserPlan {
   chats_used       Int           @default(0)
 
   // Operator fields
-  operators      User[]           @relation(name: "OperatorUserPlan")
+  operators      User[]          @relation(name: "OperatorUserPlan")
   Ticket         Ticket[]
-  WidgetSettings WidgetSettings[]
+  WidgetSettings WidgetSettings?
 }
 
 model ChatUser {
@@ -126,26 +126,25 @@ model ChatMessage {
 }
 
 model Product {
-  id             Int       @id @default(autoincrement())
-  url            String    @unique
-  title          String
-  description    Json
-  image          String
-  price          BigInt
-  status         Boolean   @default(true)
-  attributes     Json
-  brand          String
-  user_plan      UserPlan  @relation(fields: [user_plan_id], references: [id])
-  user_plan_id   Int       @map("userPlanId")
-  weight         Float     @default(0)
-  category_title String
-  Category       Category? @relation(fields: [categoryId], references: [id])
-  categoryId     Int?
+  id           Int      @id @default(autoincrement())
+  url          String   @unique
+  title        String
+  description  Json
+  image        String
+  price        BigInt
+  status       Boolean  @default(true)
+  attributes   Json
+  brand        String
+  user_plan    UserPlan @relation(fields: [user_plan_id], references: [id])
+  user_plan_id Int      @map("userPlanId")
+  weight       Float    @default(0)
+  Category     Category @relation(fields: [categoryId], references: [id])
+  categoryId   Int
 }
 
 model Category {
   id           Int       @id @default(autoincrement())
-  title        String
+  title        String    @unique
   products     Product[]
   user_plan    UserPlan  @relation(fields: [user_plan_id], references: [id])
   user_plan_id Int       @map("userPlanId")

@@ -7,3 +7,4 @@ export const settingsRouter = express.Router();
 settingsRouter.get("/:upid", requireRole("USER"), settingsController.getSettings);
 settingsRouter.put("/", requireRole("USER"), settingsController.updateSettings);
 settingsRouter.post("/", requireRole("USER"), settingsController.newSettings);
+settingsRouter.get("/script/:upid", requireRole("USER"), settingsController.getScript)

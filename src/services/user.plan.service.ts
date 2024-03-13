@@ -1,4 +1,5 @@
 import { Request } from "express";
+import bcrypt from "bcrypt";
 import { prismaClient } from "../utils/prisma.client";
 
 export const userPlanService = {
@@ -26,6 +27,9 @@ export const userPlanService = {
             where: {
                 id: Number(id),
             },
+            include: {
+                WidgetSettings: true
+            }
         });
     },
     updateUserPlanById: async (
@@ -70,11 +74,18 @@ export const userPlanService = {
         userId: number,
         planDiscountId?: number
     ) => {
+        const api_key = await bcrypt.hash(
+            // @ts-ignore
+            userPlan.id + "," + req.user.id,
+            10
+        );
+
         const user_plan = await prismaClient().userPlan.create({
             data: {
                 plan_id: planId,
                 user_id: userId,
                 planDiscountId,
+                api_key
             },
         });
 

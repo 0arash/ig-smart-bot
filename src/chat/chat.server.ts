@@ -145,6 +145,12 @@ export class ChatServer {
             // @ts-ignore
             socket.handshake.session.save();
 
+            const userPlan = await userPlanService.getUserPlanById(
+                // @ts-ignore
+                socket.handshake.session.userPlanId
+            );
+            const settings = userPlan?.WidgetSettings;
+
             await prismaClient().chatUser.update({
                 where: {
                     //@ts-ignore
@@ -158,10 +164,34 @@ export class ChatServer {
             // @ts-ignore
             socket.emit("user_id", socket.handshake.session.userId);
             socket.emit("send_buttons", {
-                buttons: [
-                    
-                ],
+                buttons: [],
             });
+
+            const messages = await prismaClient().chatMessage.findMany({
+                where: {
+                    // @ts-ignore
+                    chat_user_id: Number(socket.handshake.session.userId),
+                },
+            });
+
+            messages.forEach((m) => {
+                socket.emit("send_chat", {
+                    message: {
+                        type: m.type.toLowerCase(),
+                        content: m.content,
+                        sender: m.is_user_message ? 1 : 0
+                    },
+                });
+            });
+
+            if (messages.length <= 0) {
+                socket.emit("send_chat", {
+                    message: {
+                        type: "text",
+                        content: settings?.welcome,
+                    },
+                });
+            }
 
             socket.on("set_target", async (data) => {
                 const targetUser = await prismaClient().chatUser.findUnique({
