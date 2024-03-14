@@ -55,7 +55,7 @@ export const crawlerController = {
                     url,
                     image,
                     category_title,
-                    upid
+                    Number(upid)
                 );
                 newProduct.push(product);
             }

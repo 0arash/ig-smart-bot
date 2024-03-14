@@ -13,7 +13,7 @@ export const PaymentHelper = {
             const paymentResponse = await axios.post(
                 "https://gateway.zibal.ir/v1/request",
                 {
-                    merchant: "zibal",
+                    merchant: "65abc18bc5d2cb0013780ce8",
                     amount,
                     callbackUrl: callbackUrl,
                     orderId: invoiceId,
