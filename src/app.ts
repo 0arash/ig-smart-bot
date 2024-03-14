@@ -11,7 +11,7 @@ import { routes } from "./routers";
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import { generateSwagger } from "./swagger";
-import { createServer } from "http";
+import { createServer } from "https";
 import { ChatServer } from "./chat/chat.server";
 import cors from "cors";
 import connectPgStore from "connect-pg-simple";
