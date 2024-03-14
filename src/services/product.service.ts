@@ -1,11 +1,13 @@
 import { prismaClient } from "../utils/prisma.client";
 
 export const productService = {
-    getProducts: async (userPlanId: number) => {
+    getProducts: async (userPlanId: number, page: number) => {
         return await prismaClient().product.findMany({
             where: {
                 user_plan_id: userPlanId,
             },
+            skip: page * 20,
+            take: 20,
         });
     },
     getProductById: async (id: number) => {
@@ -20,7 +22,7 @@ export const productService = {
         title: string,
         description: string,
         image: string,
-        price: number,
+        price: string,
         attributes: object,
         weight: number,
         user_plan_id: number,
@@ -31,15 +33,15 @@ export const productService = {
             where: {
                 title: category_title,
                 user_plan_id,
-            }
+            },
         });
 
-        if(!category) {
+        if (!category) {
             category = await prismaClient().category.create({
                 data: {
                     title: category_title,
-                    user_plan_id
-                }
+                    user_plan_id,
+                },
             });
         }
 
@@ -64,7 +66,7 @@ export const productService = {
         title: string,
         description: string,
         image: string,
-        price: number,
+        price: string,
         status: boolean,
         attributes: object,
         weight: number

@@ -20,7 +20,7 @@ export const crawlerService = {
     },
     newProductFromJson: async (
         title: string,
-        price: number,
+        price: string,
         specs: object,
         brand: string,
         full_specs: object,

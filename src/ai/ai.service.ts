@@ -51,30 +51,29 @@ async function databaseQuery({
     return response;
 }
 
-const schemas = `model Product {
-    id             Int       @id @default(autoincrement())
-    url            String    @unique
-    title          String
-    description    Json
-    image          String
-    price          BigInt
-    status         Boolean   @default(true)
-    attributes     Json
-    brand          String
-    user_plan      UserPlan  @relation(fields: [user_plan_id], references: [id])
-    user_plan_id   Int       @map("userPlanId")
-    weight         Float     @default(0)
-    Category       Category @relation(fields: [categoryId], references: [id])
-    categoryId     Int
-  }
-  
-  model Category {
+const schemas = `model Category {
     id           Int       @id @default(autoincrement())
-    title        String
+    title        String    @unique
     products     Product[]
     user_plan    UserPlan  @relation(fields: [user_plan_id], references: [id])
     user_plan_id Int       @map("userPlanId")
-  }}`;
+  }
+  model Product {
+    id           Int       @id @default(autoincrement())
+    url          String    @unique
+    title        String
+    description  Json
+    image        String
+    price        BigInt
+    status       Boolean   @default(true)
+    attributes   Json
+    brand        String
+    user_plan    UserPlan  @relation(fields: [user_plan_id], references: [id])
+    user_plan_id Int       @map("userPlanId")
+    weight       Float     @default(0)
+    category     Category? @relation(fields: [categoryId], references: [id])
+    categoryId   Int?
+  }`;
 
 const tools = (user_plan_id: number): ChatCompletionTool[] => [
     {

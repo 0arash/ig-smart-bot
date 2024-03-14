@@ -138,7 +138,7 @@ model Product {
   title        String
   description  Json
   image        String
-  price        BigInt
+  price        String
   status       Boolean   @default(true)
   attributes   Json
   brand        String

@@ -5,9 +5,12 @@ import { userPlanService } from "../services/user.plan.service";
 export const productController = {
     getProducts: async (req: Request, res: Response) => {
         try {
-            const { upid } = req.query;
+            const { upid, p } = req.query;
             if (await userPlanService.ownUserPlanId(req, Number(upid))) {
-                const products = await productService.getProducts(Number(upid));
+                const products = await productService.getProducts(
+                    Number(upid),
+                    Number(p)
+                );
                 console.log(`[+] ${products.length} products fetched.`);
                 res.status(200).json({
                     data: products,
@@ -63,9 +66,7 @@ export const productController = {
                 brand,
                 category_title,
             } = req.body;
-            if (
-                await userPlanService.ownUserPlanId(req, user_plan_id)
-            ) {
+            if (await userPlanService.ownUserPlanId(req, user_plan_id)) {
                 const product = await productService.newProduct(
                     url,
                     title,
@@ -75,7 +76,8 @@ export const productController = {
                     attributes,
                     user_plan_id,
                     weight,
-                    brand,category_title
+                    brand,
+                    category_title
                 );
                 res.status(201).json({
                     data: product,
@@ -150,10 +152,7 @@ export const productController = {
             const product = await productService.deleteProductById(Number(id));
 
             if (
-                await userPlanService.ownUserPlanId(
-                    req,
-                    product.user_plan_id
-                )
+                await userPlanService.ownUserPlanId(req, product.user_plan_id)
             ) {
                 res.status(200).json({
                     data: product,
