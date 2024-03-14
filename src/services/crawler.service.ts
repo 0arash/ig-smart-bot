@@ -29,6 +29,22 @@ export const crawlerService = {
         category_title: string,
         user_plan_id: number
     ) => {
+        let category = await prismaClient().category.findUnique({
+            where: {
+                title: category_title,
+                user_plan_id,
+            }
+        });
+
+        if(!category) {
+            category = await prismaClient().category.create({
+                data: {
+                    title: category_title,
+                    user_plan_id
+                }
+            });
+        }
+
         return await prismaClient().product.create({
             data: {
                 title,
@@ -38,14 +54,9 @@ export const crawlerService = {
                 url,
                 image,
                 brand,
+                categoryId: category.id,
                 user_plan_id,
-                category:{
-                    connect:{
-                        title
-                    }
-                }
             },
-
         });
     },
     getUserPlanDetails: async () => {

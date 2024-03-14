@@ -27,6 +27,22 @@ export const productService = {
         brand: string,
         category_title: string
     ) => {
+        let category = await prismaClient().category.findUnique({
+            where: {
+                title: category_title,
+                user_plan_id,
+            }
+        });
+
+        if(!category) {
+            category = await prismaClient().category.create({
+                data: {
+                    title: category_title,
+                    user_plan_id
+                }
+            });
+        }
+
         return await prismaClient().product.create({
             data: {
                 url,
@@ -37,7 +53,7 @@ export const productService = {
                 brand,
                 attributes,
                 weight,
-                category_title,
+                categoryId: category.id,
                 user_plan_id,
             },
         });
