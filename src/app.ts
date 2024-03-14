@@ -29,9 +29,14 @@ declare module "express-session" {
 }
 
 async function main() {
+    const privatekey = fs.readFileSync("./certs/key.pem");
+    const certificate = fs.readFileSync("./certs/cert.pem");
     await generateSwagger();
     const app = express();
-    const httpServer = createServer(app);
+    const httpServer = createServer(
+        { key: privatekey, cert: certificate },
+        app
+    );
 
     app.disable("x-powered-by");
     app.use(
