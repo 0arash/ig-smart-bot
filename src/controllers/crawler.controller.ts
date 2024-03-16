@@ -48,7 +48,7 @@ export const crawlerController = {
                 } = products[i];
                 const product = await crawlerService.newProductFromJson(
                     title,
-                    String(price),
+                    price,
                     specs,
                     brand,
                     full_specs || "",

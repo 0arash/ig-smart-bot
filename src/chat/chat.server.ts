@@ -175,13 +175,19 @@ export class ChatServer {
             });
 
             messages.forEach((m) => {
-                socket.emit("send_chat", {
-                    message: {
-                        type: m.type.toLowerCase(),
-                        content: m.content,
-                        sender: m.is_user_message ? 1 : 0
-                    },
-                });
+                if (m.content.startsWith('{"tool_call_id"')) return;
+                socket.emit(
+                    "send_chat",
+                    m.content.startsWith("{")
+                        ? { message: JSON.parse(m.content) }
+                        : {
+                              message: {
+                                  type: m.type.toLowerCase(),
+                                  content: m.content,
+                                  sender: m.is_user_message ? 1 : 0,
+                              },
+                          }
+                );
             });
 
             if (messages.length <= 0) {
@@ -244,17 +250,30 @@ export class ChatServer {
                             //         },
                             //     });
                         } else {
-                            socket.emit("send_chat", {
-                                message: {
-                                    type: "text",
-                                    content: await this.sendResponse(
-                                        // @ts-ignore
-                                        socket.handshake.session.userId,
-                                        // @ts-ignore
-                                        socket.handshake.session.userPlanId
-                                    ),
-                                },
-                            });
+                            const response = await this.sendResponse(
+                                // @ts-ignore
+                                socket.handshake.session.userId,
+                                // @ts-ignore
+                                socket.handshake.session.userPlanId
+                            );
+                            console.log(response);
+                            
+                            
+                            
+                            try {
+                                socket.emit("send_chat", {
+                                    message: JSON.parse(response),
+                                });
+                            } catch (error) {
+                                try {
+                                    socket.emit("send_chat", {
+                                        message: {
+                                            type: "text",
+                                            content: response,
+                                        },
+                                    });
+                                } catch (error) {}
+                            }
                         }
                         break;
 
@@ -272,7 +291,6 @@ export class ChatServer {
         // const planInfo = await planService.getPlanById(Number(planId?.plan_id));
 
         const response = await AIService.generateResponse(userId, userPlanId);
-        console.log(response);
         return response;
     }
 }

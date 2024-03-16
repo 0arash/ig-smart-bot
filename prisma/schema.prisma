@@ -130,7 +130,7 @@ model Category {
   title        String    @unique
   products     Product[]
   user_plan    UserPlan  @relation(fields: [user_plan_id], references: [id])
-  user_plan_id Int       @map("userPlanId")
+  user_plan_id Int
 }
 model Product {
   id           Int       @id @default(autoincrement())
@@ -138,15 +138,15 @@ model Product {
   title        String
   description  Json
   image        String
-  price        String
+  price        Int
   status       Boolean   @default(true)
   attributes   Json
   brand        String
   user_plan    UserPlan  @relation(fields: [user_plan_id], references: [id])
-  user_plan_id Int       @map("userPlanId")
+  user_plan_id Int
   weight       Float     @default(0)
-  category     Category? @relation(fields: [categoryId], references: [id])
-  categoryId   Int?
+  category     Category? @relation(fields: [category_id], references: [id])
+  category_id   Int?
 }
 
 

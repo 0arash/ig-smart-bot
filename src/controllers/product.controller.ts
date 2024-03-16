@@ -5,11 +5,10 @@ import { userPlanService } from "../services/user.plan.service";
 export const productController = {
     getProducts: async (req: Request, res: Response) => {
         try {
-            const { upid, p } = req.query;
+            const { upid } = req.query;
             if (await userPlanService.ownUserPlanId(req, Number(upid))) {
                 const products = await productService.getProducts(
-                    Number(upid),
-                    Number(p)
+                    Number(upid)
                 );
                 console.log(`[+] ${products.length} products fetched.`);
                 res.status(200).json({
