@@ -32,11 +32,11 @@ router.get("/callback", async (req: Request, res: Response) => {
             await userPlanService.newUserPlan(Number(planId), Number(userId));
         }
 
-        return res.status(200).redirect("http://192.168.1.11/index.html");
+        return res.status(200).redirect("https://portal.hixdm.com/dashboard/index.html");
     } else {
         await invoiceService.updateInvoiceById(Number(invId), "CANCELLED");
 
-        res.status(200).redirect("/priceplan.html");
+        res.status(200).redirect("https://portal.hixdm.com/dashboard/priceplan.html");
     }
 });
 

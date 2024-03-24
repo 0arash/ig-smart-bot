@@ -1,0 +1,11 @@
+@import "./varedient";
+@import "./mixin.scss";
+
+.main_container{
+    overflow-x: hidden;
+
+    @include for-phone-only{
+        overflow-x: hidden;
+        overflow-y: hidden;
+    }
+}

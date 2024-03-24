@@ -1,0 +1,223 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+button {
+  border: none;
+  outline: none;
+  background-color: #fff;
+}
+
+a {
+  text-decoration: none;
+}
+
+.tab {
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row-reverse;
+  gap: 10px;
+  padding: 10px 0;
+  margin-bottom: 30px;
+}
+
+/* Style the buttons that are used to open the tab content */
+.tab button {
+  background-color: inherit;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 7px 20px;
+  transition: 0.3s;
+  border-radius: 20px;
+  box-shadow: 1px 1px 2px #0d6efd;
+  transition: all 0.37s;
+  font-weight: bold;
+  font-size: 22px;
+  animation-name: slideInDown;
+  animation-duration: 1s;
+  animation-fill-mode: both;
+}
+@media (max-width: 599px) {
+  .tab button {
+    font-size: 17px;
+  }
+}
+.tab button:hover {
+  box-shadow: 0px 0px 10px 0px #0d6efd;
+  color: rgb(77, 54, 54);
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+  background-color: #0d6efd;
+  color: #fff;
+}
+
+/* Style the tab content */
+.tabcontent {
+  display: none;
+  padding: 6px 12px;
+  border-top: none;
+  overflow: hidden;
+}
+
+.container_link {
+  flex-direction: row-reverse;
+  align-items: center;
+  justify-content: space-around;
+  gap: 30px;
+}
+@media (max-width: 599px) {
+  .container_link {
+    flex-direction: column;
+    gap: 30px;
+  }
+}
+.container_link .cont_childern {
+  width: 50%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding: 30px 0;
+  gap: 10px;
+  border-radius: 10px;
+}
+@media (max-width: 599px) {
+  .container_link .cont_childern {
+    flex-direction: column;
+    gap: 30px;
+    width: 86%;
+  }
+}
+.container_link .cont_childern h4 {
+  width: 300px;
+  text-align: end;
+}
+.container_link .cont_childern .btn-free {
+  padding: 8px 60px;
+  border-radius: 10px;
+  font-weight: bold;
+  border: 2px solid #0d6efd;
+  color: #0d6efd;
+}
+
+.cont_childern-1,
+.cont_childern-3 {
+  border: 1px solid gray;
+  color: #3c0a6d;
+  transition: all 1s;
+}
+.cont_childern-1:hover,
+.cont_childern-3:hover {
+  box-shadow: 5px 4px 10px 7px rgb(168, 168, 216);
+  transform: scale(1.2);
+}
+
+.cont_childern-2 {
+  border: 2px solid #0d6efd;
+}
+.cont_childern-2 button {
+  padding: 8px 60px;
+  background-color: #0d6efd;
+  color: #fff;
+  border-radius: 10px;
+}
+.cont_childern-2 h4,
+.cont_childern-2 p,
+.cont_childern-2 h6 {
+  color: #3c0a6d;
+}
+
+.cont_childern-3 button {
+  padding: 8px 60px;
+  border: 2px solid #0d6efd;
+  border-radius: 10px;
+  font-weight: bold;
+}
+.cont_childern-3 h4,
+.cont_childern-3 p,
+.cont_childern-3 h6 {
+  color: #3c0a6d;
+}
+
+.btn_shop {
+  position: absolute;
+  bottom: -20px;
+}
+
+.container_table {
+  margin-top: 200px;
+  margin: 20px 0;
+}
+.container_table h2 {
+  float: right;
+  display: inline-block;
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-size: 22px;
+  box-shadow: 0px -6px 32px -7px rgba(105, 68, 216, 0.75);
+}
+.container_table table {
+  margin-top: 140px;
+  cursor: pointer;
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  border-radius: 10px thead;
+  border-radius-border-collapse: collapse;
+  border-radius-border-radius: 30px;
+  border-radius-border-style: hidden; /* hide standard table (collapsed) border */
+  border-radius-box-shadow: 0 0 0 1px #666;
+}
+
+.cont_childern-3 {
+  animation-name: slideInLeft;
+  animation-duration: 1s;
+  animation-fill-mode: both;
+}
+
+.cont_childern-1 {
+  animation-name: slideInRight;
+  animation-duration: 1s;
+  animation-fill-mode: both;
+}
+
+@media (max-width: 599px) {
+  .title_table {
+    font-size: 17px;
+  }
+}
+@keyframes slideInDown {
+  0% {
+    transform: translateY(-100%);
+    visibility: visible;
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+@keyframes slideInLeft {
+  0% {
+    transform: translateX(-100%);
+    visibility: visible;
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+@keyframes slideInRight {
+  0% {
+    transform: translateX(100%);
+    visibility: visible;
+  }
+  100% {
+    transform: translateX(0);
+  }
+}/*# sourceMappingURL=plan.css.map */

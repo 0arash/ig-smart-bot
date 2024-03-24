@@ -124,7 +124,7 @@ export const invoiceController = {
 
                     const paymentInfo = await PaymentHelper.requestPaymentInfo(
                         price,
-                        "http://localhost:3000/api/payment/callback",
+                        "https://portal.hixdm.com/api/payment/callback",
                         `inv-${invoice?.planId}.${invoice?.userId}.${invoice?.id}`,
                         user.mobile
                     );

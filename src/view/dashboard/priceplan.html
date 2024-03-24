@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PricePlan</title>
+    <link rel="stylesheet" href="./assets/vendor/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="./assets/style/app.css" />
+    <link rel="stylesheet" href="./assets/style/var/plan.css" />
+    <link rel="stylesheet" href="./assets/style/saba.css" />
+    <link rel="stylesheet" href="./assets/style/loader.css" />
+</head>
+
+<body>
+    <div class="loeader active">
+        <div class="wrapper">
+            <div class="circle"></div>
+            <div class="circle"></div>
+            <div class="circle"></div>
+            <div class="shadow"></div>
+            <div class="shadow"></div>
+            <div class="shadow"></div>
+            <span>صبرکنید</span>
+        </div>
+    </div>
+    <!-- <MENU_MOBILE> -->
+    <div dir="rtl"
+        class="d-flex flex-row-reverse d-lg-none align-items-center justify-content-around position-relative nav_mobile">
+        <img src="./assets/images/logo.jpg" alt="not-found" width="100" />
+        <button onclick="openNav()">
+            <img src="./assets/images/svg/menu.svg" alt="not-found" width="40" />
+        </button>
+        <ul class="menu_mobile">
+            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">
+                <img src="./assets/images/svg/closemenu.svg" alt="not-found" width="40" />
+            </a>
+            <div dir="rtl" class="m-0 position-absolute top-0 w-50 end-25  p-0 me-6 ">
+                <div class="nav_section menu_left-title-btn" id="btn">
+                    <div class="d-flex gap-3" id="userPlan_name">
+                        <img src="assets/images/Rectangle 4.png" alt="no" />
+                        <h2 class="h6 text-center">
+                            زهره رضوی <br />پلن پایه
+                        </h2>
+                    </div>
+                    <img src="./assets/images/svg/aroowbottom.svg" alt="not-found" width="40" />
+                    <span class="content-badge">
+                        <i class="bi bi-bell">
+                            <img src="./assets/images/alert.png" alt="not-found">
+                        </i>
+                    </span>
+                    <div class="dropdown" id="dropdown">
+                        <a href="#create"> اعلانات </a>
+                        <a href="./checkout.html"> توصیه حساب </a>
+                        <a class="log_out" href="./login.html">
+                            خارج شدن از حساب
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="item_content mt-5">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                    <path class="active-menu-item-path" fill-rule="evenodd" clip-rule="evenodd"
+                        d="M18.339 5.65948C19.009 6.17848 19.42 6.94948 19.49 7.78848L19.5 7.98948V16.0985C19.5 18.1885 17.849 19.8885 15.78 19.9985H13.79C12.839 19.9795 12.07 19.2395 12 18.3095L11.99 18.1685V15.3095C11.99 14.9985 11.759 14.7395 11.45 14.6885L11.36 14.6785H8.689C8.37 14.6885 8.11 14.9185 8.07 15.2185L8.06 15.3095V18.1595C8.06 18.2185 8.049 18.2885 8.04 18.3385L8.03 18.3595L8.019 18.4285C7.9 19.2795 7.2 19.9285 6.33 19.9895L6.2 19.9985H4.41C2.32 19.9985 0.61 18.3595 0.5 16.2985V7.98948C0.509 7.13848 0.88 6.34848 1.5 5.79848L7.73 0.788477C9 -0.220523 10.78 -0.260523 12.089 0.668477L12.25 0.788477L18.339 5.65948ZM18.099 16.2585L18.11 16.0985V7.99848C18.099 7.56948 17.92 7.16848 17.61 6.86948L17.48 6.75848L11.38 1.87848C10.62 1.26848 9.54 1.23948 8.74 1.76848L8.589 1.87848L2.509 6.77948C2.16 7.03848 1.95 7.42848 1.9 7.83848L1.889 7.99848V16.0985C1.889 17.4285 2.929 18.5185 4.25 18.5985H6.2C6.42 18.5985 6.61 18.4495 6.639 18.2395L6.66 18.0595L6.67 18.0085V15.3095C6.67 14.2395 7.49 13.3695 8.54 13.2885H11.36C12.429 13.2885 13.299 14.1095 13.38 15.1595V18.1685C13.38 18.3785 13.53 18.5595 13.73 18.5985H15.589C16.929 18.5985 18.019 17.5695 18.099 16.2585Z"
+                        fill="#BDBDBD" />
+                </svg>
+                <a href="index.html" class="menu_right-nav-active"><strong>داشبورد</strong></a>
+            </div>
+            <div class="item_content">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <g id="edit-2">
+                        <g id="vuesax/bold/diagram">
+                            <g id="vuesax/bold/diagram_2">
+                                <g id="diagram">
+                                    <path id="Vector" class="active-menu-item-path"
+                                        d="M22 22.75H5C2.93 22.75 1.25 21.07 1.25 19V2C1.25 1.59 1.59 1.25 2 1.25C2.41 1.25 2.75 1.59 2.75 2V19C2.75 20.24 3.76 21.25 5 21.25H22C22.41 21.25 22.75 21.59 22.75 22C22.75 22.41 22.41 22.75 22 22.75Z"
+                                        fill="#BDBDBD" />
+                                    <path id="Vector_2" class="active-menu-item-path"
+                                        d="M4.99982 17.7498C4.82982 17.7498 4.64982 17.6898 4.50982 17.5698C4.19982 17.2998 4.15982 16.8298 4.42982 16.5098L9.01982 11.1498C9.51982 10.5698 10.2398 10.2198 10.9998 10.1898C11.7598 10.1698 12.5098 10.4498 13.0498 10.9898L13.9998 11.9398C14.2498 12.1898 14.5698 12.3098 14.9298 12.3098C15.2798 12.2998 15.5998 12.1398 15.8298 11.8698L20.4198 6.50982C20.6898 6.19982 21.1598 6.15982 21.4798 6.42982C21.7898 6.69982 21.8298 7.16982 21.5598 7.48982L16.9698 12.8498C16.4698 13.4298 15.7498 13.7798 14.9898 13.8098C14.2198 13.8298 13.4798 13.5498 12.9398 13.0098L11.9998 12.0598C11.7498 11.8098 11.4198 11.6798 11.0698 11.6898C10.7198 11.6998 10.3998 11.8598 10.1698 12.1298L5.57982 17.4898C5.41982 17.6598 5.20982 17.7498 4.99982 17.7498Z"
+                                        fill="#BDBDBD" />
+                                </g>
+                            </g>
+                        </g>
+                    </g>
+                </svg>
+                <a href="pages/reports.html"> گزارش ها </a>
+            </div>
+
+            <div class="item_content">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <path class="active-menu-item-path"
+                        d="M22 11V17C22 21 21 22 17 22H7C3 22 2 21 2 17V7C2 3 3 2 7 2H8.5C10 2 10.33 2.44 10.9 3.2L12.4 5.2C12.78 5.7 13 6 14 6H17C21 6 22 7 22 11Z"
+                        stroke="#BDBDBD" stroke-width="1.5" stroke-miterlimit="10" />
+                    <path class="active-menu-item-path" d="M8 2H17C19 2 20 3 20 5V6.38" stroke="#BDBDBD"
+                        stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                <a href="pages/products/">محصولات</a>
+            </div>
+
+            <div class="item_content">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <path class="active-menu-item-path"
+                        d="M18.7578 9.99977H5.25315C3.887 9.99977 2.7793 8.78978 2.7793 7.31978V4.68977C2.7793 3.20977 3.89623 2.00977 5.25315 2.00977H18.7578C20.1239 2.00977 21.2316 3.21977 21.2316 4.68977V7.31978C21.2316 8.78978 20.1147 9.99977 18.7578 9.99977Z"
+                        stroke="#BDBDBD" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                    <path class="active-menu-item-path"
+                        d="M18.7578 21.9998H5.25315C3.887 21.9998 2.7793 20.7898 2.7793 19.3198V16.6898C2.7793 15.2098 3.89623 14.0098 5.25315 14.0098H18.7578C20.1239 14.0098 21.2316 15.2198 21.2316 16.6898V19.3198C21.2316 20.7898 20.1147 21.9998 18.7578 21.9998Z"
+                        stroke="#BDBDBD" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                    <path class="active-menu-item-path" d="M6.46289 5V7" stroke="#BDBDBD" stroke-width="1.5"
+                        stroke-linecap="round" stroke-linejoin="round" />
+                    <path class="active-menu-item-path" d="M10.1543 5V7" stroke="#BDBDBD" stroke-width="1.5"
+                        stroke-linecap="round" stroke-linejoin="round" />
+                    <path class="active-menu-item-path" d="M6.46289 17V19" stroke="#BDBDBD" stroke-width="1.5"
+                        stroke-linecap="round" stroke-linejoin="round" />
+                    <path class="active-menu-item-path" d="M10.1543 17V19" stroke="#BDBDBD" stroke-width="1.5"
+                        stroke-linecap="round" stroke-linejoin="round" />
+                    <path class="active-menu-item-path" d="M13.8477 6H17.54" stroke="#BDBDBD" stroke-width="1.5"
+                        stroke-linecap="round" stroke-linejoin="round" />
+                    <path class="active-menu-item-path" d="M13.8477 18H17.54" stroke="#BDBDBD" stroke-width="1.5"
+                        stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                <a href="pages/orders/">دستورات</a>
+            </div>
+
+            <div class="item_content">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="#BDBDBD">
+                    <path class="active-menu-item-path" fill-rule="evenodd" clip-rule="evenodd"
+                        d="M10.6161 0H9.38106C8.6855 0 8.01861 0.27155 7.52796 0.754574C7.09307 1.1827 6.82704 1.74716 6.77575 2.34781L6.76724 2.54181C6.75775 3.17352 6.24742 3.66634 5.62101 3.66628C5.47895 3.6648 5.33141 3.63238 5.19559 3.5713L5.06235 3.50171C3.83155 2.81017 2.23128 3.23376 1.50918 4.46166L0.859895 5.50695C0.169493 6.68048 0.510007 8.15476 1.62449 8.91408L1.77948 9.01151C2.16149 9.22838 2.37987 9.59896 2.37987 10C2.37987 10.3688 2.19491 10.7137 1.88645 10.9228L1.78115 10.9875C0.626514 11.6412 0.171573 13.0841 0.751966 14.2844L0.83679 14.4442L1.47412 15.5224C1.80539 16.1083 2.37306 16.5497 3.04445 16.7366C3.63953 16.9023 4.2746 16.8565 4.83762 16.6084L5.01565 16.5213C5.31529 16.3516 5.62484 16.3109 5.91538 16.3871C6.20591 16.4633 6.45336 16.65 6.6027 16.9057C6.68504 17.0418 6.73337 17.1822 6.75063 17.3277L6.75912 17.4753C6.75765 18.8493 7.93219 20 9.38106 20H10.6164C11.9845 20 13.12 18.9703 13.231 17.6414L13.2391 17.4698C13.2383 17.1379 13.3582 16.8524 13.5727 16.6422C13.7872 16.432 14.0786 16.3146 14.382 16.316C14.5214 16.3199 14.6746 16.3541 14.8166 16.4163L14.9527 16.485C16.1011 17.1344 17.6058 16.8008 18.3808 15.7089L18.4803 15.557L19.1399 14.4804C19.495 13.8833 19.5912 13.1817 19.4119 12.523C19.253 11.9391 18.8887 11.4297 18.3843 11.0841L18.2174 10.9793C17.9272 10.8149 17.736 10.5708 17.658 10.2844C17.58 9.99795 17.6218 9.69291 17.7742 9.43678C17.8585 9.29258 17.9706 9.17256 18.1051 9.08068L18.3624 8.92228C19.4043 8.22927 19.7945 6.86519 19.2461 5.71842L19.1892 5.60674C19.1769 5.57762 19.1627 5.54922 19.1465 5.52174L18.5333 4.47928C17.8511 3.31918 16.3759 2.86897 15.146 3.4355L14.9821 3.51839C14.6882 3.68688 14.3779 3.72947 14.0857 3.65514C13.7935 3.58081 13.5435 3.39567 13.3908 3.14054C13.3124 3.01116 13.2641 2.87079 13.2468 2.72535L13.2383 2.57766C13.2599 1.94968 12.9925 1.27681 12.4983 0.778711C12.0041 0.280614 11.3251 -0.00028544 10.6161 0ZM9.38106 1.44774H10.6164C10.9264 1.44761 11.2229 1.57029 11.4387 1.78783C11.6546 2.00537 11.7713 2.29923 11.7624 2.60249L11.7756 2.85454C11.8203 3.23984 11.9357 3.57504 12.1181 3.87616C12.4673 4.45965 13.0423 4.88546 13.7143 5.05641C14.3863 5.22736 15.1001 5.12941 15.6983 4.78415L15.8015 4.73265L15.9125 4.6891C16.4009 4.52853 16.9764 4.73175 17.253 5.20208L17.8378 6.19726L17.8505 6.22529L17.9212 6.35884C18.1578 6.85504 17.9601 7.4827 17.448 7.77613L17.2873 7.87532C16.9464 8.10733 16.6849 8.38716 16.4946 8.71262C16.1471 9.29707 16.0509 9.99866 16.2302 10.6574C16.3932 11.2563 16.7716 11.7748 17.2922 12.1195L17.5645 12.2882C17.7566 12.4207 17.915 12.6422 17.9841 12.896C18.0621 13.1824 18.0203 13.4875 17.868 13.7436L17.2236 14.7957L17.1511 14.9067C16.8529 15.3258 16.2647 15.4814 15.7687 15.2682L15.4528 15.11C15.1004 14.9547 14.7556 14.8778 14.4053 14.8686C13.6914 14.865 13.0212 15.1351 12.5279 15.6185C12.0345 16.1019 11.7588 16.7585 11.7621 17.4421L11.7565 17.5511C11.7099 18.1023 11.2137 18.5523 10.6164 18.5523H9.38106C8.79047 18.5523 8.30426 18.1145 8.24205 17.552L8.2219 17.1985C8.17721 16.8132 8.06179 16.478 7.87937 16.1768C7.54028 15.5959 6.96861 15.1645 6.29737 14.9886C5.62614 14.8126 4.91096 14.9066 4.3108 15.2497L4.20208 15.3018C3.98569 15.3964 3.70831 15.4164 3.44842 15.344C3.1552 15.2624 2.90728 15.0696 2.75952 14.8084L2.13027 13.7449L2.07398 13.6383C1.83562 13.144 2.03354 12.5163 2.54639 12.2256L2.70219 12.1296C3.43413 11.634 3.85754 10.8446 3.85754 10C3.85754 9.14295 3.42197 8.34666 2.70395 7.871L2.44324 7.70925C1.98256 7.39466 1.83377 6.75044 2.13128 6.24455L2.78057 5.19925C3.1049 4.64815 3.8038 4.46315 4.3519 4.77085L4.54427 4.87026C4.90355 5.03293 5.25588 5.11034 5.61326 5.11398C6.99969 5.11416 8.13339 4.07087 8.23685 2.7415L8.25028 2.43661C8.27058 2.20741 8.38625 1.96196 8.57533 1.77582C8.78866 1.56581 9.07863 1.44774 9.38106 1.44774ZM10.0032 6.73182C8.16095 6.73182 6.66748 8.19503 6.66748 10C6.66748 11.805 8.16095 13.2682 10.0032 13.2682C11.8455 13.2682 13.339 11.805 13.339 10C13.339 8.19503 11.8455 6.73182 10.0032 6.73182ZM10.0032 8.17956C11.0294 8.17956 11.8613 8.9946 11.8613 10C11.8613 11.0054 11.0294 11.8204 10.0032 11.8204C8.97705 11.8204 8.14516 11.0054 8.14516 10C8.14516 8.9946 8.97705 8.17956 10.0032 8.17956Z"
+                        fill="#BDBDBD" />
+                </svg>
+                <a href="setting.html">تنظیمات</a>
+            </div>
+            <div class="item_content">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <g id="edit-2">
+                        <g id="vuesax/linear/user">
+                            <g id="vuesax/linear/user_2">
+                                <g id="user">
+                                    <path class="active-menu-item-path" id="Vector"
+                                        d="M12 12C14.7614 12 17 9.76142 17 7C17 4.23858 14.7614 2 12 2C9.23858 2 7 4.23858 7 7C7 9.76142 9.23858 12 12 12Z"
+                                        stroke="#BDBDBD" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                    <path class="active-menu-item-path" id="Vector_2"
+                                        d="M20.5901 22C20.5901 18.13 16.7402 15 12.0002 15C7.26015 15 3.41016 18.13 3.41016 22"
+                                        stroke="#BDBDBD" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                </g>
+                            </g>
+                        </g>
+                    </g>
+                </svg>
+                <a href="/admin/users/edit-profile.html">پروفایل</a>
+            </div>
+            <div class="d-flex align-items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="
+                            fill: rgb(194, 181, 181);
+                            transform: ;
+                            msfilter: ;
+                        ">
+                    <path
+                        d="M8.29 5.64 1.93 12l6.36 6.36 1.42-1.41L4.76 12l4.95-4.95-1.42-1.41zm6 1.41L19.24 12l-4.95 4.95 1.42 1.41L22.07 12l-6.36-6.36-1.42 1.41z">
+                    </path>
+                </svg>
+                <a href="./tool.html"> راه اندازی </a>
+            </div>
+        </ul>
+    </div>
+
+    <div class="tab">
+        <button class="tablinks" onclick="openCity(event, 'London')" id="defaultOpen">
+            ماهه 1
+        </button>
+        <button class="tablinks" onclick="openCity(event, 'Paris')">
+            6 ماهه
+        </button>
+        <button class="tablinks" onclick="openCity(event, 'Tokyo')">
+            1 ساله
+        </button>
+        <div dir="rtl" style="left: 30px; width: 270px" class="position-absolute d-none d-lg-block">
+            <div class="nav_section menu_left-title-btn" id="btn">
+                <div class="d-flex gap-3" id="userPlan_name">
+                    <img src="assets/images/Rectangle 4.png" alt="no" />
+                    <h2 class="h6 text-center">زهره رضوی <br />پلن پایه</h2>
+                </div>
+                <img src="./assets/images/svg/aroowbottom.svg" alt="not-found" width="40" />
+                <span class="content-badge">
+                    <i class="bi bi-bell">
+                        <img src="./assets/images/alert.png" alt="not-found">
+                    </i>
+                </span>
+                <div class="dropdown" id="dropdown">
+                    <a href="#create"> اعلانات </a>
+                    <a href="./checkout.html"> توصیه حساب </a>
+                    <a class="log_out" href="./login.html">
+                        خارج شدن از حساب
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- MENU RIGHT FOR CONTENT -->
+    <div>
+        <!--RIGHT MENU NAVB -->
+        <div class="d-flex flex-row-reverse">
+            <div class="col-lg-2 right-coloumn menu_right d-none d-lg-block">
+                <div class="logo_content">
+                    <img src="./assets/images/logo.jpg" alt="notfound" width="80" />
+                </div>
+
+                <!-- Desktop Menu -->
+                <nav class="menu_right-nav">
+                    <div class="active-menu-item px-2 rounded rounded-start-pill rounded-end-pill">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                            <path class="active-menu-item-path" fill-rule="evenodd" clip-rule="evenodd"
+                                d="M18.339 5.65948C19.009 6.17848 19.42 6.94948 19.49 7.78848L19.5 7.98948V16.0985C19.5 18.1885 17.849 19.8885 15.78 19.9985H13.79C12.839 19.9795 12.07 19.2395 12 18.3095L11.99 18.1685V15.3095C11.99 14.9985 11.759 14.7395 11.45 14.6885L11.36 14.6785H8.689C8.37 14.6885 8.11 14.9185 8.07 15.2185L8.06 15.3095V18.1595C8.06 18.2185 8.049 18.2885 8.04 18.3385L8.03 18.3595L8.019 18.4285C7.9 19.2795 7.2 19.9285 6.33 19.9895L6.2 19.9985H4.41C2.32 19.9985 0.61 18.3595 0.5 16.2985V7.98948C0.509 7.13848 0.88 6.34848 1.5 5.79848L7.73 0.788477C9 -0.220523 10.78 -0.260523 12.089 0.668477L12.25 0.788477L18.339 5.65948ZM18.099 16.2585L18.11 16.0985V7.99848C18.099 7.56948 17.92 7.16848 17.61 6.86948L17.48 6.75848L11.38 1.87848C10.62 1.26848 9.54 1.23948 8.74 1.76848L8.589 1.87848L2.509 6.77948C2.16 7.03848 1.95 7.42848 1.9 7.83848L1.889 7.99848V16.0985C1.889 17.4285 2.929 18.5185 4.25 18.5985H6.2C6.42 18.5985 6.61 18.4495 6.639 18.2395L6.66 18.0595L6.67 18.0085V15.3095C6.67 14.2395 7.49 13.3695 8.54 13.2885H11.36C12.429 13.2885 13.299 14.1095 13.38 15.1595V18.1685C13.38 18.3785 13.53 18.5595 13.73 18.5985H15.589C16.929 18.5985 18.019 17.5695 18.099 16.2585Z"
+                                fill="#BDBDBD" />
+                        </svg>
+                        <a href="index.html" class="menu_right-nav-active">داشبورد</a>
+                    </div>
+                    <div class="active-menu-item px-2 rounded rounded-start-pill rounded-end-pill">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <g id="edit-2">
+                                <g id="vuesax/bold/diagram">
+                                    <g id="vuesax/bold/diagram_2">
+                                        <g id="diagram">
+                                            <path id="Vector" class="active-menu-item-path"
+                                                d="M22 22.75H5C2.93 22.75 1.25 21.07 1.25 19V2C1.25 1.59 1.59 1.25 2 1.25C2.41 1.25 2.75 1.59 2.75 2V19C2.75 20.24 3.76 21.25 5 21.25H22C22.41 21.25 22.75 21.59 22.75 22C22.75 22.41 22.41 22.75 22 22.75Z"
+                                                fill="#BDBDBD" />
+                                            <path id="Vector_2" class="active-menu-item-path"
+                                                d="M4.99982 17.7498C4.82982 17.7498 4.64982 17.6898 4.50982 17.5698C4.19982 17.2998 4.15982 16.8298 4.42982 16.5098L9.01982 11.1498C9.51982 10.5698 10.2398 10.2198 10.9998 10.1898C11.7598 10.1698 12.5098 10.4498 13.0498 10.9898L13.9998 11.9398C14.2498 12.1898 14.5698 12.3098 14.9298 12.3098C15.2798 12.2998 15.5998 12.1398 15.8298 11.8698L20.4198 6.50982C20.6898 6.19982 21.1598 6.15982 21.4798 6.42982C21.7898 6.69982 21.8298 7.16982 21.5598 7.48982L16.9698 12.8498C16.4698 13.4298 15.7498 13.7798 14.9898 13.8098C14.2198 13.8298 13.4798 13.5498 12.9398 13.0098L11.9998 12.0598C11.7498 11.8098 11.4198 11.6798 11.0698 11.6898C10.7198 11.6998 10.3998 11.8598 10.1698 12.1298L5.57982 17.4898C5.41982 17.6598 5.20982 17.7498 4.99982 17.7498Z"
+                                                fill="#BDBDBD" />
+                                        </g>
+                                    </g>
+                                </g>
+                            </g>
+                        </svg>
+                        <a href="./talk.html">گزارش ها</a>
+                    </div>
+                    <div class="active-menu-item px-2 rounded rounded-start-pill rounded-end-pill">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <path class="active-menu-item-path"
+                                d="M22 11V17C22 21 21 22 17 22H7C3 22 2 21 2 17V7C2 3 3 2 7 2H8.5C10 2 10.33 2.44 10.9 3.2L12.4 5.2C12.78 5.7 13 6 14 6H17C21 6 22 7 22 11Z"
+                                stroke="#BDBDBD" stroke-width="1.5" stroke-miterlimit="10" />
+                            <path class="active-menu-item-path" d="M8 2H17C19 2 20 3 20 5V6.38" stroke="#BDBDBD"
+                                stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                        </svg>
+                        <a href="pages/products/"> محصولات</a>
+                    </div>
+
+                    <div class="active-menu-item px-2 rounded rounded-start-pill rounded-end-pill">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <path class="active-menu-item-path"
+                                d="M18.7578 9.99977H5.25315C3.887 9.99977 2.7793 8.78978 2.7793 7.31978V4.68977C2.7793 3.20977 3.89623 2.00977 5.25315 2.00977H18.7578C20.1239 2.00977 21.2316 3.21977 21.2316 4.68977V7.31978C21.2316 8.78978 20.1147 9.99977 18.7578 9.99977Z"
+                                stroke="#BDBDBD" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                            <path class="active-menu-item-path"
+                                d="M18.7578 21.9998H5.25315C3.887 21.9998 2.7793 20.7898 2.7793 19.3198V16.6898C2.7793 15.2098 3.89623 14.0098 5.25315 14.0098H18.7578C20.1239 14.0098 21.2316 15.2198 21.2316 16.6898V19.3198C21.2316 20.7898 20.1147 21.9998 18.7578 21.9998Z"
+                                stroke="#BDBDBD" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                            <path class="active-menu-item-path" d="M6.46289 5V7" stroke="#BDBDBD" stroke-width="1.5"
+                                stroke-linecap="round" stroke-linejoin="round" />
+                            <path class="active-menu-item-path" d="M10.1543 5V7" stroke="#BDBDBD" stroke-width="1.5"
+                                stroke-linecap="round" stroke-linejoin="round" />
+                            <path class="active-menu-item-path" d="M6.46289 17V19" stroke="#BDBDBD" stroke-width="1.5"
+                                stroke-linecap="round" stroke-linejoin="round" />
+                            <path class="active-menu-item-path" d="M10.1543 17V19" stroke="#BDBDBD" stroke-width="1.5"
+                                stroke-linecap="round" stroke-linejoin="round" />
+                            <path class="active-menu-item-path" d="M13.8477 6H17.54" stroke="#BDBDBD" stroke-width="1.5"
+                                stroke-linecap="round" stroke-linejoin="round" />
+                            <path class="active-menu-item-path" d="M13.8477 18H17.54" stroke="#BDBDBD"
+                                stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                        <a href="pages/orders/"> دستورات</a>
+                    </div>
+
+                    <div class="active-menu-item px-2 rounded rounded-start-pill rounded-end-pill">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"
+                            fill="#BDBDBD">
+                            <path class="active-menu-item-path" fill-rule="evenodd" clip-rule="evenodd"
+                                d="M10.6161 0H9.38106C8.6855 0 8.01861 0.27155 7.52796 0.754574C7.09307 1.1827 6.82704 1.74716 6.77575 2.34781L6.76724 2.54181C6.75775 3.17352 6.24742 3.66634 5.62101 3.66628C5.47895 3.6648 5.33141 3.63238 5.19559 3.5713L5.06235 3.50171C3.83155 2.81017 2.23128 3.23376 1.50918 4.46166L0.859895 5.50695C0.169493 6.68048 0.510007 8.15476 1.62449 8.91408L1.77948 9.01151C2.16149 9.22838 2.37987 9.59896 2.37987 10C2.37987 10.3688 2.19491 10.7137 1.88645 10.9228L1.78115 10.9875C0.626514 11.6412 0.171573 13.0841 0.751966 14.2844L0.83679 14.4442L1.47412 15.5224C1.80539 16.1083 2.37306 16.5497 3.04445 16.7366C3.63953 16.9023 4.2746 16.8565 4.83762 16.6084L5.01565 16.5213C5.31529 16.3516 5.62484 16.3109 5.91538 16.3871C6.20591 16.4633 6.45336 16.65 6.6027 16.9057C6.68504 17.0418 6.73337 17.1822 6.75063 17.3277L6.75912 17.4753C6.75765 18.8493 7.93219 20 9.38106 20H10.6164C11.9845 20 13.12 18.9703 13.231 17.6414L13.2391 17.4698C13.2383 17.1379 13.3582 16.8524 13.5727 16.6422C13.7872 16.432 14.0786 16.3146 14.382 16.316C14.5214 16.3199 14.6746 16.3541 14.8166 16.4163L14.9527 16.485C16.1011 17.1344 17.6058 16.8008 18.3808 15.7089L18.4803 15.557L19.1399 14.4804C19.495 13.8833 19.5912 13.1817 19.4119 12.523C19.253 11.9391 18.8887 11.4297 18.3843 11.0841L18.2174 10.9793C17.9272 10.8149 17.736 10.5708 17.658 10.2844C17.58 9.99795 17.6218 9.69291 17.7742 9.43678C17.8585 9.29258 17.9706 9.17256 18.1051 9.08068L18.3624 8.92228C19.4043 8.22927 19.7945 6.86519 19.2461 5.71842L19.1892 5.60674C19.1769 5.57762 19.1627 5.54922 19.1465 5.52174L18.5333 4.47928C17.8511 3.31918 16.3759 2.86897 15.146 3.4355L14.9821 3.51839C14.6882 3.68688 14.3779 3.72947 14.0857 3.65514C13.7935 3.58081 13.5435 3.39567 13.3908 3.14054C13.3124 3.01116 13.2641 2.87079 13.2468 2.72535L13.2383 2.57766C13.2599 1.94968 12.9925 1.27681 12.4983 0.778711C12.0041 0.280614 11.3251 -0.00028544 10.6161 0ZM9.38106 1.44774H10.6164C10.9264 1.44761 11.2229 1.57029 11.4387 1.78783C11.6546 2.00537 11.7713 2.29923 11.7624 2.60249L11.7756 2.85454C11.8203 3.23984 11.9357 3.57504 12.1181 3.87616C12.4673 4.45965 13.0423 4.88546 13.7143 5.05641C14.3863 5.22736 15.1001 5.12941 15.6983 4.78415L15.8015 4.73265L15.9125 4.6891C16.4009 4.52853 16.9764 4.73175 17.253 5.20208L17.8378 6.19726L17.8505 6.22529L17.9212 6.35884C18.1578 6.85504 17.9601 7.4827 17.448 7.77613L17.2873 7.87532C16.9464 8.10733 16.6849 8.38716 16.4946 8.71262C16.1471 9.29707 16.0509 9.99866 16.2302 10.6574C16.3932 11.2563 16.7716 11.7748 17.2922 12.1195L17.5645 12.2882C17.7566 12.4207 17.915 12.6422 17.9841 12.896C18.0621 13.1824 18.0203 13.4875 17.868 13.7436L17.2236 14.7957L17.1511 14.9067C16.8529 15.3258 16.2647 15.4814 15.7687 15.2682L15.4528 15.11C15.1004 14.9547 14.7556 14.8778 14.4053 14.8686C13.6914 14.865 13.0212 15.1351 12.5279 15.6185C12.0345 16.1019 11.7588 16.7585 11.7621 17.4421L11.7565 17.5511C11.7099 18.1023 11.2137 18.5523 10.6164 18.5523H9.38106C8.79047 18.5523 8.30426 18.1145 8.24205 17.552L8.2219 17.1985C8.17721 16.8132 8.06179 16.478 7.87937 16.1768C7.54028 15.5959 6.96861 15.1645 6.29737 14.9886C5.62614 14.8126 4.91096 14.9066 4.3108 15.2497L4.20208 15.3018C3.98569 15.3964 3.70831 15.4164 3.44842 15.344C3.1552 15.2624 2.90728 15.0696 2.75952 14.8084L2.13027 13.7449L2.07398 13.6383C1.83562 13.144 2.03354 12.5163 2.54639 12.2256L2.70219 12.1296C3.43413 11.634 3.85754 10.8446 3.85754 10C3.85754 9.14295 3.42197 8.34666 2.70395 7.871L2.44324 7.70925C1.98256 7.39466 1.83377 6.75044 2.13128 6.24455L2.78057 5.19925C3.1049 4.64815 3.8038 4.46315 4.3519 4.77085L4.54427 4.87026C4.90355 5.03293 5.25588 5.11034 5.61326 5.11398C6.99969 5.11416 8.13339 4.07087 8.23685 2.7415L8.25028 2.43661C8.27058 2.20741 8.38625 1.96196 8.57533 1.77582C8.78866 1.56581 9.07863 1.44774 9.38106 1.44774ZM10.0032 6.73182C8.16095 6.73182 6.66748 8.19503 6.66748 10C6.66748 11.805 8.16095 13.2682 10.0032 13.2682C11.8455 13.2682 13.339 11.805 13.339 10C13.339 8.19503 11.8455 6.73182 10.0032 6.73182ZM10.0032 8.17956C11.0294 8.17956 11.8613 8.9946 11.8613 10C11.8613 11.0054 11.0294 11.8204 10.0032 11.8204C8.97705 11.8204 8.14516 11.0054 8.14516 10C8.14516 8.9946 8.97705 8.17956 10.0032 8.17956Z"
+                                fill="#BDBDBD" />
+                        </svg>
+                        <a href="setting.html">تنظیمات</a>
+                    </div>
+                    <div class="active-menu-item px-2 rounded rounded-start-pill rounded-end-pill">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <g id="edit-2">
+                                <g id="vuesax/linear/user">
+                                    <g id="vuesax/linear/user_2">
+                                        <g id="user">
+                                            <path class="active-menu-item-path" id="Vector"
+                                                d="M12 12C14.7614 12 17 9.76142 17 7C17 4.23858 14.7614 2 12 2C9.23858 2 7 4.23858 7 7C7 9.76142 9.23858 12 12 12Z"
+                                                stroke="#BDBDBD" stroke-width="1.5" stroke-linecap="round"
+                                                stroke-linejoin="round" />
+                                            <path class="active-menu-item-path" id="Vector_2"
+                                                d="M20.5901 22C20.5901 18.13 16.7402 15 12.0002 15C7.26015 15 3.41016 18.13 3.41016 22"
+                                                stroke="#BDBDBD" stroke-width="1.5" stroke-linecap="round"
+                                                stroke-linejoin="round" />
+                                        </g>
+                                    </g>
+                                </g>
+                            </g>
+                        </svg>
+                        <a href="./edit-profile.html">پروفایل</a>
+                    </div>
+                    <div class="d-flex flex-row-reverse align-items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                            style="fill: rgb(194, 181, 181)">
+                            <path
+                                d="M8.29 5.64 1.93 12l6.36 6.36 1.42-1.41L4.76 12l4.95-4.95-1.42-1.41zm6 1.41L19.24 12l-4.95 4.95 1.42 1.41L22.07 12l-6.36-6.36-1.42 1.41z">
+                            </path>
+                        </svg>
+                        <a href="./tool.html"> راه اندازی </a>
+                    </div>
+                </nav>
+            </div>
+
+            <div class="w-100">
+                <div id="London" class="tabcontent tabcontent_month">
+                    <div class="container_link d-flex flex-lg-row-reverse flex-column" id="plan_one"></div>
+
+                    <div class="container_table">
+                        <h2 class="text-end my-5">
+                            مقایسه امکانات بسته ها
+                        </h2>
+                        <table class="table container mx-auto table table-striped" id="table_container">
+                            <thead class="table-dark">
+                                <tr class="text-center">
+                                    <th scope="col">حرفه ای</th>
+                                    <th scope="col">اقتصادی</th>
+                                    <th scope="col">رایگان</th>
+                                    <th scope="col">قابلیت</th>
+                                </tr>
+                            </thead>
+                            <tbody id="dataPlansTable"></tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- </tab-on> -->
+
+                <!-- <tab-two> -->
+                <div id="Paris" class="tabcontent tabcontent_six">
+                    <div class="container_link d-flex flex-lg-row-reverse flex-column" id="plan_two"></div>
+
+                    <div class="container_table mt-5">
+                        <h2 class="text-end my-5">
+                            مقایسه امکانات بسته ها
+                        </h2>
+                        <table class="table container mx-auto table table-striped" id="table_container">
+                            <thead class="table-dark">
+                                <tr class="text-center">
+                                    <th scope="col">حرفه ای</th>
+                                    <th scope="col">اقتصادی</th>
+                                    <th scope="col">قابلیت</th>
+                                </tr>
+                            </thead>
+                            <tbody id="dataPlansTabletwo"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div id="Tokyo" class="tabcontent tabcontent_on">
+                    <div class="container_link d-flex flex-lg-row-reverse flex-column" id="plan_three"></div>
+
+                    <div class="container_table">
+                        <h2 class="text-end my-5">
+                            مقایسه امکانات بسته ها
+                        </h2>
+                        <table class="table container mx-auto table-striped table-hover" id="table_container">
+                            <thead class="table-dark">
+                                <tr class="text-center">
+                                    <th scope="col">حرفه ای</th>
+                                    <th scope="col">اقتصادی</th>
+                                    <th scope="col">قابلیت</th>
+                                </tr>
+                            </thead>
+                            <tbody id="dataPlansTablethree"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- modal changing -->
+    <div id="alert_shop"
+        class="alert w-25 text-center d-none alert-dark position-fixed top-50 start-50 translate-middle" role="alert">
+        !!! شما پلن فعال دارید
+    </div>
+
+
+    <script src="https://unpkg.com/axios@0.21.0/dist/axios.min.js"></script>
+    <script src="./assets/js/hixConstants.js"></script>
+    <script src="./assets/js/tab-plans.js"></script>
+    <script type="module" src="./assets/js/plan/plan.js"></script>
+    <script src="./assets/js/plan/menu&drop.js"></script>
+    <script src="./assets/js/loader.js"></script>
+    <script src="./assets/auth/js/check_auth.js" async></script>
+
+</body>
+
+
+<script async>
+
+    document.addEventListener("DOMContentLoaded", () => {
+            const userPlanId = document.getElementById("userPlan_name");
+
+            fechingDialer()
+            dashboardLogic()
+
+
+            function fechingDialer() {
+
+                getRequest(`api/plan/`)
+                    .then(function (response) {
+                        getDataPlan(response.data.data)
+                        console.log(response.data.data);
+                    })
+                    .catch(function (error) {
+                        console.error('Error fetching data:', error);
+                    });
+            }
+
+            function getDataPlan(data) {
+                document.getElementById('plan_one').insertAdjacentHTML("beforeend",
+                    data.map(item => {
+                        if (item.days <= 30) {
+                            return `
+            <div class="cont_childern cont_childern-1 position-relative">
+                    <h4>${item.title}</h4>
+                    <p>ماهانه /<span class="h2">${item.price}</span></p>
+
+                    <h6>تعداد روز: ${item.days}</h6>
+                    <h6>محدودیت ارسال فایل: ${item.file_size_limit}</h6>
+                    <h6>تعداد اوپراتورها: ${item.operator_count}</h6>
+                    <button
+                        class="btn btn-danger w-75 border-2 border-primary btn_shop"
+                        onclick="invoiceBtn(${item.id})">
+                            ${item.title
+                                }
+                    </button>
+                </div>
+            `
+                        }
+                    }).join(" ")
+                )
+                document.getElementById('plan_two').insertAdjacentHTML("beforeend",
+                    data.map(item => {
+
+                        if (item.days == 180) {
+                            return `
+                <div class="cont_childern cont_childern-1 position-relative">
+                    <h4>${item.title}</h4>
+                    <p>ماهانه /<span class="h2">${item.price}</span></p>
+
+                    <h6>تعداد روز: ${item.days}</h6>
+                    <h6>محدودیت ارسال فایل: ${item.file_size_limit}</h6>
+                    <h6>تعداد اوپراتورها: ${item.operator_count}</h6>
+                    <button
+                        class="btn btn-danger w-75 border-2 border-primary btn_shop"
+                        onclick="invoiceBtn(${item.id})">
+                            ${item.title
+                                }
+                    </button>
+                </div>
+                `
+                        }
+
+                    }).join(" ")
+                )
+                document.getElementById('plan_three').insertAdjacentHTML("beforeend",
+                    data.map(item => {
+                        if (item.days === 365) {
+                            return `
+                <div class="cont_childern cont_childern-1 position-relative">
+                    <h4>${item.title}</h4>
+                    <p>ماهانه /<span class="h2">${item.price}</span></p>
+
+                    <h6>تعداد روز: ${item.days}</h6>
+                    <h6>محدودیت ارسال فایل: ${item.file_size_limit}</h6>
+                    <h6>تعداد اوپراتورها: ${item.operator_count === 999999999 ? "نامحدود" : ""}</h6>
+                    <button
+                        class="btn btn-danger w-75 border-2 border-primary btn_shop"
+                        onclick="invoiceBtn(${item.id})">
+                            ${item.title
+                                }
+                    </button>
+                </div>
+                `
+                        }
+                    }).join(" ")
+                )
+            }
+
+
+            const alertShop = document.getElementById("alert_shop");
+            async function invoiceBtn(planId) {
+                const user_plan_id = await getCurrentUser();
+                if (user_plan_id > -1) {
+                    alertShop.style.display = "block"
+                    setTimeout(() => {
+                        alertShop.style.display = "none"
+                    }, 3000);
+                } else {
+                    postRequest(`api/invoice/`, {
+                        planId
+                    }).then(function (response) {
+                        console.log(response.data.data.id)
+                        window.location.href = `checkout.html?invoiceId=${response.data.data.id}`
+                    }).catch(error => {
+                        console.log(error);
+                    })
+                }
+            }
+
+            async function dashboardLogic() {
+                let userPlanId = await getCurrentUser()
+                console.log(userPlanId)
+
+                if (userPlanId === -1) {
+                    return;
+                }
+                else {
+                    getRequest(`api/user_plan/${userPlanId}`).then(async (userPlan) => {
+                        let plan = await getRequest(`api/plan/${userPlan.data.data.plan_id}`)
+                        let user = await getRequest(`api/user/${userPlan.data.data.user_id}`)
+
+                        showNameUserPlan(user.data.data.user.name, plan.data.data.title);
+
+                        const dashboard = await getRequest(`api/dashboard/${userPlanId}`)
+
+                        countProduct.innerHTML = dashboard.data.data.productCount
+                    });
+                }
+            }
+            function showNameUserPlan(name, planTitle) {
+                userPlanId.innerHTML = `${name} <br /> ${planTitle.length > -1 ? planTitle : ""}`
+            }
+
+        })
+
+        <!-- checkAuth-->
+
+    
+
+
+</script>
+
+
+
+
+</html>

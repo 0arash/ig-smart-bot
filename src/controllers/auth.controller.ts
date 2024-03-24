@@ -18,7 +18,7 @@ export const authController = {
             email: user.email,
         });
 
-        res.cookie("hix_login_token", user.token, {
+        res.cookie("hix", user.token, {
             maxAge: 1000 * 60 * 60 * 24 * 7,
             httpOnly: true,
             secure: true,
@@ -49,9 +49,8 @@ export const authController = {
             });
             return res
                 .status(201)
-                .cookie("hix_login_token", newUser.token, {
+                .cookie("hix", newUser.token, {
                     maxAge: 1000 * 60 * 60 * 24 * 7,
-                    httpOnly: true,
                     secure: true,
                 })
                 .json({ token: newUser.token, user_id: newUser.id });

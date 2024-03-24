@@ -1,0 +1,300 @@
+@import "./varedient";
+@import "./mixin.scss";
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+button {
+    border: none;
+    outline: none;
+    background-color: #fff;
+}
+
+a {
+    text-decoration: none;
+}
+
+.tab {
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row-reverse;
+    gap: 10px;
+    padding: 10px 0;
+    margin-bottom: 30px;
+}
+
+// ----------------
+// TAB-HIDDEN & SHOW
+// ----------------
+
+/* Style the buttons that are used to open the tab content */
+.tab button {
+    background-color: inherit;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 7px 20px;
+    transition: 0.3s;
+    border-radius: 20px;
+    box-shadow: 1px 1px 2px #0d6efd;
+    transition: all 0.37s;
+    font-weight: bold;
+    font-size: $f-lg;
+    -webkit-animation-name: slideInDown;
+    animation-name: slideInDown;
+    -webkit-animation-duration: 1s;
+    animation-duration: 1s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+
+        @include for-phone-only {
+            font-size: $f-md;
+    }
+
+    &:hover {
+        box-shadow: 0px 0px 10px 0px #0d6efd;
+        color: rgb(77, 54, 54);
+    }
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+    background-color: #0d6efd;
+    color: #fff;
+}
+
+/* Style the tab content */
+.tabcontent {
+    display: none;
+    padding: 6px 12px;
+    border-top: none;
+    overflow: hidden;
+}
+
+//
+
+.container_link {
+    flex-direction: row-reverse;
+    align-items: center;
+    justify-content: space-around;
+    gap: 30px;
+
+    @include for-phone-only {
+        flex-direction: column;
+        gap: 30px;
+    }
+
+    .cont_childern {
+        width: 50%;
+
+        @include for-phone-only {
+            flex-direction: column;
+            gap: 30px;
+            width: 86%;
+        }
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        padding: 30px 0;
+        gap: 10px;
+        border-radius: 10px;
+
+        h4 {
+            width: 300px;
+            text-align: end;
+        }
+
+        .btn-free {
+            padding: 8px 60px;
+            border-radius: 10px;
+            font-weight: bold;
+            border: 2px solid #0d6efd;
+            color: #0d6efd;
+        }
+    }
+}
+
+.cont_childern-1,
+.cont_childern-3 {
+    border: 1px solid gray;
+    color: #3c0a6d;
+    transition: all 1s;
+
+    &:hover {
+        box-shadow: 5px 4px 10px 7px rgb(168, 168, 216);
+        transform: scale(1.2);
+    }
+}
+
+.cont_childern-2 {
+    border: 2px solid #0d6efd;
+
+    button {
+        padding: 8px 60px;
+        background-color: #0d6efd;
+        color: #fff;
+        border-radius: 10px;
+    }
+    h4,
+    p,
+    h6 {
+        color: #3c0a6d;
+    }
+}
+
+.cont_childern-3 {
+    button {
+        padding: 8px 60px;
+        border: 2px solid #0d6efd;
+        border-radius: 10px;
+        font-weight: bold;
+    }
+    h4,
+    p,
+    h6 {
+        color: #3c0a6d;
+    }
+}
+
+.btn_shop {
+    position: absolute;
+    bottom: -20px;
+}
+
+.container_table {
+    margin-top: 200px;
+    margin: 20px 0;
+    h2 {
+        float: right;
+        display: inline-block;
+        padding: 10px 20px;
+        border-radius: 10px;
+        font-size: $f-lg;
+        box-shadow: 0px -6px 32px -7px rgba(105, 68, 216, 0.75);
+    }
+
+    table {
+        margin-top: 140px;
+        cursor: pointer;
+        -moz-border-radius: 10px;
+        -webkit-border-radius: 10px;
+        user-select: none;
+        -moz-user-select: none;
+        -webkit-user-select: none;
+
+        border-radius: 10px thead {
+            border-collapse: collapse;
+            border-radius: 30px;
+            border-style: hidden; /* hide standard table (collapsed) border */
+            box-shadow: 0 0 0 1px #666;
+        }
+    }
+}
+
+// SET - ANIMATION
+
+.cont_childern-3 {
+    -webkit-animation-name: slideInLeft;
+    animation-name: slideInLeft;
+    -webkit-animation-duration: 1s;
+    animation-duration: 1s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+}
+
+.cont_childern-1 {
+    -webkit-animation-name: slideInRight;
+    animation-name: slideInRight;
+    -webkit-animation-duration: 1s;
+    animation-duration: 1s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+}
+
+.title_table {
+    @include for-phone-only {
+        font-size: $f-md;
+    }
+}
+
+// ---------------
+// ANIMATION - CSS
+// ---------------
+
+// BTN - TOP
+
+@-webkit-keyframes slideInDown {
+    0% {
+        -webkit-transform: translateY(-100%);
+        transform: translateY(-100%);
+        visibility: visible;
+    }
+    100% {
+        -webkit-transform: translateY(0);
+        transform: translateY(0);
+    }
+}
+@keyframes slideInDown {
+    0% {
+        -webkit-transform: translateY(-100%);
+        transform: translateY(-100%);
+        visibility: visible;
+    }
+    100% {
+        -webkit-transform: translateY(0);
+        transform: translateY(0);
+    }
+}
+
+// LEFT
+
+@-webkit-keyframes slideInLeft {
+    0% {
+        -webkit-transform: translateX(-100%);
+        transform: translateX(-100%);
+        visibility: visible;
+    }
+    100% {
+        -webkit-transform: translateX(0);
+        transform: translateX(0);
+    }
+}
+@keyframes slideInLeft {
+    0% {
+        -webkit-transform: translateX(-100%);
+        transform: translateX(-100%);
+        visibility: visible;
+    }
+    100% {
+        -webkit-transform: translateX(0);
+        transform: translateX(0);
+    }
+}
+
+@-webkit-keyframes slideInRight {
+    0% {
+        -webkit-transform: translateX(100%);
+        transform: translateX(100%);
+        visibility: visible;
+    }
+    100% {
+        -webkit-transform: translateX(0);
+        transform: translateX(0);
+    }
+}
+@keyframes slideInRight {
+    0% {
+        -webkit-transform: translateX(100%);
+        transform: translateX(100%);
+        visibility: visible;
+    }
+    100% {
+        -webkit-transform: translateX(0);
+        transform: translateX(0);
+    }
+}

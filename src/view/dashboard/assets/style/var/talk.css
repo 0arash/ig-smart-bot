@@ -1,0 +1,16 @@
+.content_title {
+  padding: 20px 0;
+  margin-top: 40px;
+}
+.content_title span {
+  padding: 7px 12px;
+  background-color: #1bbfd3;
+  position: absolute;
+  top: -10px;
+  border-radius: 6px;
+  color: #fff;
+  font-size: 20px;
+}
+.content_title h5 {
+  margin-right: 49px;
+}/*# sourceMappingURL=talk.css.map */

@@ -1,0 +1,9 @@
+.main_container {
+  overflow-x: hidden;
+}
+@media (max-width: 599px) {
+  .main_container {
+    overflow-x: hidden;
+    overflow-y: hidden;
+  }
+}/*# sourceMappingURL=setting.css.map */

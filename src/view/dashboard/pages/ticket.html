@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+    <head>
+        <title>تیکت</title>
+        <link rel="stylesheet" href="../assets/vendor/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="../assets/style/style.css" />
+        <link rel="stylesheet" href="../assets/style/app.css" />
+        <link rel="stylesheet" href="../assets/style/global.css" />
+        <link rel="stylesheet" href="../assets/style/loader.css" />
+    </head>
+
+    <body>
+        <div class="container-fluid">
+            <div class="row" id="page-row">
+                <div class="col-md-6">
+                    <div class="flex-row font">
+                        سوالات خود را با اضافه کردن تیکت از ما بپرسید
+                    </div>
+                    <div class="font-1" id="write-ticket">
+                        <p>مشخصات</p>
+                        <div class="px-2 col-md-12">
+                            <div class="row justify-content-between">
+                                <div class="mb-4 col-md-6 row">
+                                    <label for="">نام و نام خانوادگی</label>
+                                    <input
+                                        class="form-control"
+                                        placeholder="نام و نام خانوادگی خود را وارد کنید"
+                                        type="text" />
+                                </div>
+                                <div class="mb-4 col-md-6 row">
+                                    <label for="">موضوع تیکت</label>
+                                    <input
+                                        class="form-control"
+                                        placeholder="موضوع تیکت خود را وارد کنید"
+                                        type="text" />
+                                </div>
+                            </div>
+                            <div></div>
+                        </div>
+                    </div>
+                    <div id="write-ticket">
+                        <label class="text-truncate font-1">نوشتن تیکت</label>
+                        <textarea
+                            class="tool-content col-12 ticket-textarea"
+                            placeholder="نوشتن"
+                            maxlength="500"
+                            rows="8"
+                            cols="60"
+                            type="text"></textarea>
+                    </div>
+                    <div class="d-flex justify-content-center mt-2">
+                        <button class="price-btn rounded w-100">
+                            ثبت تیکت
+                        </button>
+                    </div>
+                </div>
+                <div class="col-md-3 left-coloumn">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="card profile-card">
+                                <div class="row">
+                                    <div class="col-lg-2">
+                                        <img
+                                            src="../assets/images/Rectangle 4.png"
+                                            alt="" />
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <span class=""><b>زهره رضوی</b></span
+                                        ><br />
+                                        <span>پلن پایه</span>
+                                    </div>
+                                    <div
+                                        class="col-lg-4 d-flex justify-content-center align-items-center">
+                                        <i class="bi bi-chevron-down"></i>
+                                    </div>
+                                    <div
+                                        class="col-lg-3 d-flex align-items-center justify-content-end">
+                                        <i class="bi bi-bell"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="https://unpkg.com/axios@0.21.0/dist/axios.min.js"></script>
+        <script src="../assets/js/loader.js"></script>
+        <script src="../assets/js/menu&drop.js"></script>
+    </body>
+</html>

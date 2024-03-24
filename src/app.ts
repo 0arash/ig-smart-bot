@@ -92,6 +92,10 @@ async function main() {
         )
     );
 
+    app.get("/", (req: Request, res: Response) => {
+        res.redirect("https://portal.hixdm.com/dashboard");
+    });
+
     httpServer.listen(PORT, () => {
         console.log(`server running on port : ${PORT}....`);
     });
