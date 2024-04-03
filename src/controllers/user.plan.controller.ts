@@ -106,14 +106,15 @@ export const userPlanController = {
     },
     getCurrentUserPlan: async (req: Request, res: Response) => {
         try {
-            const user_plan = (await userPlanService.getCurrentUserPlanByUserId(
+            const user_plan = await userPlanService.getCurrentUserPlanByUserId(
                 // @ts-ignore
                 req.user.id
-            ));
+            );
             res.status(200).json({
                 data: {
                     user_plan_id: user_plan?.id,
-                    user: user_plan?.user,
+                    // @ts-ignore
+                    user: {...req.user, password: undefined},
                     plan: user_plan?.plan,
                 },
             });
